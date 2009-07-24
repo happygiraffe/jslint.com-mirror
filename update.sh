@@ -15,4 +15,8 @@ git ls-files --others --modified >$tmpf
 if [ -s $tmpf ] ; then
     xargs git add <$tmpf
     xargs git commit -m 'Import latest www.jslint.com.' <$tmpf
+    # NB: If you're running this from cron, you'll probably need to
+    # specify the GIT_SSH environment variable to allow pushing without
+    # a password.
+    git push origin master
 fi
