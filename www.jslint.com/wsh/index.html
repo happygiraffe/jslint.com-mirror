@@ -1,0 +1,25 @@
+<html>
+<head>
+<title>JSLint and WSH</title></head>
+
+<body bgcolor=linen>
+<h1>JSLint and WSH (Windows Script Host)</h1>
+<p><a href="http://msdn.microsoft.com/scripting">Windows Script Host</a> is a 
+  scripting feature for Microsoft Windows. It can be used to run <a href="http://www.JSLint.com">JSLint</a> 
+  from the command line on Windows systems.</p>
+<p>The file <a href="jslint.js">jslint.js</a> can be run by WSH. It will read 
+  <code>StdIn</code> (Standard Input). If there are no problems, it terminates 
+  normally. If there is a problem, it outputs a message to <code>StdErr</code> 
+  (Standard Error) and exits with error 1. The WSH version of JSLint does not 
+  produce a Function Report.</p>
+<p></p>
+<p>One way to run JSLint is with this command:</p>
+<blockquote>
+  <p><code><b>C:\&gt;</b> cscript jslint.js &lt;myprogram.js</code></p>
+</blockquote>
+<p>It runs <code>cscript</code> (the command-line version of WSH) which loads 
+  and runs <code>jslint.js</code>, which will read the file <code>myprogram.js</code> 
+  from the Standard Input. </p>
+<p>Download <a href="jslint.js">jslint.js</a>.</p>
+</body>
+</html>

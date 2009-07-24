@@ -1,0 +1,25 @@
+<html>
+<head>
+<title>JSLint and Rhino</title></head>
+
+<body bgcolor=linen>
+<h1>JSLint and Rhino</h1>
+<p><a href="http://www.mozilla.org/rhino/">Rhino</a> is a Javascript engine that 
+  is written entirely in Java. It can be used to run <a href="http://www.JSLint.com">JSLint</a> 
+  from the command line on systems with Java interpreters.</p>
+<p>The file <a href="jslint.js">jslint.js</a> can be run by Rhino. It will read 
+  a JavaScript program from a file. If there are no problems, it terminates quietly. 
+  If there is a problem, it outputs a message. The WSH edition of JSLint does 
+  not produce a Function Report.</p>
+<p></p>
+<p>One way to run JSLint is with this command:</p>
+<blockquote> 
+  <p><code><b>C:\&gt;</b> java org.mozilla.javascript.tools.shell.Main jslint.js 
+    myprogram.js</code></p>
+</blockquote>
+<p>It runs <code>java</code> which loads and runs Rhino which loads and runs <code>jslint.js</code>, 
+  which will read the file <code>myprogram.js</code> and report an error if found. 
+</p>
+<p>Download <a href="jslint.js">jslint.js</a>.</p>
+</body>
+</html>

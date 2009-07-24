@@ -1,0 +1,253 @@
+<html>
+<head><title>JSLint, The JavaScript Code Quality Tool</title>
+<style>
+fieldset {
+    background-color: blanchedalmond;
+    border: 2px solid black;
+    color: black;
+    margin: 1em;
+    padding: 8px;
+    text-align: left;
+}
+legend {
+    background-color: thistle;
+    border: 2px solid black;
+    color: black;
+    padding: 8px;
+}
+textarea {
+    background-color: ghostwhite;
+    border: 2px solid black;
+    color: black;
+    font-family: monospace;
+    height: 3in;
+    overflow: auto;
+    padding: 0.5em;
+    width: 100%;
+}
+i {
+    font-family: serif;
+    font-style: italic;
+}
+p {
+    padding-left: 10pt;
+}
+input[type="button"] {
+    background-color: navajowhite;
+    border: 2px solid black;
+    color: black;
+}
+input[type="button"]:hover {
+    background-color: lightsteelblue;
+    text-decoration: underline;
+}
+input[type="button"]:active {
+    background-color: indianred;
+    text-decoration: none;
+}
+
+input[type="text"] {
+    border: 2px solid gray;
+    text-align: center;
+}
+
+a:link {
+    color: darkblue;
+}
+a:visited {
+    color: purple;
+}
+a:hover {
+    color: blue;
+}
+a:active {
+    color: red;
+}
+body {
+    background-color: gainsboro;
+    padding-left: 5%;
+    padding-right: 5%;
+    text-align: center;
+}
+
+#cluster {
+    text-align: center;
+}
+
+#options {
+    background-color: linen;
+}
+#options div {
+    float: left;
+    margin-left: 1em;
+}
+
+#errors {
+    margin: 1em;
+    border: 2px solid black;
+    padding: 1em;
+    background-color: mistyrose;
+}
+#errors p {
+    margin-left: 2em;
+}
+#errors p.evidence {
+    margin-left: 0;
+    font-family: monospace;
+}
+
+#functions {
+    background-color: white;
+}
+#members, #jslintstring {
+    background-color: peachpuff;
+}
+
+#functions, #members, #jslintstring {
+    border: 2px solid black;
+    font-family: monospace;
+    margin: 1em;
+    padding: 1em;
+}
+#functions div {
+    margin-left: 10em;
+    text-indent: -5em;
+}
+#functions div.function {
+    margin-left: 0;
+    text-indent: 0;
+}
+
+#output {
+    text-align: left;
+}
+
+</style></head>
+<body>
+<table border="0">
+  <tr>
+    <td><img src="jslint.gif" width="383" height="120" alt="JSLint"> </td>
+    <td valign="middle" align="left">
+      <p><big>The <a href="http://javascript.crockford.com/">JavaScript</a>
+Code Quality Tool</big></p>
+      <p id=edition></p>
+      <p>
+        <a href="http://www.JSLint.com/lint.html"><input type="button" value="Help"></a>
+        <a href="#options"><input type="button" value="Options"></a>
+        <a href="http://www.amazon.com/exec/obidos/ASIN/0596517742/wrrrldwideweb"
+          target="_blank"><input type="button" value="Book"></a></p>
+    </td></tr></table>
+
+<p><textarea id="input"></textarea></p>
+<p>
+    <input type="button" name="jslint" value="JSLint">
+    &nbsp; &nbsp;
+    <input type="button" name="jslint" value="clear">
+</p>
+<br clear="all">
+<div id="output">
+
+      <div style="text-align: center;">Paste your program into the text box
+        above and click a <input type="button" name="jslint" value="JSLint">
+        button. </div>
+      <div style="text-align: center ;margin: 1em; border: 2px solid black; padding: 1em; background-color: lightpink;">
+      <a href="http://www.JSLint.com/lint.html"><big>Warning:
+            JSLint will hurt your feelings.</big></a>
+      </div>
+</div>
+<br clear="all">
+<p>
+    <input type="button" name="jslint" value="JSLint">
+    &nbsp; &nbsp;
+    <input type="button" name="jslint" value="clear">
+</p>
+<fieldset id="options"><legend>Options</legend>
+  <div>
+    <input type="checkbox" id="passfail" title="passfail"><label for="passfail" title="passfail">Stop on first error</label>
+  <br>
+    <input type="checkbox" id="white" title="white"><label for="white" title="white">Strict white space</label>
+  <br>
+    <input type="checkbox" id="onevar" title="onevar"><label for="onevar" title="onevar">Allow one <tt>var</tt> statement per function</label>
+  <br>
+    <input type="checkbox" id="browser" title="browser"><label for="browser" title="browser">Assume a browser</label>
+  <br>
+    <input type="checkbox" id="widget" title="widget"><label for="widget" title="widget">Assume a
+        <a href="http://widgets.yahoo.com/tools/">Yahoo Widget</a></label>
+  <br>
+    <input type="checkbox" id="sidebar" title="sidebar"><label for="sidebar" title="sidebar">Assume a
+        <a href="http://msdn2.microsoft.com/en-us/library/aa965850(VS.85).aspx">Windows Sidebar Gadget</a></label>
+  <br>
+    <input type="checkbox" id="rhino" title="rhino"><label for="rhino" title="rhino">Assume
+        <a href="http://www.mozilla.org/rhino/">Rhino</a></label>
+  <br>
+    <input type="checkbox" id="safe" title="safe"><label for="safe" title="safe">Safe Subset</label>
+  <br>
+    <input type="checkbox" id="adsafe" title="adsafe"><label for="adsafe" title="adsafe"><a href="http://www.ADsafe.org">ADsafe</a></label>
+  </div>
+  <div>
+    <input type="checkbox" id="debug" title="debug"><label for="debug" title="debug">Tolerate <tt>debugger</tt> statements</label>
+  <br>
+    <input type="checkbox" id="evil" title="evil"><label for="evil" title="evil">Tolerate <tt>eval</tt></label>
+  <br>
+    <input type="checkbox" id="laxbreak" title="laxbreak"><label for="laxbreak" title="laxbreak">Tolerate sloppy line breaking</label>
+  <br>
+    <input type="checkbox" id="forin" title="forin"><label for="forin" title="forin">Tolerate <a href="http://yuiblog.com/blog/2006/09/26/for-in-intrigue/">unfiltered</a> <tt>for</tt> <tt>in</tt></label>
+  <br>
+    <input type="checkbox" id="sub" title="sub"><label for="sub" title="sub">Tolerate inefficient subscripting</label>
+  <br>
+    <input type="checkbox" id="css" title="css"><label for="css" title="css">Tolerate CSS workarounds</label>
+  <br>
+    <input type="checkbox" id="cap" title="cap"><label for="cap" title="cap">Tolerate <tt>HTML</tt> case</label>
+  <br>
+    <input type="checkbox" id="on" title="on"><label for="on" title="on">Tolerate <tt>HTML</tt> event handlers</label>
+  <br>
+    <input type="checkbox" id="fragment" title="fragment"><label for="fragment" title="fragment">Tolerate <tt>HTML</tt> fragments</label>
+  </div>
+  <div>
+    <input type="checkbox" id="undef" title="undef"><label for="undef" title="undef">Disallow undefined variables</label>
+  <br>
+    <input type="checkbox" id="nomen" title="nomen"><label for="nomen" title="nomen">Disallow leading <tt>_</tt> in identifiers</label>
+  <br>
+    <input type="checkbox" id="eqeqeq" title="eqeqeq"><label for="eqeqeq" title="eqeqeq">Disallow
+    <tt> == </tt> and <tt> != </tt></label>
+  <br>
+    <input type="checkbox" id="plusplus" title="plusplus"><label for="plusplus" title="plusplus">Disallow <tt>++</tt> and
+    <tt>--</tt></label>
+  <br>
+    <input type="checkbox" id="bitwise" title="bitwise"><label for="bitwise" title="bitwise">Disallow bitwise operators</label>
+  <br>
+    <input type="checkbox" id="regexp" title="regexp"><label for="regexp" title="regexp">Disallow <tt>.</tt> in RegExp literals</label>
+  <br>
+    <input type="checkbox" id="strict" title="strict"><label for="strict" title="strict">Require <tt>"use strict";</tt></label>
+  <br>
+    <input type="checkbox" id="newcap" title="newcap"><label for="newcap" title="newcap">Require Initial Caps for constructors</label>
+  <br>
+    <input type="checkbox" id="immed" title="immed"><label for="immed" title="immed">Require parens around immediate invocations</label>
+  </div><br clear="all">
+  <p id=cluster>
+    <input type="button" id="clearall" value="Clear All Options">
+    &nbsp; &nbsp;
+    <input type="button" id="goodparts" value="The Good Parts">
+    &nbsp; &nbsp;
+    <a href="http://www.JSLint.com/lint.html#options"><input type="button" value="Help"></a>
+</p>
+
+  <div>
+    <label for="indent" title="indent">Strict white space indentation</label> <input id="indent" type="text" size="2" value="4">
+    &nbsp;&nbsp;&nbsp;
+    <label for="predef" title="predef">Predefined <small>( <code>,</code> separated)</small></label> <input id="predef" type="text" size="48">
+  </div>
+  <br clear="all">
+  <p id=jslintstring></p>
+</fieldset>
+<p> Copyright 2002 <a href="http://www.JSLint.com/lint.html">Douglas
+  Crockford.</a> <a target="_blank" href="http://www.crockford.com/">All
+  Rights Reserved Wrrrldwide and Beyond!</a> <br>
+  <a href="http://javascript.crockford.com/code.html" target="_blank">Code
+  Conventions for the JavaScript Programming Language.</a>
+  <a href="http://tech.groups.yahoo.com/group/jslint_com/" target="_blank">Join
+  the JSLint Group.</a> </p>
+<script src="json2.js"></script>
+<script src="webjslint.js"></script>
+</body>
+</html>
