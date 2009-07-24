@@ -8,6 +8,8 @@ me=`basename $0`
 tmpf=`mktemp -t $me.XXXXXX`
 trap "rm -f $tmpf" EXIT HUP INT QUIT TERM
 
+cd `dirname $0`
+
 wget --quiet --mirror http://www.jslint.com/
 
 cd www.jslint.com
