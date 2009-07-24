@@ -4,7 +4,8 @@
 #
 
 me=`basename $0`
-tmpf=`mktemp -t $me`
+# The X's aren't needed on BSD/OSX, but Linux wants them.  Go figure.
+tmpf=`mktemp -t $me.XXXXXX`
 trap "rm -f $tmpf" EXIT HUP INT QUIT TERM
 
 wget --quiet --mirror http://www.jslint.com/
