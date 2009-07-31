@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-07-25
+// 2009-07-31
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -75,100 +75,105 @@ SOFTWARE.
 
 /*members "\b", "\t", "\n", "\f", "\r", "\"", "%", "(begin)",
     "(breakage)", "(context)", "(error)", "(global)", "(identifier)",
-    "(line)", "(loopage)", "(name)", "(onevar)", "(params)", "(scope)",
-    "(verb)", "++", "--", "\/", ADSAFE, Array, Boolean, COM, Canvas,
-    CustomAnimation, Date, Debug, E, Error, EvalError, FadeAnimation, Flash,
-    FormField, Frame, Function, HotKey, Image, JSON, LN10, LN2, LOG10E,
-    LOG2E, MAX_VALUE, MIN_VALUE, Math, MenuItem, MoveAnimation,
-    NEGATIVE_INFINITY, Number, Object, Option, PI, POSITIVE_INFINITY, Point,
-    RangeError, Rectangle, ReferenceError, RegExp, ResizeAnimation,
-    RotateAnimation, SQRT1_2, SQRT2, ScrollBar, String, Style, SyntaxError,
-    System, Text, TextArea, Timer, TypeError, URIError, URL, Web, Window,
-    XMLDOM, XMLHttpRequest, "\\", a, abbr, acronym, addEventListener,
-    address, adsafe, alert, aliceblue, animator, antiquewhite, appleScript,
-    applet, apply, approved, aqua, aquamarine, area, arguments, arity,
-    autocomplete, azure, b, background, "background-attachment",
-    "background-color", "background-image", "background-position",
-    "background-repeat", base, bdo, beep, beige, big, bisque, bitwise,
-    black, blanchedalmond, block, blockquote, blue, blueviolet, blur, body,
-    border, "border-bottom", "border-bottom-color", "border-bottom-style",
-    "border-bottom-width", "border-collapse", "border-color", "border-left",
-    "border-left-color", "border-left-style", "border-left-width",
-    "border-right", "border-right-color", "border-right-style",
-    "border-right-width", "border-spacing", "border-style", "border-top",
-    "border-top-color", "border-top-style", "border-top-width",
-    "border-width", bottom, br, brown, browser, burlywood, button,
-    bytesToUIString, c, cadetblue, call, callee, caller, canvas, cap,
-    caption, "caption-side", cases, center, charAt, charCodeAt, character,
-    chartreuse, chocolate, chooseColor, chooseFile, chooseFolder, cite,
-    clear, clearInterval, clearTimeout, clip, close, closeWidget, closed,
-    cm, code, col, colgroup, color, comment, condition, confirm, console,
-    constructor, content, convertPathToHFS, convertPathToPlatform, coral,
-    cornflowerblue, cornsilk, "counter-increment", "counter-reset", create,
-    crimson, css, cursor, cyan, d, darkblue, darkcyan, darkgoldenrod,
-    darkgray, darkgreen, darkkhaki, darkmagenta, darkolivegreen, darkorange,
-    darkorchid, darkred, darksalmon, darkseagreen, darkslateblue,
-    darkslategray, darkturquoise, darkviolet, dd, debug, decodeURI,
-    decodeURIComponent, deeppink, deepskyblue, defaultStatus, defineClass,
-    del, deserialize, dfn, dimension, dimgray, dir, direction, display, div,
-    dl, document, dodgerblue, dt, edition, else, em, embed, empty,
-    "empty-cells", encodeURI, encodeURIComponent, entityify, eqeqeq, errors,
-    escape, eval, event, evidence, evil, ex, exec, exps, fieldset,
-    filesystem, firebrick, first, float, floor, floralwhite, focus,
-    focusWidget, font, "font-face", "font-family", "font-size",
-    "font-size-adjust", "font-stretch", "font-style", "font-variant",
-    "font-weight", forestgreen, forin, form, fragment, frame, frames,
-    frameset, from, fromCharCode, fuchsia, fud, funct, function, g,
-    gainsboro, gc, getComputedStyle, ghostwhite, gold, goldenrod, gray,
-    green, greenyellow, h1, h2, h3, h4, h5, h6, hasOwnProperty, head,
+    "(last)", "(line)", "(loopage)", "(name)", "(onevar)", "(param)",
+    "(params)", "(scope)", "(verb)", "++", "--", "\/", ADSAFE, Array,
+    Boolean, COM, Canvas, CustomAnimation, Date, Debug, E, Error, EvalError,
+    FadeAnimation, Flash, FormField, Frame, Function, HotKey, Image, JSON,
+    LN10, LN2, LOG10E, LOG2E, MAX_VALUE, MIN_VALUE, Math, MenuItem,
+    MoveAnimation, NEGATIVE_INFINITY, Number, Object, Option, PI,
+    POSITIVE_INFINITY, Point, RangeError, Rectangle, ReferenceError, RegExp,
+    ResizeAnimation, RotateAnimation, SQRT1_2, SQRT2, ScrollBar, String,
+    Style, SyntaxError, System, Text, TextArea, Timer, TypeError, URIError,
+    URL, Web, Window, XMLDOM, XMLHttpRequest, "\\", a, abbr, acronym,
+    addEventListener, address, adsafe, alert, aliceblue, animator,
+    antiquewhite, appleScript, applet, apply, approved, aqua, aquamarine,
+    area, arguments, arity, autocomplete, azure, b, background,
+    "background-attachment", "background-color", "background-image",
+    "background-position", "background-repeat", base, bdo, beep, beige, big,
+    bisque, bitwise, black, blanchedalmond, block, blockquote, blue,
+    blueviolet, blur, body, border, "border-bottom", "border-bottom-color",
+    "border-bottom-style", "border-bottom-width", "border-collapse",
+    "border-color", "border-left", "border-left-color", "border-left-style",
+    "border-left-width", "border-right", "border-right-color",
+    "border-right-style", "border-right-width", "border-spacing",
+    "border-style", "border-top", "border-top-color", "border-top-style",
+    "border-top-width", "border-width", bottom, br, brown, browser,
+    burlywood, button, bytesToUIString, c, cadetblue, call, callee, caller,
+    canvas, cap, caption, "caption-side", cases, center, charAt, charCodeAt,
+    character, chartreuse, chocolate, chooseColor, chooseFile, chooseFolder,
+    cite, clear, clearInterval, clearTimeout, clip, close, closeWidget,
+    closed, closure, cm, code, col, colgroup, color, comment, condition,
+    confirm, console, constructor, content, convertPathToHFS,
+    convertPathToPlatform, coral, cornflowerblue, cornsilk,
+    "counter-increment", "counter-reset", create, crimson, css, cursor,
+    cyan, d, darkblue, darkcyan, darkgoldenrod, darkgray, darkgreen,
+    darkkhaki, darkmagenta, darkolivegreen, darkorange, darkorchid, darkred,
+    darksalmon, darkseagreen, darkslateblue, darkslategray, darkturquoise,
+    darkviolet, data, dd, debug, decodeURI, decodeURIComponent, deeppink,
+    deepskyblue, defaultStatus, defineClass, del, deserialize, dfn,
+    dimension, dimgray, dir, direction, display, div, dl, document,
+    dodgerblue, dt, edition, else, em, embed, empty, "empty-cells",
+    encodeURI, encodeURIComponent, entityify, eqeqeq, errors, escape, eval,
+    event, evidence, evil, ex, exception, exec, exps, fieldset, filesystem,
+    firebrick, first, float, floor, floralwhite, focus, focusWidget, font,
+    "font-face", "font-family", "font-size", "font-size-adjust",
+    "font-stretch", "font-style", "font-variant", "font-weight",
+    forestgreen, forin, form, fragment, frame, frames, frameset, from,
+    fromCharCode, fuchsia, fud, funct, function, functions, g, gainsboro,
+    gc, getComputedStyle, ghostwhite, global, globals, gold, goldenrod,
+    gray, green, greenyellow, h1, h2, h3, h4, h5, h6, hasOwnProperty, head,
     height, help, history, honeydew, hotpink, hr, html, i, iTunes, id,
-    identifier, iframe, img, immed, import, in, include, indent, indexOf,
-    indianred, indigo, init, input, ins, isAlpha, isApplicationRunning,
-    isDigit, isFinite, isNaN, ivory, join, kbd, khaki, konfabulatorVersion,
-    label, labelled, lang, lavender, lavenderblush, lawngreen, laxbreak,
-    lbp, led, left, legend, lemonchiffon, length, "letter-spacing", li, lib,
-    lightblue, lightcoral, lightcyan, lightgoldenrodyellow, lightgreen,
-    lightpink, lightsalmon, lightseagreen, lightskyblue, lightslategray,
-    lightsteelblue, lightyellow, lime, limegreen, line, "line-height",
-    linen, link, "list-style", "list-style-image", "list-style-position",
+    identifier, iframe, img, immed, implieds, import, in, include, indent,
+    indexOf, indianred, indigo, init, input, ins, isAlpha,
+    isApplicationRunning, isDigit, isFinite, isNaN, ivory, join, json, kbd,
+    khaki, konfabulatorVersion, label, labelled, lang, last, lavender,
+    lavenderblush, lawngreen, laxbreak, lbp, led, left, legend,
+    lemonchiffon, length, "letter-spacing", li, lib, lightblue, lightcoral,
+    lightcyan, lightgoldenrodyellow, lightgreen, lightpink, lightsalmon,
+    lightseagreen, lightskyblue, lightslategray, lightsteelblue,
+    lightyellow, lime, limegreen, line, "line-height", linen, link,
+    "list-style", "list-style-image", "list-style-position",
     "list-style-type", load, loadClass, location, log, m, magenta, map,
     margin, "margin-bottom", "margin-left", "margin-right", "margin-top",
     "marker-offset", maroon, match, "max-height", "max-width", md5, media,
     mediumaquamarine, mediumblue, mediumorchid, mediumpurple,
     mediumseagreen, mediumslateblue, mediumspringgreen, mediumturquoise,
-    mediumvioletred, menu, message, meta, midnightblue, "min-height",
-    "min-width", mintcream, mistyrose, mm, moccasin, moveBy, moveTo, name,
-    navajowhite, navigator, navy, new, newcap, noframes, nomen, noscript,
-    nud, object, ol, oldlace, olive, olivedrab, on, onblur, onerror, onevar,
-    onfocus, onload, onresize, onunload, opacity, open, openURL, opener,
-    opera, optgroup, option, orange, orangered, orchid, outer, outline,
-    "outline-color", "outline-style", "outline-width", overflow, p, padding,
-    "padding-bottom", "padding-left", "padding-right", "padding-top", page,
-    "page-break-after", "page-break-before", palegoldenrod, palegreen,
-    paleturquoise, palevioletred, papayawhip, param, parent, parseFloat,
-    parseInt, passfail, pc, peachpuff, peru, pink, play, plum, plusplus,
-    pop, popupMenu, position, powderblue, pre, predef, preferenceGroups,
-    preferences, print, prompt, prototype, pt, purple, push, px, q, quit,
-    quotes, random, range, raw, reach, readFile, readUrl, reason, red,
-    regexp, reloadWidget, removeEventListener, replace, report, reserved,
-    resizeBy, resizeTo, resolvePath, resumeUpdates, rhino, right, rosybrown,
-    royalblue, runCommand, runCommandInBg, saddlebrown, safe, salmon, samp,
-    sandybrown, saveAs, savePreferences, screen, script, scroll, scrollBy,
-    scrollTo, seagreen, seal, search, seashell, select, serialize,
-    setInterval, setTimeout, shift, showWidgetPreferences, sidebar, sienna,
-    silver, skyblue, slateblue, slategray, sleep, slice, small, snow, sort,
-    span, spawn, speak, split, springgreen, src, status, steelblue, strict,
+    mediumvioletred, member, menu, message, meta, midnightblue,
+    "min-height", "min-width", mintcream, mistyrose, mm, moccasin, moveBy,
+    moveTo, name, navajowhite, navigator, navy, new, newcap, noframes,
+    nomen, noscript, nud, object, ol, oldlace, olive, olivedrab, on, onblur,
+    onerror, onevar, onfocus, onload, onresize, onunload, opacity, open,
+    openURL, opener, opera, optgroup, option, orange, orangered, orchid,
+    outer, outline, "outline-color", "outline-style", "outline-width",
+    overflow, p, padding, "padding-bottom", "padding-left", "padding-right",
+    "padding-top", page, "page-break-after", "page-break-before",
+    palegoldenrod, palegreen, paleturquoise, palevioletred, papayawhip,
+    param, params, parent, parseFloat, parseInt, passfail, pc, peachpuff,
+    peru, pink, play, plum, plusplus, pop, popupMenu, position, powderblue,
+    pre, predef, preferenceGroups, preferences, print, prompt, prototype,
+    pt, purple, push, px, q, quit, quotes, random, range, raw, reach,
+    readFile, readUrl, reason, red, regexp, reloadWidget,
+    removeEventListener, replace, report, reserved, resizeBy, resizeTo,
+    resolvePath, resumeUpdates, rhino, right, rosybrown, royalblue,
+    runCommand, runCommandInBg, saddlebrown, safe, salmon, samp, sandybrown,
+    saveAs, savePreferences, screen, script, scroll, scrollBy, scrollTo,
+    seagreen, seal, search, seashell, select, serialize, setInterval,
+    setTimeout, shift, showWidgetPreferences, sidebar, sienna, silver,
+    skyblue, slateblue, slategray, sleep, slice, small, snow, sort, span,
+    spawn, speak, split, springgreen, src, status, steelblue, strict,
     strong, style, styleproperty, sub, substr, sup, supplant,
     suppressUpdates, sync, system, table, "table-layout", tan, tbody, td,
     teal, tellWidget, test, "text-align", "text-decoration", "text-indent",
     "text-shadow", "text-transform", textarea, tfoot, th, thead, thistle,
     title, toLowerCase, toString, toUpperCase, toint32, token, tomato, top,
-    tr, tt, turquoise, type, u, ul, undef, unescape, "unicode-bidi",
-    unwatch, updateNow, value, valueOf, var, version, "vertical-align",
-    violet, visibility, watch, wheat, white, "white-space", whitesmoke,
-    widget, width, "word-spacing", yahooCheckLogin, yahooLogin, yahooLogout,
-    yellow, yellowgreen, "z-index"
+    tr, tt, turquoise, type, u, ul, undef, unescape, "unicode-bidi", unused,
+    unwatch, updateNow, urls, value, valueOf, var, version,
+    "vertical-align", violet, visibility, watch, wheat, white,
+    "white-space", whitesmoke, widget, width, "word-spacing",
+    yahooCheckLogin, yahooLogin, yahooLogout, yellow, yellowgreen,
+    "z-index"
 */
+
 
 
 // We build the application inside a function so that we produce only a single
@@ -465,6 +470,12 @@ var JSLINT = (function () {
         },
 
         funct,          // The current function
+
+        functionicity = [
+            'closure', 'exception', 'global', 'label',
+            'outer', 'unused', 'var'
+        ],
+
         functions,      // All of the functions
 
         global,         // The global scope
@@ -2048,10 +2059,9 @@ loop:   for (;;) {
 
     function reservevar(s, v) {
         return reserve(s, function () {
-            if (this.id === 'this') {
-                if (option.safe) {
-                    warning("ADsafe violation.", this);
-                }
+            if (option.safe &&
+                    (this.id === 'this' || this.id === 'arguments')) {
+                warning("ADsafe violation.", this);
             }
             return this;
         });
@@ -4130,6 +4140,9 @@ loop:   for (;;) {
             } else if (!option.evil &&
                     (e.value === 'eval' || e.value === 'execScript')) {
                 warning("eval is evil.", that);
+            } else if (option.safe &&
+                    (e.value.charAt(0) === '_' || e.value.charAt(0) === '-')) {
+                warning("ADsafe restricted subscript '{a}'.", that, e.value);
             }
             countMember(e.value);
             if (!option.sub && ix.test(e.value)) {
@@ -4139,8 +4152,7 @@ loop:   for (;;) {
                             e, e.value);
                 }
             }
-        } else if (!e || (e.type !== '(number)' &&
-                (e.id !== '+' || e.arity !== 'unary'))) {
+        } else if (!e || e.type !== '(number)' || e.value < 0) {
             if (option.safe) {
                 warning('ADsafe subscripting.');
             }
@@ -4333,7 +4345,7 @@ loop:   for (;;) {
         scope = Object.create(s);
         funct = {
             '(name)'    : i || '"' + anonname + '"',
-            '(line)'    : nexttoken.line + 1,
+            '(line)'    : nexttoken.line,
             '(context)' : funct,
             '(breakage)': 0,
             '(loopage)' : 0,
@@ -4348,6 +4360,7 @@ loop:   for (;;) {
 
         block(false);
         scope = s;
+        funct['(last)'] = token.line;
         funct = funct['(context)'];
     }
 
@@ -4985,6 +4998,10 @@ loop:   for (;;) {
         return JSLINT.errors.length === 0;
     };
 
+    function is_array(o) {
+        return Object.prototype.toString.apply(o) === '[object Array]';
+    }
+
     function to_array(o) {
         var a = [], k;
         for (k in o) {
@@ -4995,158 +5012,270 @@ loop:   for (;;) {
         return a;
     }
 
-// Report generator.
+// Data summary.
 
-    itself.report = function (option, sep) {
-        var a = [], c, e, f, i, k, l, m = '', n, o = [], s, v,
-            cl, ex, va, un, ou, gl, la;
+    itself.data = function () {
 
-        function detail(h, s, sep) {
-            if (s.length) {
-                o.push('<div><i>' + h + '</i> ' +
-                        s.sort().join(sep || ', ') + '</div>');
+// This function produces a data structure containing the result. {
+//      errors: [
+//          {
+//              line: NUMBER,
+//              character: NUMBER,
+//              reason: STRING,
+//              evidence: STRING
+//          }
+//      ],
+//      functions: [
+//          name: STRING,
+//          line: NUMBER,
+//          last: NUMBER,
+//          param: [
+//              STRING
+//          ],
+//          closure: [
+//              STRING
+//          ],
+//          var: [
+//              STRING
+//          ],
+//          exception: [
+//              STRING
+//          ],
+//          outer: [
+//              STRING
+//          ],
+//          unused: [
+//              STRING
+//          ],
+//          global: [
+//              STRING
+//          ],
+//          label: [
+//              STRING
+//          ]
+//      ],
+//      globals: [
+//          STRING
+//      ],
+//      member: {
+//          STRING: NUMBER
+//      },
+//      unuseds: [
+//          {
+//              name: STRING,
+//              line: NUMBER
+//          }
+//      ],
+//      implieds: [
+//          {
+//              name: STRING,
+//              line: NUMBER
+//          }
+//      ],
+//      urls: [
+//          STRING
+//      ],
+//      json: BOOLEAN
+//  }
+
+        var data = {functions: []}, fu, globals, implieds = [], f, i, j,
+            members = [], n, unused = [], v;
+        if (itself.errors.length) {
+            data.errors = itself.errors;
+        }
+
+        if (jsonmode) {
+            data.json = true;
+        }
+
+        for (n in implied) {
+            if (is_own(implied, n)) {
+                implieds.push({
+                    name: n,
+                    line: implied[n]
+                });
+            }
+        }
+        if (implieds.length > 0) {
+            data.implieds = implieds;
+        }
+
+        if (urls.length > 0) {
+            data.urls = urls;
+        }
+
+        globals = to_array(scope);
+        if (globals.length > 0) {
+            data.globals = globals;
+        }
+
+        for (i = 1; i < functions.length; i += 1) {
+            f = functions[i];
+            fu = {};
+            for (j = 0; j < functionicity.length; j += 1) {
+                fu[functionicity[j]] = [];
+            }
+            for (n in f) {
+                if (is_own(f, n) && n.charAt(0) !== '(') {
+                    v = f[n];
+                    if (is_array(fu[v])) {
+                        fu[v].push(n);
+                        if (v === 'unused') {
+                            unused.push({
+                                name: n,
+                                line: f['(line)'],
+                                'function': f['(name)']
+                            });
+                        }
+                    }
+                }
+            }
+            for (j = 0; j < functionicity.length; j += 1) {
+                if (fu[functionicity[j]].length === 0) {
+                    delete fu[functionicity[j]];
+                }
+            }
+            fu.name = f['(name)'];
+            fu.param = f['(param)'];
+            fu.line = f['(line)'];
+            fu.last = f['(last)'];
+            data.functions.push(fu);
+        }
+
+        if (unused.length > 0) {
+            data.unused = unused;
+        }
+
+        members = [];
+        for (n in member) {
+            if (typeof member[n] === 'number') {
+                data.member = member;
+                break;
             }
         }
 
-        s = to_array(implied);
+        return data;
+    };
 
-        k = JSLINT.errors.length;
-        if (k || s.length > 0) {
+    itself.report = function (option) {
+        var data = itself.data();
+
+        var a = [], c, e, err, f, i, k, l, m = '', n, o = [], s;
+
+        function detail(h, s) {
+            if (s) {
+                o.push('<div><i>' + h + '</i> ' +
+                        s.sort().join(', ') + '</div>');
+            }
+        }
+
+
+        if (data.errors || data.implieds || data.unused) {
+            err = true;
             o.push('<div id=errors><i>Error:</i>');
-            if (s.length > 0) {
-                s.sort();
-                for (i = 0; i < s.length; i += 1) {
-                    s[i] = '<code>' + s[i] + '</code>&nbsp;<i>' +
-                        implied[s[i]].join(' ') +
-                        '</i>';
+            if (data.errors) {
+                for (i = 0; i < data.errors.length; i += 1) {
+                    c = data.errors[i];
+                    if (c) {
+                        e = c.evidence || '';
+                        o.push('<p>Problem' + (isFinite(c.line) ? ' at line ' +
+                                (c.line + 1) +
+                                ' character ' + (c.character + 1) : '') +
+                                ': ' + c.reason.entityify() +
+                                '</p><p class=evidence>' +
+                                (e && (e.length > 80 ? e.slice(0, 77) + '...' :
+                                e).entityify()) + '</p>');
+                    }
+                }
+            }
+
+            if (data.implieds) {
+                s = [];
+                for (i = 0; i < data.implieds.length; i += 1) {
+                    s[i] = '<code>' + data.implieds[i].name + '</code>&nbsp;<i>' +
+                        data.implieds[i].line.join(' ') + '</i>';
                 }
                 o.push('<p><i>Implied global:</i> ' + s.join(', ') + '</p>');
-                c = true;
             }
-            for (i = 0; i < k; i += 1) {
-                c = JSLINT.errors[i];
-                if (c) {
-                    e = c.evidence || '';
-                    o.push('<p>Problem' + (isFinite(c.line) ? ' at line ' + (c.line + 1) +
-                            ' character ' + (c.character + 1) : '') +
-                            ': ' + c.reason.entityify() +
-                            '</p><p class=evidence>' +
-                            (e && (e.length > 80 ? e.slice(0, 77) + '...' :
-                            e).entityify()) + '</p>');
+
+            if (data.unused) {
+                s = [];
+                for (i = 0; i < data.unused.length; i += 1) {
+                    s[i] = '<code>' + data.unused[i].name + '</code>&nbsp;<i>' +
+                        data.unused[i].line + '</i>';
                 }
+                o.push('<p><i>Unused variable:</i> ' + s.join(', ') + '</p>');
+            }
+            if (data.json) {
+                o.push('<p>JSON: bad.</p>');
             }
             o.push('</div>');
-            if (!c) {
-                return o.join('');
-            }
         }
 
         if (!option) {
 
             o.push('<br><div id=functions>');
 
-            if (urls.length > 0) {
-                detail("URLs<br>", urls, '<br>');
+            if (data.urls) {
+                detail("URLs<br>", data.urls, '<br>');
             }
 
-            s = to_array(scope);
-            if (s.length === 0) {
-                if (jsonmode) {
-                    if (k === 0) {
-                        o.push('<p>JSON: good.</p>');
-                    } else {
-                        o.push('<p>JSON: bad.</p>');
-                    }
-                } else {
-                    o.push('<div><i>No new global variables introduced.</i></div>');
-                }
+            if (data.json && !err) {
+                o.push('<p>JSON: good.</p>');
+            } else if (data.globals) {
+                o.push('<div><i>Global</i> ' +
+                        data.globals.sort().join(', ') + '</div>');
             } else {
-                o.push('<div><i>Global</i> ' + s.sort().join(', ') + '</div>');
+                o.push('<div><i>No new global variables introduced.</i></div>');
             }
 
-            for (i = 1; i < functions.length; i += 1) {
-                f = functions[i];
-                cl = [];
-                ex = [];
-                va = [];
-                un = [];
-                ou = [];
-                gl = [];
-                la = [];
-                for (k in f) {
-                    if (is_own(f, k) && k.charAt(0) !== '(') {
-                        v = f[k];
-                        switch (v) {
-                        case 'closure':
-                            cl.push(k);
-                            break;
-                        case 'var':
-                            va.push(k);
-                            break;
-                        case 'exception':
-                            ex.push(k);
-                            break;
-                        case 'outer':
-                            ou.push(k);
-                            break;
-                        case 'global':
-                            gl.push(k);
-                            break;
-                        case 'label':
-                            la.push(k);
-                            break;
-                        case 'unused':
-                            un.push(k);
-                            break;
+            for (i = 0; i < data.functions.length; i += 1) {
+                f = data.functions[i];
+
+                o.push('<br><div class=function><i>' + (f.line + 1) + '-' +
+                        (f.last + 1) + '</i> ' + (f.name || '') + '(' +
+                        (f.params || '') + ')</div>');
+                detail('<big><b>Unused</b></big>', f.unused);
+                detail('Closure', f.closure);
+                detail('Variable', f['var']);
+                detail('Exception', f.exception);
+                detail('Outer', f.outer);
+                detail('Global', f.global);
+                detail('Label', f.label);
+            }
+
+            if (data.member) {
+                a = to_array(data.member);
+                if (a.length) {
+                    a = a.sort();
+                    m = '<br><pre id=members>/*members ';
+                    l = 10;
+                    for (i = 0; i < a.length; i += 1) {
+                        k = a[i];
+                        n = k.name();
+                        if (l + n.length > 72) {
+                            o.push(m + '<br>');
+                            m = '    ';
+                            l = 1;
                         }
+                        l += n.length + 2;
+                        if (data.member[k] === 1) {
+                            n = '<i>' + n + '</i>';
+                        }
+                        if (i < a.length - 1) {
+                            n += ', ';
+                        }
+                        m += n;
                     }
+                    o.push(m + '<br>*/</pre>');
                 }
-                o.push('<br><div class=function><i>' + f['(line)'] + '</i> ' +
-                        (f['(name)'] || '') + '(' +
-                        (f['(params)'] || '') + ')</div>');
-                detail('Closure', cl);
-                detail('Variable', va);
-                detail('Exception', ex);
-                detail('Outer', ou);
-                detail('Global', gl);
-                detail('Label', la);
-                detail('<big><b>Unused</b></big>', un);
+                o.push('</div>');
             }
-            a = [];
-            for (k in member) {
-                if (typeof member[k] === 'number') {
-                    a.push(k);
-                }
-            }
-            if (a.length) {
-                a = a.sort();
-                m = '<br><pre id=members>/*members ';
-                l = 10;
-                for (i = 0; i < a.length; i += 1) {
-                    k = a[i];
-                    n = k.name();
-                    if (l + n.length > 72) {
-                        o.push(m + '<br>');
-                        m = '    ';
-                        l = 1;
-                    }
-                    l += n.length + 2;
-                    if (member[k] === 1) {
-                        n = '<i>' + n + '</i>';
-                    }
-                    if (i < a.length - 1) {
-                        n += ', ';
-                    }
-                    m += n;
-                }
-                o.push(m + '<br>*/</pre>');
-            }
-            o.push('</div>');
         }
         return o.join('');
     };
 
-    itself.edition = '2009-07-25';
+    itself.edition = '2009-07-31';
 
     return itself;
 
