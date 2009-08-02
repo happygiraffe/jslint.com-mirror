@@ -20,8 +20,8 @@ return w;}
 function warningAt(m,l,ch,a,b,c,d){return warning(m,{line:l,from:ch},a,b,c,d);}
 function error(m,t,a,b,c,d){var w=warning(m,t,a,b,c,d);quit("Stopping, unable to continue.",w.line,w.character);}
 function errorAt(m,l,ch,a,b,c,d){return error(m,{line:l,from:ch},a,b,c,d);}
-var lex=(function lex(){var character,from,line,s;function nextLine(){var at;line+=1;if(line>=lines.length){return false;}
-character=0;s=lines[line].replace(/\t/g,tab);at=s.search(cx);if(at>=0){warningAt("Unsafe character.",line,at);}
+var lex=(function lex(){var character,from,line,s;function nextLine(){var at;if(line>=lines.length){return false;}
+character=1;s=lines[line].replace(/\t/g,tab);line+=1;at=s.search(cx);if(at>=0){warningAt("Unsafe character.",line,at);}
 return true;}
 function it(type,value){var i,t;if(type==='(color)'){t={type:type};}else if(type==='(punctuator)'||(type==='(identifier)'&&is_own(syntax,value))){t=syntax[value]||syntax['(error)'];}else{t=syntax[type];}
 t=Object.create(t);if(type==='(string)'||type==='(range)'){if(jx.test(value)){warningAt("Script URL.",line,from);}}
@@ -29,9 +29,9 @@ if(type==='(identifier)'){t.identifier=true;if(option.nomen&&value.charAt(0)==='
 t.value=value;t.line=line;t.character=character;t.from=from;i=t.id;if(i!=='(endline)'){prereg=i&&(('(,=:[!&|?{};'.indexOf(i.charAt(i.length-1))>=0)||i==='return');}
 return t;}
 return{init:function(source){if(typeof source==='string'){lines=source.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n');}else{lines=source;}
-line=-1;nextLine();from=0;},range:function(begin,end){var c,value='';from=character;if(s.charAt(0)!==begin){errorAt("Expected '{a}' and instead saw '{b}'.",line,character,begin,s.charAt(0));}
+line=0;nextLine();from=1;},range:function(begin,end){var c,value='';from=character;if(s.charAt(0)!==begin){errorAt("Expected '{a}' and instead saw '{b}'.",line,character,begin,s.charAt(0));}
 for(;;){s=s.slice(1);character+=1;c=s.charAt(0);switch(c){case'':errorAt("Missing '{a}'.",line,character,c);break;case end:s=s.slice(1);character+=1;return it('(range)',value);case xquote:case'\\':case'\'':case'"':warningAt("Unexpected '{a}'.",line,character,c);}
-value+=c;}},token:function(){var b,c,captures,d,depth,high,i,l,low,q,t;function match(x){var r=x.exec(s),r1;if(r){l=r[0].length;r1=r[1];c=r1.charAt(0);s=s.substr(l);character+=l;from=character-r1.length;return r1;}}
+value+=c;}},token:function(){var b,c,captures,d,depth,high,i,l,low,q,t;function match(x){var r=x.exec(s),r1;if(r){l=r[0].length;r1=r[1];c=r1.charAt(0);s=s.substr(l);from=character+l-r1.length;character+=l;return r1;}}
 function string(x){var c,j,r='';if(jsonmode&&x!=='"'){warningAt("Strings must use doublequote.",line,character);}
 if(xquote===x||(xmode==='scriptstring'&&!xquote)){return it('(punctuator)',x);}
 function esc(n){var i=parseInt(s.substr(j+1,n),16);j+=n;if(i>=32&&i<=126&&i!==34&&i!==92&&i!==39){warningAt("Unnecessary escapement.",line,character);}
@@ -119,7 +119,7 @@ break;case'-':if(nexttoken.id==='-'||nexttoken.id==='--'){warning("Confusing min
 break;case'+':if(nexttoken.id==='+'||nexttoken.id==='++'){warning("Confusing plusses.");}
 break;}
 if(token.type==='(string)'||token.identifier){anonname=token.value;}
-if(id&&nexttoken.id!==id){if(t){if(nexttoken.id==='(end)'){warning("Unmatched '{a}'.",t,t.id);}else{warning("Expected '{a}' to match '{b}' from line {c} and instead saw '{d}'.",nexttoken,id,t.id,t.line+1,nexttoken.value);}}else if(nexttoken.type!=='(identifier)'||nexttoken.value!==id){warning("Expected '{a}' and instead saw '{b}'.",nexttoken,id,nexttoken.value);}}
+if(id&&nexttoken.id!==id){if(t){if(nexttoken.id==='(end)'){warning("Unmatched '{a}'.",t,t.id);}else{warning("Expected '{a}' to match '{b}' from line {c} and instead saw '{d}'.",nexttoken,id,t.id,t.line,nexttoken.value);}}else if(nexttoken.type!=='(identifier)'||nexttoken.value!==id){warning("Expected '{a}' and instead saw '{b}'.",nexttoken,id,nexttoken.value);}}
 prevtoken=token;token=nexttoken;for(;;){nexttoken=lookahead.shift()||lex.token();if(nexttoken.id==='(end)'||nexttoken.id==='(error)'){return;}
 if(nexttoken.type==='special'){doOption();}else{if(nexttoken.id!=='(endline)'){break;}}}}
 function parse(rbp,initial){var left,o;if(nexttoken.id==='(end)'){error("Unexpected early end of program.",token);}
@@ -194,7 +194,7 @@ if(nexttoken.value==='ADSAFE'&&peek(0).id==='.'&&peek(1).value==='id'){if(adsafe
 advance('ADSAFE');advance('.');advance('id');advance('(');if(nexttoken.value!==adsafe_id){error('ADsafe violation: id does not match.',nexttoken);}
 advance('(string)');advance(')');advance(';');adsafe_may=true;}
 break;case'lib':if(nexttoken.value==='ADSAFE'){advance('ADSAFE');advance('.');advance('lib');advance('(');advance('(string)');comma();f=parse(0);if(f.id!=='function'){error('The second argument to lib must be a function.',f);}
-p=f.funct['(params)'];if(p&&p!=='lib'){error("Expected '{a}' and instead saw '{b}'.",f,'lib',p);}
+p=f.funct['(params)'].join(', ');if(p&&p!=='lib'){error("Expected '{a}' and instead saw '{b}'.",f,'(lib)','('+p+')');}
 advance(')');advance(';');return a;}else{error("ADsafe lib violation.");}}}
 while(!nexttoken.reach&&nexttoken.id!=='(end)'){if(nexttoken.id===';'){warning("Unnecessary semicolon.");advance(';');}else{a.push(statement());}}
 return a;}
@@ -207,7 +207,7 @@ funct['(verb)']=null;scope=s;inblock=b;return a;}
 function idValue(){return this;}
 function countMember(m){if(membersOnly&&typeof membersOnly[m]!=='boolean'){warning("Unexpected /*member '{a}'.",nexttoken,m);}
 if(typeof member[m]==='number'){member[m]+=1;}else{member[m]=1;}}
-function note_implied(token){var name=token.value,line=token.line+1,a=implied[name];if(typeof a==='function'){a=false;}
+function note_implied(token){var name=token.value,line=token.line,a=implied[name];if(typeof a==='function'){a=false;}
 if(!a){a=[line];implied[name]=a;}else if(a[a.length-1]!==line){a.push(line);}}
 function cssName(){if(nexttoken.identifier){advance();return true;}}
 function cssNumber(){if(nexttoken.id==='-'){advance('-');advance('(number)');}
@@ -405,7 +405,7 @@ if(nexttoken.id!==','){break;}
 comma();}
 return this;}
 stmt('var',varstatement);stmt('new',function(){warning("'new' should not be used as a statement.");});function functionparams(){var i,t=nexttoken,p=[];advance('(');nospace();if(nexttoken.id===')'){advance(')');nospace(prevtoken,token);return;}
-for(;;){i=identifier();p.push(i);addlabel(i,'parameter');if(nexttoken.id===','){comma();}else{advance(')',t);nospace(prevtoken,token);return p.join(', ');}}}
+for(;;){i=identifier();p.push(i);addlabel(i,'parameter');if(nexttoken.id===','){comma();}else{advance(')',t);nospace(prevtoken,token);return p;}}}
 function doFunction(i){var s=scope;scope=Object.create(s);funct={'(name)':i||'"'+anonname+'"','(line)':nexttoken.line,'(context)':funct,'(breakage)':0,'(loopage)':0,'(scope)':scope};token.funct=funct;functions.push(funct);if(i){addlabel(i,'function');}
 funct['(params)']=functionparams();block(false);scope=s;funct['(last)']=token.line;funct=funct['(context)'];}
 blockstmt('function',function(){if(inblock){warning("Function statements cannot be placed in blocks. Use a function expression or move the statement to the top of the outer function.",token);}
@@ -438,12 +438,12 @@ nolinebreak(this);if(nexttoken.id!==';'){if(token.line===nexttoken.line){if(func
 advance();}}
 reachable('continue');});stmt('return',function(){nolinebreak(this);if(nexttoken.id==='(regexp)'){warning("Wrap the /regexp/ literal in parens to disambiguate the slash operator.");}
 if(nexttoken.id!==';'&&!nexttoken.reach){nonadjacent(token,nexttoken);parse(20);}
-reachable('return');});stmt('throw',function(){nolinebreak(this);nonadjacent(token,nexttoken);parse(20);reachable('throw');});reserve('void');reserve('class');reserve('const');reserve('enum');reserve('export');reserve('extends');reserve('import');reserve('super');reserve('let');reserve('yield');reserve('implements');reserve('interface');reserve('package');reserve('private');reserve('protected');reserve('public');reserve('static');function jsonValue(){function jsonObject(){var o={},t=nexttoken;advance('{');if(nexttoken.id!=='}'){for(;;){if(nexttoken.id==='(end)'){error("Missing '}' to match '{' from line {a}.",nexttoken,t.line+1);}else if(nexttoken.id==='}'){warning("Unexpected comma.",token);break;}else if(nexttoken.id===','){error("Unexpected comma.",nexttoken);}else if(nexttoken.id!=='(string)'){warning("Expected a string and instead saw {a}.",nexttoken,nexttoken.value);}
+reachable('return');});stmt('throw',function(){nolinebreak(this);nonadjacent(token,nexttoken);parse(20);reachable('throw');});reserve('void');reserve('class');reserve('const');reserve('enum');reserve('export');reserve('extends');reserve('import');reserve('super');reserve('let');reserve('yield');reserve('implements');reserve('interface');reserve('package');reserve('private');reserve('protected');reserve('public');reserve('static');function jsonValue(){function jsonObject(){var o={},t=nexttoken;advance('{');if(nexttoken.id!=='}'){for(;;){if(nexttoken.id==='(end)'){error("Missing '}' to match '{' from line {a}.",nexttoken,t.line);}else if(nexttoken.id==='}'){warning("Unexpected comma.",token);break;}else if(nexttoken.id===','){error("Unexpected comma.",nexttoken);}else if(nexttoken.id!=='(string)'){warning("Expected a string and instead saw {a}.",nexttoken,nexttoken.value);}
 if(o[nexttoken.value]===true){warning("Duplicate key '{a}'.",nexttoken,nexttoken.value);}else if(nexttoken.value==='__proto__'){warning("Stupid key '{a}'.",nexttoken,nexttoken.value);}else{o[nexttoken.value]=true;}
 advance();advance(':');jsonValue();if(nexttoken.id!==','){break;}
 advance(',');}}
 advance('}');}
-function jsonArray(){var t=nexttoken;advance('[');if(nexttoken.id!==']'){for(;;){if(nexttoken.id==='(end)'){error("Missing ']' to match '[' from line {a}.",nexttoken,t.line+1);}else if(nexttoken.id===']'){warning("Unexpected comma.",token);break;}else if(nexttoken.id===','){error("Unexpected comma.",nexttoken);}
+function jsonArray(){var t=nexttoken;advance('[');if(nexttoken.id!==']'){for(;;){if(nexttoken.id==='(end)'){error("Missing ']' to match '[' from line {a}.",nexttoken,t.line);}else if(nexttoken.id===']'){warning("Unexpected comma.",token);break;}else if(nexttoken.id===','){error("Unexpected comma.",nexttoken);}
 jsonValue();if(nexttoken.id!==','){break;}
 advance(',');}}
 advance(']');}
@@ -455,7 +455,7 @@ if(o.safe){o.browser=false;o.css=false;o.debug=false;o.eqeqeq=true;o.evil=false;
 option=o;}else{option={};}
 option.indent=option.indent||4;adsafe_id='';adsafe_may=false;adsafe_went=false;approved={};if(option.approved){for(i=0;i<option.approved.length;i+=1){approved[option.approved[i]]=option.approved[i];}}else{approved.test='test';}
 tab='';for(i=0;i<option.indent;i+=1){tab+=' ';}
-indent=0;global=Object.create(predefined);scope=global;funct={'(global)':true,'(name)':'(global)','(scope)':scope,'(breakage)':0,'(loopage)':0};functions=[funct];ids={};urls=[];src=false;xmode=false;stack=null;member={};membersOnly=null;implied={};inblock=false;lookahead=[];jsonmode=false;warnings=0;lex.init(s);prereg=true;prevtoken=token=nexttoken=syntax['(begin)'];assume();try{advance();if(nexttoken.value.charAt(0)==='<'){html();if(option.adsafe&&!adsafe_went){warning("ADsafe violation: Missing ADSAFE.go.",this);}}else{switch(nexttoken.id){case'{':case'[':option.laxbreak=true;jsonmode=true;jsonValue();break;case'@':case'*':case'#':case'.':case':':xmode='style';advance();if(token.id!=='@'||!nexttoken.identifier||nexttoken.value!=='charset'){error('A css file should begin with @charset "UTF-8";');}
+indent=1;global=Object.create(predefined);scope=global;funct={'(global)':true,'(name)':'(global)','(scope)':scope,'(breakage)':0,'(loopage)':0};functions=[funct];ids={};urls=[];src=false;xmode=false;stack=null;member={};membersOnly=null;implied={};inblock=false;lookahead=[];jsonmode=false;warnings=0;lex.init(s);prereg=true;prevtoken=token=nexttoken=syntax['(begin)'];assume();try{advance();if(nexttoken.value.charAt(0)==='<'){html();if(option.adsafe&&!adsafe_went){warning("ADsafe violation: Missing ADSAFE.go.",this);}}else{switch(nexttoken.id){case'{':case'[':option.laxbreak=true;jsonmode=true;jsonValue();break;case'@':case'*':case'#':case'.':case':':xmode='style';advance();if(token.id!=='@'||!nexttoken.identifier||nexttoken.value!=='charset'){error('A css file should begin with @charset "UTF-8";');}
 advance();if(nexttoken.type!=='(string)'&&nexttoken.value!=='UTF-8'){error('A css file should begin with @charset "UTF-8";');}
 advance();advance(';');styles();break;default:if(option.adsafe&&option.fragment){error("Expected '{a}' and instead saw '{b}'.",nexttoken,'<div>',nexttoken.value);}
 statements('lib');}}
@@ -472,32 +472,33 @@ globals=to_array(scope);if(globals.length>0){data.globals=globals;}
 for(i=1;i<functions.length;i+=1){f=functions[i];fu={};for(j=0;j<functionicity.length;j+=1){fu[functionicity[j]]=[];}
 for(n in f){if(is_own(f,n)&&n.charAt(0)!=='('){v=f[n];if(is_array(fu[v])){fu[v].push(n);if(v==='unused'){unused.push({name:n,line:f['(line)'],'function':f['(name)']});}}}}
 for(j=0;j<functionicity.length;j+=1){if(fu[functionicity[j]].length===0){delete fu[functionicity[j]];}}
-fu.name=f['(name)'];fu.param=f['(param)'];fu.line=f['(line)'];fu.last=f['(last)'];data.functions.push(fu);}
+fu.name=f['(name)'];fu.param=f['(params)'];fu.line=f['(line)'];fu.last=f['(last)'];data.functions.push(fu);}
 if(unused.length>0){data.unused=unused;}
 members=[];for(n in member){if(typeof member[n]==='number'){data.member=member;break;}}
 return data;};itself.report=function(option){var data=itself.data();var a=[],c,e,err,f,i,k,l,m='',n,o=[],s;function detail(h,s){if(s){o.push('<div><i>'+h+'</i> '+
 s.sort().join(', ')+'</div>');}}
 if(data.errors||data.implieds||data.unused){err=true;o.push('<div id=errors><i>Error:</i>');if(data.errors){for(i=0;i<data.errors.length;i+=1){c=data.errors[i];if(c){e=c.evidence||'';o.push('<p>Problem'+(isFinite(c.line)?' at line '+
-(c.line+1)+' character '+(c.character+1):'')+': '+c.reason.entityify()+'</p><p class=evidence>'+
+c.line+' character '+c.character:'')+': '+c.reason.entityify()+'</p><p class=evidence>'+
 (e&&(e.length>80?e.slice(0,77)+'...':e).entityify())+'</p>');}}}
 if(data.implieds){s=[];for(i=0;i<data.implieds.length;i+=1){s[i]='<code>'+data.implieds[i].name+'</code>&nbsp;<i>'+
-data.implieds[i].line.join(' ')+'</i>';}
+data.implieds[i].line+'</i>';}
 o.push('<p><i>Implied global:</i> '+s.join(', ')+'</p>');}
 if(data.unused){s=[];for(i=0;i<data.unused.length;i+=1){s[i]='<code>'+data.unused[i].name+'</code>&nbsp;<i>'+
-data.unused[i].line+'</i>';}
+data.unused[i].line+'</i> <code>'+
+data.unused[i]['function']+'</code>';}
 o.push('<p><i>Unused variable:</i> '+s.join(', ')+'</p>');}
 if(data.json){o.push('<p>JSON: bad.</p>');}
 o.push('</div>');}
 if(!option){o.push('<br><div id=functions>');if(data.urls){detail("URLs<br>",data.urls,'<br>');}
 if(data.json&&!err){o.push('<p>JSON: good.</p>');}else if(data.globals){o.push('<div><i>Global</i> '+
 data.globals.sort().join(', ')+'</div>');}else{o.push('<div><i>No new global variables introduced.</i></div>');}
-for(i=0;i<data.functions.length;i+=1){f=data.functions[i];o.push('<br><div class=function><i>'+(f.line+1)+'-'+
-(f.last+1)+'</i> '+(f.name||'')+'('+
-(f.params||'')+')</div>');detail('<big><b>Unused</b></big>',f.unused);detail('Closure',f.closure);detail('Variable',f['var']);detail('Exception',f.exception);detail('Outer',f.outer);detail('Global',f.global);detail('Label',f.label);}
+for(i=0;i<data.functions.length;i+=1){f=data.functions[i];o.push('<br><div class=function><i>'+f.line+'-'+
+f.last+'</i> '+(f.name||'')+'('+
+(f.param?f.param.join(', '):'')+')</div>');detail('<big><b>Unused</b></big>',f.unused);detail('Closure',f.closure);detail('Variable',f['var']);detail('Exception',f.exception);detail('Outer',f.outer);detail('Global',f.global);detail('Label',f.label);}
 if(data.member){a=to_array(data.member);if(a.length){a=a.sort();m='<br><pre id=members>/*members ';l=10;for(i=0;i<a.length;i+=1){k=a[i];n=k.name();if(l+n.length>72){o.push(m+'<br>');m='    ';l=1;}
 l+=n.length+2;if(data.member[k]===1){n='<i>'+n+'</i>';}
 if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.edition='2009-07-31';return itself;}());(function(){if(!JSLINT(WScript.StdIn.ReadAll(),{passfail:true})){var e=JSLINT.errors[0];WScript.StdErr.WriteLine('Lint at line '+(e.line+1)+' character '+(e.character+1)+': '+e.reason);WScript.StdErr.WriteLine((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));WScript.Quit(1);}}());
+return o.join('');};itself.edition='2009-08-01';return itself;}());(function(){if(!JSLINT(WScript.StdIn.ReadAll(),{passfail:true})){var e=JSLINT.errors[0];WScript.StdErr.WriteLine('Lint at line '+(e.line+1)+' character '+(e.character+1)+': '+e.reason);WScript.StdErr.WriteLine((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));WScript.Quit(1);}}());

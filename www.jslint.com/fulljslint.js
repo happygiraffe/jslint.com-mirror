@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-07-31
+// 2009-08-01
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -67,6 +67,77 @@ SOFTWARE.
         var myReport = JSLINT.report(limited);
 
     If limited is true, then the report will be limited to only errors.
+
+    You can request a data structure which contains JSLint's results.
+
+        var myData = JSLINT.data();
+
+    It returns a structure with this form:
+
+    {
+        errors: [
+            {
+                line: NUMBER,
+                character: NUMBER,
+                reason: STRING,
+                evidence: STRING
+            }
+        ],
+        functions: [
+            name: STRING,
+            line: NUMBER,
+            last: NUMBER,
+            param: [
+                STRING
+            ],
+            closure: [
+                STRING
+            ],
+            var: [
+                STRING
+            ],
+            exception: [
+                STRING
+            ],
+            outer: [
+                STRING
+            ],
+            unused: [
+                STRING
+            ],
+            global: [
+                STRING
+            ],
+            label: [
+                STRING
+            ]
+        ],
+        globals: [
+            STRING
+        ],
+        member: {
+            STRING: NUMBER
+        },
+        unuseds: [
+            {
+                name: STRING,
+                line: NUMBER
+            }
+        ],
+        implieds: [
+            {
+                name: STRING,
+                line: NUMBER
+            }
+        ],
+        urls: [
+            STRING
+        ],
+        json: BOOLEAN
+    }
+
+    Empty arrays will not be included.
+
 */
 
 /*jslint
@@ -963,12 +1034,12 @@ var JSLINT = (function () {
 
         function nextLine() {
             var at;
-            line += 1;
             if (line >= lines.length) {
                 return false;
             }
-            character = 0;
+            character = 1;
             s = lines[line].replace(/\t/g, tab);
+            line += 1;
             at = s.search(cx);
             if (at >= 0) {
                 warningAt("Unsafe character.", line, at);
@@ -1025,9 +1096,9 @@ var JSLINT = (function () {
                 } else {
                     lines = source;
                 }
-                line = -1;
+                line = 0;
                 nextLine();
-                from = 0;
+                from = 1;
             },
 
             range: function (begin, end) {
@@ -1072,8 +1143,8 @@ var JSLINT = (function () {
                         r1 = r[1];
                         c = r1.charAt(0);
                         s = s.substr(l);
+                        from = character + l - r1.length;
                         character += l;
-                        from = character - r1.length;
                         return r1;
                     }
                 }
@@ -1805,7 +1876,7 @@ loop:   for (;;) {
                     warning("Unmatched '{a}'.", t, t.id);
                 } else {
                     warning("Expected '{a}' to match '{b}' from line {c} and instead saw '{d}'.",
-                            nexttoken, id, t.id, t.line + 1, nexttoken.value);
+                            nexttoken, id, t.id, t.line, nexttoken.value);
                 }
             } else if (nexttoken.type !== '(identifier)' ||
                             nexttoken.value !== id) {
@@ -2379,10 +2450,10 @@ loop:   for (;;) {
                     if (f.id !== 'function') {
                         error('The second argument to lib must be a function.', f);
                     }
-                    p = f.funct['(params)'];
+                    p = f.funct['(params)'].join(', ');
                     if (p && p !== 'lib') {
                         error("Expected '{a}' and instead saw '{b}'.",
-                            f, 'lib', p);
+                            f, '(lib)', '(' + p + ')');
                     }
                     advance(')');
                     advance(';');
@@ -2460,7 +2531,7 @@ loop:   for (;;) {
     }
 
     function note_implied(token) {
-        var name = token.value, line = token.line + 1, a = implied[name];
+        var name = token.value, line = token.line, a = implied[name];
         if (typeof a === 'function') {
             a = false;
         }
@@ -4335,7 +4406,7 @@ loop:   for (;;) {
             } else {
                 advance(')', t);
                 nospace(prevtoken, token);
-                return p.join(', ');
+                return p;
             }
         }
     }
@@ -4770,7 +4841,7 @@ loop:   for (;;) {
                 for (;;) {
                     if (nexttoken.id === '(end)') {
                         error("Missing '}' to match '{' from line {a}.",
-                                nexttoken, t.line + 1);
+                                nexttoken, t.line);
                     } else if (nexttoken.id === '}') {
                         warning("Unexpected comma.", token);
                         break;
@@ -4808,7 +4879,7 @@ loop:   for (;;) {
                 for (;;) {
                     if (nexttoken.id === '(end)') {
                         error("Missing ']' to match '[' from line {a}.",
-                                nexttoken, t.line + 1);
+                                nexttoken, t.line);
                     } else if (nexttoken.id === ']') {
                         warning("Unexpected comma.", token);
                         break;
@@ -4912,7 +4983,7 @@ loop:   for (;;) {
         for (i = 0; i < option.indent; i += 1) {
             tab += ' ';
         }
-        indent = 0;
+        indent = 1;
         global = Object.create(predefined);
         scope = global;
         funct = {
@@ -5016,68 +5087,6 @@ loop:   for (;;) {
 
     itself.data = function () {
 
-// This function produces a data structure containing the result. {
-//      errors: [
-//          {
-//              line: NUMBER,
-//              character: NUMBER,
-//              reason: STRING,
-//              evidence: STRING
-//          }
-//      ],
-//      functions: [
-//          name: STRING,
-//          line: NUMBER,
-//          last: NUMBER,
-//          param: [
-//              STRING
-//          ],
-//          closure: [
-//              STRING
-//          ],
-//          var: [
-//              STRING
-//          ],
-//          exception: [
-//              STRING
-//          ],
-//          outer: [
-//              STRING
-//          ],
-//          unused: [
-//              STRING
-//          ],
-//          global: [
-//              STRING
-//          ],
-//          label: [
-//              STRING
-//          ]
-//      ],
-//      globals: [
-//          STRING
-//      ],
-//      member: {
-//          STRING: NUMBER
-//      },
-//      unuseds: [
-//          {
-//              name: STRING,
-//              line: NUMBER
-//          }
-//      ],
-//      implieds: [
-//          {
-//              name: STRING,
-//              line: NUMBER
-//          }
-//      ],
-//      urls: [
-//          STRING
-//      ],
-//      json: BOOLEAN
-//  }
-
         var data = {functions: []}, fu, globals, implieds = [], f, i, j,
             members = [], n, unused = [], v;
         if (itself.errors.length) {
@@ -5136,7 +5145,7 @@ loop:   for (;;) {
                 }
             }
             fu.name = f['(name)'];
-            fu.param = f['(param)'];
+            fu.param = f['(params)'];
             fu.line = f['(line)'];
             fu.last = f['(last)'];
             data.functions.push(fu);
@@ -5179,8 +5188,7 @@ loop:   for (;;) {
                     if (c) {
                         e = c.evidence || '';
                         o.push('<p>Problem' + (isFinite(c.line) ? ' at line ' +
-                                (c.line + 1) +
-                                ' character ' + (c.character + 1) : '') +
+                                c.line + ' character ' + c.character : '') +
                                 ': ' + c.reason.entityify() +
                                 '</p><p class=evidence>' +
                                 (e && (e.length > 80 ? e.slice(0, 77) + '...' :
@@ -5193,7 +5201,7 @@ loop:   for (;;) {
                 s = [];
                 for (i = 0; i < data.implieds.length; i += 1) {
                     s[i] = '<code>' + data.implieds[i].name + '</code>&nbsp;<i>' +
-                        data.implieds[i].line.join(' ') + '</i>';
+                        data.implieds[i].line + '</i>';
                 }
                 o.push('<p><i>Implied global:</i> ' + s.join(', ') + '</p>');
             }
@@ -5202,7 +5210,8 @@ loop:   for (;;) {
                 s = [];
                 for (i = 0; i < data.unused.length; i += 1) {
                     s[i] = '<code>' + data.unused[i].name + '</code>&nbsp;<i>' +
-                        data.unused[i].line + '</i>';
+                        data.unused[i].line + '</i> <code>' +
+                        data.unused[i]['function'] + '</code>';
                 }
                 o.push('<p><i>Unused variable:</i> ' + s.join(', ') + '</p>');
             }
@@ -5232,9 +5241,9 @@ loop:   for (;;) {
             for (i = 0; i < data.functions.length; i += 1) {
                 f = data.functions[i];
 
-                o.push('<br><div class=function><i>' + (f.line + 1) + '-' +
-                        (f.last + 1) + '</i> ' + (f.name || '') + '(' +
-                        (f.params || '') + ')</div>');
+                o.push('<br><div class=function><i>' + f.line + '-' +
+                        f.last + '</i> ' + (f.name || '') + '(' +
+                        (f.param ? f.param.join(', ') : '') + ')</div>');
                 detail('<big><b>Unused</b></big>', f.unused);
                 detail('Closure', f.closure);
                 detail('Variable', f['var']);
@@ -5275,7 +5284,7 @@ loop:   for (;;) {
         return o.join('');
     };
 
-    itself.edition = '2009-07-31';
+    itself.edition = '2009-08-01';
 
     return itself;
 
