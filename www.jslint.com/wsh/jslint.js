@@ -14,8 +14,8 @@ if(option.sidebar){combine(predefined,sidebar);}
 if(option.widget){combine(predefined,widget);}}}
 function quit(m,l,ch){throw{name:'JSLintError',line:l,character:ch,message:m+" ("+Math.floor((l/lines.length)*100)+"% scanned)."};}
 function warning(m,t,a,b,c,d){var ch,l,w;t=t||nexttoken;if(t.id==='(end)'){t=token;}
-l=t.line||0;ch=t.from||0;w={id:'(error)',raw:m,evidence:lines[l]||'',line:l,character:ch,a:a,b:b,c:c,d:d};w.reason=m.supplant(w);JSLINT.errors.push(w);if(option.passfail){quit('Stopping. ',l,ch);}
-warnings+=1;if(warnings===50){quit("Too many errors.",l,ch);}
+l=t.line||0;ch=t.from||0;w={id:'(error)',raw:m,evidence:lines[l-1]||'',line:l,character:ch,a:a,b:b,c:c,d:d};w.reason=m.supplant(w);JSLINT.errors.push(w);if(option.passfail){quit('Stopping. ',l,ch);}
+warnings+=1;if(warnings>=option.maxerr){quit("Too many errors.",l,ch);}
 return w;}
 function warningAt(m,l,ch,a,b,c,d){return warning(m,{line:l,from:ch},a,b,c,d);}
 function error(m,t,a,b,c,d){var w=warning(m,t,a,b,c,d);quit("Stopping, unable to continue.",w.line,w.character);}
@@ -133,7 +133,7 @@ function adjacent(left,right){left=left||token;right=right||nexttoken;if(option.
 function nospace(left,right){left=left||token;right=right||nexttoken;if(option.white&&!left.comment){if(left.line===right.line){adjacent(left,right);}}}
 function nonadjacent(left,right){if(option.white){left=left||token;right=right||nexttoken;if(left.character===right.from){warning("Missing space after '{a}'.",nexttoken,left.value);}}}
 function nobreaknonadjacent(left,right){left=left||token;right=right||nexttoken;if(!option.laxbreak&&left.line!==right.line){warning("Bad line breaking before '{a}'.",right,right.id);}else if(option.white){left=left||token;right=right||nexttoken;if(left.character===right.from){warning("Missing space after '{a}'.",nexttoken,left.value);}}}
-function indentation(bias){var i;if(option.white&&nexttoken.id!=='(end)'){i=indent+(bias||0);if(nexttoken.from!==i){warning("Expected '{a}' to have an indentation of {b} instead of {c}.",nexttoken,nexttoken.value,i,nexttoken.from);}}}
+function indentation(bias){var i;if(option.white&&nexttoken.id!=='(end)'){i=indent+(bias||0);if(nexttoken.from!==i){warning("Expected '{a}' to have an indentation at {b} instead at {c}.",nexttoken,nexttoken.value,i,nexttoken.from);}}}
 function nolinebreak(t){if(t.line!==nexttoken.line){warning("Line breaking error '{a}'.",t,t.value);}}
 function comma(){if(token.line!==nexttoken.line){if(!option.laxbreak){warning("Bad line breaking before '{a}'.",token,nexttoken.id);}}else if(token.character!==nexttoken.from&&option.white){warning("Unexpected space after '{a}'.",nexttoken,token.value);}
 advance(',');nonadjacent(token,nexttoken);}
@@ -205,7 +205,7 @@ a=statements();indent-=option.indent;indentation();}
 advance('}',t);}else{warning("Expected '{a}' and instead saw '{b}'.",nexttoken,'{',nexttoken.value);noreach=true;a=[statement()];noreach=false;}
 funct['(verb)']=null;scope=s;inblock=b;return a;}
 function idValue(){return this;}
-function countMember(m){if(membersOnly&&typeof membersOnly[m]!=='boolean'){warning("Unexpected /*member '{a}'.",nexttoken,m);}
+function countMember(m){if(membersOnly&&typeof membersOnly[m]!=='boolean'){warning("Unexpected /*member '{a}'.",token,m);}
 if(typeof member[m]==='number'){member[m]+=1;}else{member[m]=1;}}
 function note_implied(token){var name=token.value,line=token.line,a=implied[name];if(typeof a==='function'){a=false;}
 if(!a){a=[line];implied[name]=a;}else if(a[a.length-1]!==line){a.push(line);}}
@@ -453,7 +453,7 @@ var itself=function(s,o){var a,i;JSLINT.errors=[];predefined=Object.create(stand
 if(o.adsafe){o.safe=true;}
 if(o.safe){o.browser=false;o.css=false;o.debug=false;o.eqeqeq=true;o.evil=false;o.forin=false;o.nomen=true;o.on=false;o.rhino=false;o.safe=true;o.sidebar=false;o.strict=true;o.sub=false;o.undef=true;o.widget=false;predefined.Date=null;predefined['eval']=null;predefined.Function=null;predefined.Object=null;predefined.ADSAFE=false;predefined.lib=false;}
 option=o;}else{option={};}
-option.indent=option.indent||4;adsafe_id='';adsafe_may=false;adsafe_went=false;approved={};if(option.approved){for(i=0;i<option.approved.length;i+=1){approved[option.approved[i]]=option.approved[i];}}else{approved.test='test';}
+option.indent=option.indent||4;option.maxerr=option.maxerr||50;adsafe_id='';adsafe_may=false;adsafe_went=false;approved={};if(option.approved){for(i=0;i<option.approved.length;i+=1){approved[option.approved[i]]=option.approved[i];}}else{approved.test='test';}
 tab='';for(i=0;i<option.indent;i+=1){tab+=' ';}
 indent=1;global=Object.create(predefined);scope=global;funct={'(global)':true,'(name)':'(global)','(scope)':scope,'(breakage)':0,'(loopage)':0};functions=[funct];ids={};urls=[];src=false;xmode=false;stack=null;member={};membersOnly=null;implied={};inblock=false;lookahead=[];jsonmode=false;warnings=0;lex.init(s);prereg=true;prevtoken=token=nexttoken=syntax['(begin)'];assume();try{advance();if(nexttoken.value.charAt(0)==='<'){html();if(option.adsafe&&!adsafe_went){warning("ADsafe violation: Missing ADSAFE.go.",this);}}else{switch(nexttoken.id){case'{':case'[':option.laxbreak=true;jsonmode=true;jsonValue();break;case'@':case'*':case'#':case'.':case':':xmode='style';advance();if(token.id!=='@'||!nexttoken.identifier||nexttoken.value!=='charset'){error('A css file should begin with @charset "UTF-8";');}
 advance();if(nexttoken.type!=='(string)'&&nexttoken.value!=='UTF-8'){error('A css file should begin with @charset "UTF-8";');}
@@ -501,4 +501,4 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.edition='2009-08-01';return itself;}());(function(){if(!JSLINT(WScript.StdIn.ReadAll(),{passfail:true})){var e=JSLINT.errors[0];WScript.StdErr.WriteLine('Lint at line '+(e.line+1)+' character '+(e.character+1)+': '+e.reason);WScript.StdErr.WriteLine((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));WScript.Quit(1);}}());
+return o.join('');};itself.edition='2009-08-05';return itself;}());(function(){if(!JSLINT(WScript.StdIn.ReadAll(),{passfail:true})){var e=JSLINT.errors[0];WScript.StdErr.WriteLine('Lint at line '+(e.line+1)+' character '+(e.character+1)+': '+e.reason);WScript.StdErr.WriteLine((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));WScript.Quit(1);}}());

@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-08-01
+// 2009-08-05
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -206,8 +206,8 @@ SOFTWARE.
     "list-style", "list-style-image", "list-style-position",
     "list-style-type", load, loadClass, location, log, m, magenta, map,
     margin, "margin-bottom", "margin-left", "margin-right", "margin-top",
-    "marker-offset", maroon, match, "max-height", "max-width", md5, media,
-    mediumaquamarine, mediumblue, mediumorchid, mediumpurple,
+    "marker-offset", maroon, match, "max-height", "max-width", maxerr, md5,
+    media, mediumaquamarine, mediumblue, mediumorchid, mediumpurple,
     mediumseagreen, mediumslateblue, mediumspringgreen, mediumturquoise,
     mediumvioletred, member, menu, message, meta, midnightblue,
     "min-height", "min-width", mintcream, mistyrose, mm, moccasin, moveBy,
@@ -984,7 +984,7 @@ var JSLINT = (function () {
         w = {
             id: '(error)',
             raw: m,
-            evidence: lines[l] || '',
+            evidence: lines[l - 1] || '',
             line: l,
             character: ch,
             a: a,
@@ -998,7 +998,7 @@ var JSLINT = (function () {
             quit('Stopping. ', l, ch);
         }
         warnings += 1;
-        if (warnings === 50) {
+        if (warnings >= option.maxerr) {
             quit("Too many errors.", l, ch);
         }
         return w;
@@ -2022,7 +2022,7 @@ loop:   for (;;) {
         if (option.white && nexttoken.id !== '(end)') {
             i = indent + (bias || 0);
             if (nexttoken.from !== i) {
-                warning("Expected '{a}' to have an indentation of {b} instead of {c}.",
+                warning("Expected '{a}' to have an indentation at {b} instead at {c}.",
                         nexttoken, nexttoken.value, i, nexttoken.from);
             }
         }
@@ -2521,7 +2521,7 @@ loop:   for (;;) {
 
     function countMember(m) {
         if (membersOnly && typeof membersOnly[m] !== 'boolean') {
-            warning("Unexpected /*member '{a}'.", nexttoken, m);
+            warning("Unexpected /*member '{a}'.", token, m);
         }
         if (typeof member[m] === 'number') {
             member[m] += 1;
@@ -4968,6 +4968,7 @@ loop:   for (;;) {
             option = {};
         }
         option.indent = option.indent || 4;
+        option.maxerr = option.maxerr || 50;
         adsafe_id = '';
         adsafe_may = false;
         adsafe_went = false;
@@ -5284,7 +5285,7 @@ loop:   for (;;) {
         return o.join('');
     };
 
-    itself.edition = '2009-08-01';
+    itself.edition = '2009-08-05';
 
     return itself;
 

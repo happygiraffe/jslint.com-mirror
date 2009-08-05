@@ -1,13 +1,13 @@
 // web.js
-// 2009-05-31
+// 2009-08-05
 
 // This is the web browser companion to fulljslint.js.
 
 /*jslint browser: true, evil: true */
 /*members checked, clearall, cookie, edition, getElementById, getElementsByName,
-    getTime, goodparts, indent, indexOf, innerHTML, join, length, onchange,
-    onclick, parse, predef, push, recommended, report, select, setTime, sort,
-    split, stringify, substring, toGMTString, value
+    getTime, goodparts, indent, indexOf, innerHTML, join, length, maxerr,
+    onchange, onclick, parse, predef, push, recommended, report, select,
+    setTime, sort, split, stringify, substring, toGMTString, value
 */
 
 
@@ -29,6 +29,7 @@ var JSLINT;
         indent = document.getElementById('indent'),
         input = document.getElementById('input'),
         jslintstring = document.getElementById('jslintstring'),
+        maxerr = document.getElementById('maxerr'),
         n,                              // A dom node
         ns,                             // An array of dom nodes
         nclear,
@@ -64,6 +65,9 @@ var JSLINT;
                 a.push(oj + ': true');
             }
         }
+        if (!get_check('passfail') && +maxerr.value > 0) {
+            a.push('maxerr: ' + maxerr.value);
+        }
         if (get_check('white') && +indent.value > 0) {
             a.push('indent: ' + indent.value);
         }
@@ -81,6 +85,7 @@ var JSLINT;
                 set_check(c[i], true);
             }
             indent.value = '4';
+            maxerr.value = '50';
             predefined.value = '';
         };
 
@@ -111,6 +116,7 @@ var JSLINT;
             op[oj] = get_check(oj);
         }
         op.indent = +indent.value || 4;
+        op.maxerr = +maxerr.value || 50;
         oj = predefined.value;
         if (oj) {
             op.predef = oj.split(/\s*,\s*/);
@@ -144,7 +150,7 @@ var JSLINT;
         }
     }
 
-    indent.onchange = predefined.onchange =
+    indent.onchange = maxerr.onchange = predefined.onchange =
             document.getElementById('options').onclick = function (e) {
         show_jslint_options();
     };
@@ -164,6 +170,7 @@ var JSLINT;
                     set_check(options[i], o[options[i]]);
                 }
                 indent.value = o.indent || 4;
+                maxerr.value = o.maxerr || 50;
                 predefined.value = o.predef instanceof Array ?
                     o.predef.join(',') : '';
             }
