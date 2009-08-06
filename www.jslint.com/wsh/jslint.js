@@ -107,7 +107,8 @@ t=lex.token();}
 if(t.type!=='(string)'&&t.type!=='(identifier)'&&o!=='/*members'){error("Bad option.",t);}
 v=lex.token();if(v.id===':'){v=lex.token();if(obj===membersOnly){error("Expected '{a}' and instead saw '{b}'.",t,'*/',':');}
 if(t.value==='indent'&&o==='/*jslint'){b=+v.value;if(typeof b!=='number'||!isFinite(b)||b<=0||Math.floor(b)!==b){error("Expected a small integer and instead saw '{a}'.",v,v.value);}
-obj.white=true;obj.indent=b;}else if(v.value==='true'){obj[t.value]=true;}else if(v.value==='false'){obj[t.value]=false;}else{error("Bad option value.",v);}
+obj.white=true;obj.indent=b;}else if(t.value==='maxerr'&&o==='/*jslint'){b=+v.value;if(typeof b!=='number'||!isFinite(b)||b<=0||Math.floor(b)!==b){error("Expected a small integer and instead saw '{a}'.",v,v.value);}
+obj.maxerr=b;}else if(v.value==='true'){obj[t.value]=true;}else if(v.value==='false'){obj[t.value]=false;}else{error("Bad option value.",v);}
 t=lex.token();}else{if(o==='/*jslint'){error("Missing option value.",t);}
 obj[t.value]=false;t=v;}}
 if(filter){assume();}}
@@ -501,4 +502,4 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.edition='2009-08-05';return itself;}());(function(){if(!JSLINT(WScript.StdIn.ReadAll(),{passfail:true})){var e=JSLINT.errors[0];WScript.StdErr.WriteLine('Lint at line '+(e.line+1)+' character '+(e.character+1)+': '+e.reason);WScript.StdErr.WriteLine((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));WScript.Quit(1);}}());
+return o.join('');};itself.edition='2009-08-06';return itself;}());(function(){if(!JSLINT(WScript.StdIn.ReadAll(),{passfail:true})){var e=JSLINT.errors[0];WScript.StdErr.WriteLine('Lint at line '+(e.line+1)+' character '+(e.character+1)+': '+e.reason);WScript.StdErr.WriteLine((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));WScript.Quit(1);}}());

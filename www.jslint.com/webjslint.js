@@ -106,7 +106,8 @@ t=lex.token();}
 if(t.type!=='(string)'&&t.type!=='(identifier)'&&o!=='/*members'){error("Bad option.",t);}
 v=lex.token();if(v.id===':'){v=lex.token();if(obj===membersOnly){error("Expected '{a}' and instead saw '{b}'.",t,'*/',':');}
 if(t.value==='indent'&&o==='/*jslint'){b=+v.value;if(typeof b!=='number'||!isFinite(b)||b<=0||Math.floor(b)!==b){error("Expected a small integer and instead saw '{a}'.",v,v.value);}
-obj.white=true;obj.indent=b;}else if(v.value==='true'){obj[t.value]=true;}else if(v.value==='false'){obj[t.value]=false;}else{error("Bad option value.",v);}
+obj.white=true;obj.indent=b;}else if(t.value==='maxerr'&&o==='/*jslint'){b=+v.value;if(typeof b!=='number'||!isFinite(b)||b<=0||Math.floor(b)!==b){error("Expected a small integer and instead saw '{a}'.",v,v.value);}
+obj.maxerr=b;}else if(v.value==='true'){obj[t.value]=true;}else if(v.value==='false'){obj[t.value]=false;}else{error("Bad option value.",v);}
 t=lex.token();}else{if(o==='/*jslint'){error("Missing option value.",t);}
 obj[t.value]=false;t=v;}}
 if(filter){assume();}}
@@ -500,7 +501,7 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.edition='2009-08-05';return itself;}());"use strict";var JSLINT;(function(){var c=document.cookie,predefined=document.getElementById('predef'),cluster={goodparts:['bitwise','eqeqeq','immed','newcap','nomen','onevar','plusplus','regexp','undef','white'],clearall:[]},i,indent=document.getElementById('indent'),input=document.getElementById('input'),jslintstring=document.getElementById('jslintstring'),maxerr=document.getElementById('maxerr'),n,ns,nclear,nclick,o,options=['adsafe','bitwise','browser','cap','css','debug','eqeqeq','evil','forin','fragment','immed','laxbreak','newcap','nomen','on','onevar','passfail','plusplus','regexp','rhino','safe','sidebar','strict','sub','undef','white','widget'],output=document.getElementById('output');function get_check(o){var n=document.getElementById(o);return n&&n.checked;}
+return o.join('');};itself.edition='2009-08-06';return itself;}());"use strict";var JSLINT;(function(){var c=document.cookie,predefined=document.getElementById('predef'),cluster={goodparts:['bitwise','eqeqeq','immed','newcap','nomen','onevar','plusplus','regexp','undef','white'],clearall:[]},i,indent=document.getElementById('indent'),input=document.getElementById('input'),jslintstring=document.getElementById('jslintstring'),maxerr=document.getElementById('maxerr'),n,ns,nclear,nclick,o,options=['adsafe','bitwise','browser','cap','css','debug','eqeqeq','evil','forin','fragment','immed','laxbreak','newcap','nomen','on','onevar','passfail','plusplus','regexp','rhino','safe','sidebar','strict','sub','undef','white','widget'],output=document.getElementById('output');function get_check(o){var n=document.getElementById(o);return n&&n.checked;}
 function set_check(o,b){var n=document.getElementById(o);if(n){n.checked=b;}}
 function show_jslint_options(){var a=[],j,oj,s;for(j=0;j<options.length;j+=1){oj=options[j];if(get_check(oj)){a.push(oj+': true');}}
 if(!get_check('passfail')&&+maxerr.value>0){a.push('maxerr: '+maxerr.value);}
