@@ -1,11 +1,11 @@
 // intercept.html
-// 2009-08-07
+// 2009-08-08
 
 // This file makes it possible for JSLint to run as an ADsafe widget by
 // adding lib features.
 
-// It provides a JSON cookie facility. Each widget is allowed to create a single
-// JSON cookie.
+// It provides a JSON cookie facility. Each widget is allowed to create a
+// single JSON cookie.
 
 // It also provides a way for the widget to call JSLint. The widget cannot
 // call JSLint directly because it is loaded as a global variable. I don't
@@ -35,10 +35,12 @@ ADSAFE._intercept(function (id, dom, lib, bunch) {
             var v,
                 c = ' ' + document.cookie + ';',
                 s = c.indexOf((' ' + id + '='));
-            if (s >= 0) {
-                s += id.length + 2;
-                v = JSON.parse(c.slice(s, c.indexOf(';', s)));
-            }
+            try {
+                if (s >= 0) {
+                    s += id.length + 2;
+                        v = JSON.parse(c.slice(s, c.indexOf(';', s)));
+                }
+            } catch (ignore) {}
             return v;
         },
         set: function (value) {
