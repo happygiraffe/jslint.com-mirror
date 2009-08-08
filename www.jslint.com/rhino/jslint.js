@@ -312,9 +312,9 @@ if(a.type){warning("type is unnecessary.",token);}}else{if(adsafe_went){error("A
 statements('script');}
 xmode='html';advance('</');if(!nexttoken.identifier&&nexttoken.value!=='script'){warning("Expected '{a}' and instead saw '{b}'.",nexttoken,'script',nexttoken.value);}
 advance();xmode='outer';break;case'style':xmode='style';advance('>');styles();xmode='html';advance('</');if(!nexttoken.identifier&&nexttoken.value!=='style'){warning("Expected '{a}' and instead saw '{b}'.",nexttoken,'style',nexttoken.value);}
-advance();xmode='outer';break;case'input':switch(a.type){case'radio':case'checkbox':case'text':case'button':case'file':case'reset':case'submit':case'password':case'file':case'hidden':case'image':break;default:warning("Bad input type.");}
-if(option.adsafe&&a.autocomplete!=='off'){warning("ADsafe autocomplete violation.");}
-break;case'applet':case'body':case'embed':case'frame':case'frameset':case'head':case'iframe':case'img':case'noembed':case'noframes':case'object':case'param':if(option.adsafe){warning("ADsafe violation: Disallowed tag: "+n);}
+advance();xmode='outer';break;case'input':switch(a.type){case'radio':case'checkbox':case'button':case'reset':case'submit':break;case'text':case'file':case'password':case'file':case'hidden':case'image':if(option.adsafe&&a.autocomplete!=='off'){warning("ADsafe autocomplete violation.");}
+break;default:warning("Bad input type.");}
+break;case'applet':case'body':case'embed':case'frame':case'frameset':case'head':case'iframe':case'noembed':case'noframes':case'object':case'param':if(option.adsafe){warning("ADsafe violation: Disallowed tag: "+n);}
 break;}}
 function closetag(n){return'</'+n+'>';}
 function html(){var a,attributes,e,n,q,t,v,w=option.white,wmode;xmode='html';xquote='';stack=null;for(;;){switch(nexttoken.value){case'<':xmode='html';advance('<');attributes={};t=nexttoken;if(!t.identifier){warning("Bad identifier {a}.",t,t.value);}
@@ -502,7 +502,7 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.edition='2009-08-06';return itself;}());(function(a){if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
+return o.join('');};itself.jslint=itself;itself.edition='2009-08-06';return itself;}());(function(a){if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
 var input=readFile(a[0]);if(!input){print("jslint: Couldn't open file '"+a[0]+"'.");quit(1);}
 if(!JSLINT(input,{bitwise:true,eqeqeq:true,immed:true,newcap:true,nomen:true,onevar:true,plusplus:true,regexp:true,rhino:true,undef:true,white:true})){for(var i=0;i<JSLINT.errors.length;i+=1){var e=JSLINT.errors[i];if(e){print('Lint at line '+(e.line+1)+' character '+
 (e.character+1)+': '+e.reason);print((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));print('');}}

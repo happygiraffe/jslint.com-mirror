@@ -3494,21 +3494,22 @@ loop:   for (;;) {
             switch (a.type) {
             case 'radio':
             case 'checkbox':
-            case 'text':
             case 'button':
-            case 'file':
             case 'reset':
             case 'submit':
+                break;
+            case 'text':
+            case 'file':
             case 'password':
             case 'file':
             case 'hidden':
             case 'image':
+                if (option.adsafe && a.autocomplete !== 'off') {
+                    warning("ADsafe autocomplete violation.");
+                }
                 break;
             default:
                 warning("Bad input type.");
-            }
-            if (option.adsafe && a.autocomplete !== 'off') {
-                warning("ADsafe autocomplete violation.");
             }
             break;
         case 'applet':
@@ -3518,7 +3519,6 @@ loop:   for (;;) {
         case 'frameset':
         case 'head':
         case 'iframe':
-        case 'img':
         case 'noembed':
         case 'noframes':
         case 'object':
@@ -5292,6 +5292,7 @@ loop:   for (;;) {
         }
         return o.join('');
     };
+    itself.jslint = itself;
 
     itself.edition = '2009-08-06';
 
