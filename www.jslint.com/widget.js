@@ -1,5 +1,5 @@
 // web.js
-// 2009-08-07
+// 2009-08-08
 
 // This is the web browser companion to fulljslint.js. It is an ADsafe
 // lib file that implements a web ui by adding behavior to the widget's
@@ -76,7 +76,6 @@ ADSAFE.lib("init_jslint_ui", function (lib) {
                 option.predef = value.split(/\s*,\s*/);
             }
             show_jslint_options();
-            input.select();
         }
 
 
