@@ -64,7 +64,7 @@ body {
 
 .leftcolumn {
     float: left;
-    margin-left: 1em;
+    margin: 1em;
 }
 
 #errors {
@@ -217,17 +217,18 @@ Code Quality Tool</big></p>
     <input type="checkbox" id="JSLINT_NEWCAP" title="newcap" name=goodpart><label for="JSLINT_NEWCAP" title="newcap">Require Initial Caps for constructors</label>
   <br>
     <input type="checkbox" id="JSLINT_IMMED" title="immed" name=goodpart><label for="JSLINT_IMMED" title="immed">Require parens around immediate invocations</label>
-  </div><br clear="all">
-  <p>
+  </div>
+  <div class="leftcolumn">
+    <input type="button" id="JSLINT_CLEARALL" value="Clear All Options">
+    <br><br>
+    <input type="button" id="JSLINT_GOODPARTS" value="The Good Parts">
+</div>
+<div class="leftcolumn">
     <input id="JSLINT_INDENT" type="text" size="2" value="4" autocomplete=off> <label for="JSLINT_INDENT" title="indent">Strict white space indentation</label><br>
     <input id="JSLINT_MAXERR" type="text" size="2" value="50" autocomplete=off> <label for="JSLINT_MAXERR" title="maxerr">Maximum number of errors</label><br>
     <label for="JSLINT_PREDEF" title="predef">Predefined&nbsp;<small>(&nbsp;<code>,</code>&nbsp;separated)</small></label>&nbsp;<input id="JSLINT_PREDEF" type="text" size="72" autocomplete=off>
-  </p>
-<p style="text-align: center;">
-    <input type="button" id="JSLINT_CLEARALL" value="Clear All Options">
-    &nbsp; &nbsp;
-    <input type="button" id="JSLINT_GOODPARTS" value="The Good Parts">
-</p>
+  </div>
+<br clear=all>
 <p id=JSLINT_JSLINTSTRING style="
     background-color: peachpuff;
     border: 2px solid black;

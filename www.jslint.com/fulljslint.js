@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-08-09
+// 2009-08-10
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -212,32 +212,33 @@ SOFTWARE.
     mediumvioletred, member, menu, message, meta, midnightblue,
     "min-height", "min-width", mintcream, mistyrose, mm, moccasin, moveBy,
     moveTo, name, navajowhite, navigator, navy, new, newcap, noframes,
-    nomen, noscript, nud, object, ol, oldlace, olive, olivedrab, on, onblur,
-    onerror, onevar, onfocus, onload, onresize, onunload, opacity, open,
-    openURL, opener, opera, optgroup, option, orange, orangered, orchid,
-    outer, outline, "outline-color", "outline-style", "outline-width",
-    overflow, "overflow-x", "overflow-y", p, padding, "padding-bottom",
-    "padding-left", "padding-right", "padding-top", page,
-    "page-break-after", "page-break-before", palegoldenrod, palegreen,
-    paleturquoise, palevioletred, papayawhip, param, parent, parseFloat,
-    parseInt, passfail, pc, peachpuff, peru, pink, play, plum, plusplus,
-    pop, popupMenu, position, powderblue, pre, predef, preferenceGroups,
-    preferences, print, prompt, prototype, pt, purple, push, px, q, quit,
-    quotes, random, range, raw, reach, readFile, readUrl, reason, red,
-    regexp, reloadWidget, removeEventListener, replace, report, reserved,
-    resizeBy, resizeTo, resolvePath, resumeUpdates, rhino, right, rosybrown,
-    royalblue, runCommand, runCommandInBg, saddlebrown, safe, salmon, samp,
-    sandybrown, saveAs, savePreferences, screen, script, scroll, scrollBy,
-    scrollTo, seagreen, seal, search, seashell, select, serialize,
-    setInterval, setTimeout, shift, showWidgetPreferences, sidebar, sienna,
-    silver, skyblue, slateblue, slategray, sleep, slice, small, snow, sort,
-    span, spawn, speak, split, springgreen, src, status, steelblue, strict,
-    strong, style, styleproperty, sub, substr, sup, supplant,
-    suppressUpdates, sync, system, table, "table-layout", tan, tbody, td,
-    teal, tellWidget, test, "text-align", "text-decoration", "text-indent",
-    "text-shadow", "text-transform", textarea, tfoot, th, thead, thistle,
-    title, toLowerCase, toString, toUpperCase, toint32, token, tomato, top,
-    tr, tt, turquoise, type, u, ul, undef, unescape, "unicode-bidi", unused,
+    nomen, noscript, nud, object, ol, oldlace, olive, olivedrab, on,
+    onbeforeunload, onblur, onerror, onevar, onfocus, onload, onresize,
+    onunload, opacity, open, openURL, opener, opera, optgroup, option,
+    orange, orangered, orchid, outer, outline, "outline-color",
+    "outline-style", "outline-width", overflow, "overflow-x", "overflow-y",
+    p, padding, "padding-bottom", "padding-left", "padding-right",
+    "padding-top", page, "page-break-after", "page-break-before",
+    palegoldenrod, palegreen, paleturquoise, palevioletred, papayawhip,
+    param, parent, parseFloat, parseInt, passfail, pc, peachpuff, peru,
+    pink, play, plum, plusplus, pop, popupMenu, position, powderblue, pre,
+    predef, preferenceGroups, preferences, print, prompt, prototype, pt,
+    purple, push, px, q, quit, quotes, random, range, raw, reach, readFile,
+    readUrl, reason, red, regexp, reloadWidget, removeEventListener,
+    replace, report, reserved, resizeBy, resizeTo, resolvePath,
+    resumeUpdates, rhino, right, rosybrown, royalblue, runCommand,
+    runCommandInBg, saddlebrown, safe, salmon, samp, sandybrown, saveAs,
+    savePreferences, screen, script, scroll, scrollBy, scrollTo, seagreen,
+    seal, search, seashell, select, serialize, setInterval, setTimeout,
+    shift, showWidgetPreferences, sidebar, sienna, silver, skyblue,
+    slateblue, slategray, sleep, slice, small, snow, sort, span, spawn,
+    speak, split, springgreen, src, status, steelblue, strict, strong,
+    style, styleproperty, sub, substr, sup, supplant, suppressUpdates, sync,
+    system, table, "table-layout", tan, tbody, td, teal, tellWidget, test,
+    "text-align", "text-decoration", "text-indent", "text-shadow",
+    "text-transform", textarea, tfoot, th, thead, thistle, title,
+    toLowerCase, toString, toUpperCase, toint32, token, tomato, top, tr, tt,
+    turquoise, type, u, ul, undef, unescape, "unicode-bidi", unused,
     unwatch, updateNow, urls, value, valueOf, var, version,
     "vertical-align", violet, visibility, watch, wheat, white,
     "white-space", whitesmoke, widget, width, "word-spacing", "word-wrap",
@@ -342,6 +343,7 @@ var JSLINT = (function () {
             moveTo          : false,
             name            : false,
             navigator       : false,
+            onbeforeunload  : true,
             onblur          : true,
             onerror         : true,
             onfocus         : true,
@@ -2989,7 +2991,7 @@ loop:   for (;;) {
         'white-space': ['normal', 'nowrap', 'pre', 'pre-line', 'pre-wrap', 'inherit'],
         width: [cssLength, 'auto'],
         'word-spacing': ['normal', cssLength],
-        'word-wrap': ['break-word' , 'normal'],
+        'word-wrap': ['break-word', 'normal'],
         'z-index': ['auto', cssNumber]
     };
 
@@ -5296,7 +5298,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-08-09';
+    itself.edition = '2009-08-10';
 
     return itself;
 
