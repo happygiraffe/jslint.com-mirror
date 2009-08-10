@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-08-06
+// 2009-08-09
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -528,6 +528,8 @@ var JSLINT = (function () {
             'pt': true,
             'px': true
         },
+
+        cssOverflow,
 
         escapes = {
             '\b': '\\b',
@@ -2826,6 +2828,10 @@ loop:   for (;;) {
         'auto', 'always', 'avoid', 'left', 'right'
     ];
 
+    cssOverflow = [
+        'auto', 'hidden', 'scroll', 'visible'
+    ];
+
     cssAttributeData = {
         background: [
             true, 'background-attachment', 'background-color',
@@ -2954,7 +2960,9 @@ loop:   for (;;) {
             'outset', 'ridge', 'solid'
         ],
         'outline-width': cssWidth,
-        overflow: ['auto', 'hidden', 'scroll', 'visible'],
+        overflow: cssOverflow,
+        'overflow-x': cssOverflow,
+        'overflow-y': cssOverflow,
         padding: [4, cssLength],
         'padding-bottom': cssLength,
         'padding-left': cssLength,
@@ -2978,9 +2986,10 @@ loop:   for (;;) {
             'text-bottom', cssLength
         ],
         visibility: ['visible', 'hidden', 'collapse'],
-        'white-space': ['normal', 'pre', 'nowrap'],
+        'white-space': ['normal', 'nowrap', 'pre', 'pre-line', 'pre-wrap', 'inherit'],
         width: [cssLength, 'auto'],
         'word-spacing': ['normal', cssLength],
+        'word-wrap': ['break-word' , 'normal'],
         'z-index': ['auto', cssNumber]
     };
 
@@ -3132,13 +3141,11 @@ loop:   for (;;) {
             if (nexttoken.identifier && nexttoken.value === 'inherit') {
                 advance();
             } else {
-                styleValue(v);
-            }
-            while (nexttoken.id !== ';' && nexttoken.id !== '!' &&
-                    nexttoken.id !== '}' && nexttoken.id !== '(end)' &&
-                    nexttoken.id !== xquote) {
-                warning("Unexpected token '{a}'.", nexttoken, nexttoken.value);
-                advance();
+                if (!styleValue(v)) {
+                    warning("Unexpected token '{a}'.", nexttoken,
+                        nexttoken.value);
+                    advance();
+                }
             }
             if (nexttoken.id === '!') {
                 advance('!');
@@ -3170,12 +3177,7 @@ loop:   for (;;) {
             case '>':
             case '+':
                 advance();
-                if (!nexttoken.identifier ||
-                        !is_own(htmltag, nexttoken.value)) {
-                    warning("Expected a tagName, and instead saw {a}.",
-                        nexttoken, nexttoken.value);
-                }
-                advance();
+                styleSelector();
                 break;
             case ':':
                 advance(':');
@@ -5294,7 +5296,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-08-06';
+    itself.edition = '2009-08-09';
 
     return itself;
 
