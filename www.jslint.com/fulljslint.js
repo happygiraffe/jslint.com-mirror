@@ -2041,6 +2041,7 @@ loop:   for (;;) {
     }
 
     function nolinebreak(t) {
+        t = t || token;
         if (t.line !== nexttoken.line) {
             warning("Line breaking error '{a}'.", t, t.value);
         }
@@ -2568,10 +2569,11 @@ loop:   for (;;) {
     function cssNumber() {
         if (nexttoken.id === '-') {
             advance('-');
-            advance('(number)');
+            adjacent();
+            nolinebreak();
         }
         if (nexttoken.type === '(number)') {
-            advance();
+            advance('(number)');
             return true;
         }
     }
@@ -2628,6 +2630,7 @@ loop:   for (;;) {
         if (nexttoken.id === '-') {
             advance('-');
             adjacent();
+            nolinebreak();
         }
         if (nexttoken.type === '(number)') {
             advance();
@@ -2849,7 +2852,10 @@ loop:   for (;;) {
             'repeat', 'repeat-x', 'repeat-y', 'no-repeat'
         ],
         'border': [true, 'border-color', 'border-style', 'border-width'],
-        'border-bottom': [true, 'border-bottom-color', 'border-bottom-style', 'border-bottom-width'],
+        'border-bottom': [
+            true, 'border-bottom-color', 'border-bottom-style',
+            'border-bottom-width'
+        ],
         'border-bottom-color': cssColor,
         'border-bottom-style': cssBorderStyle,
         'border-bottom-width': cssWidth,
@@ -2862,7 +2868,8 @@ loop:   for (;;) {
         'border-left-style': cssBorderStyle,
         'border-left-width': cssWidth,
         'border-right': [
-            true, 'border-right-color', 'border-right-style', 'border-right-width'
+            true, 'border-right-color', 'border-right-style',
+            'border-right-width'
         ],
         'border-right-color': cssColor,
         'border-right-style': cssBorderStyle,
@@ -2900,14 +2907,16 @@ loop:   for (;;) {
         display: [
             'block', 'compact', 'inline', 'inline-block', 'inline-table',
             'list-item', 'marker', 'none', 'run-in', 'table', 'table-caption',
-            'table-cell', 'table-column', 'table-column-group', 'table-footer-group',
-            'table-header-group', 'table-row', 'table-row-group'
+            'table-cell', 'table-column', 'table-column-group',
+            'table-footer-group', 'table-header-group', 'table-row',
+            'table-row-group'
         ],
         'empty-cells': ['show', 'hide'],
         'float': ['left', 'none', 'right'],
         font: [
-            'caption', 'icon', 'menu', 'message-box', 'small-caption', 'status-bar',
-            true, 'font-size', 'font-style', 'font-weight', 'font-family'
+            'caption', 'icon', 'menu', 'message-box', 'small-caption',
+            'status-bar', true, 'font-size', 'font-style', 'font-weight',
+            'font-family'
         ],
         'font-family': cssCommaList,
         'font-size': [
@@ -2977,7 +2986,9 @@ loop:   for (;;) {
         right: [cssLength, 'auto'],
         'table-layout': ['auto', 'fixed'],
         'text-align': ['center', 'justify', 'left', 'right'],
-        'text-decoration': ['none', 'underline', 'overline', 'line-through', 'blink'],
+        'text-decoration': [
+            'none', 'underline', 'overline', 'line-through', 'blink'
+        ],
         'text-indent': cssLength,
         'text-shadow': ['none', 4, [cssColor, cssLength]],
         'text-transform': ['capitalize', 'uppercase', 'lowercase', 'none'],
@@ -2988,7 +2999,9 @@ loop:   for (;;) {
             'text-bottom', cssLength
         ],
         visibility: ['visible', 'hidden', 'collapse'],
-        'white-space': ['normal', 'nowrap', 'pre', 'pre-line', 'pre-wrap', 'inherit'],
+        'white-space': [
+            'normal', 'nowrap', 'pre', 'pre-line', 'pre-wrap', 'inherit'
+        ],
         width: [cssLength, 'auto'],
         'word-spacing': ['normal', cssLength],
         'word-wrap': ['break-word', 'normal'],
@@ -2997,7 +3010,8 @@ loop:   for (;;) {
 
     function styleAttribute() {
         var v;
-        while (nexttoken.id === '*' || nexttoken.id === '#' || nexttoken.value === '_') {
+        while (nexttoken.id === '*' || nexttoken.id === '#' ||
+                nexttoken.value === '_') {
             if (!option.css) {
                 warning("Unexpected '{a}'.", nexttoken, nexttoken.value);
             }
@@ -3009,7 +3023,8 @@ loop:   for (;;) {
             }
             advance('-');
             if (!nexttoken.identifier) {
-                warning("Expected a non-standard style attribute and instead saw '{a}'.",
+                warning(
+"Expected a non-standard style attribute and instead saw '{a}'.",
                     nexttoken, nexttoken.value);
             }
             advance();
@@ -3339,7 +3354,8 @@ loop:   for (;;) {
         }
         if (option.adsafe) {
             if (n === 'html') {
-                error("Currently, ADsafe does not operate on whole HTML documents. It operates on <div> fragments and .js files.", token);
+                error(
+"Currently, ADsafe does not operate on whole HTML documents. It operates on <div> fragments and .js files.", token);
             }
             if (option.fragment) {
                 if (n !== 'div') {
@@ -4028,6 +4044,7 @@ loop:   for (;;) {
                 case 'String':
                 case 'Boolean':
                 case 'Math':
+                case 'JSON':
                     warning("Do not use {a} as a constructor.", token, c.value);
                     break;
                 case 'Function':
@@ -4190,7 +4207,6 @@ loop:   for (;;) {
                     left.id !== '?') {
                 warning("Bad invocation.", left);
             }
-
         }
         that.left = left;
         return that;

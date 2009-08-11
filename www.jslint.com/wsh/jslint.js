@@ -135,7 +135,7 @@ function nospace(left,right){left=left||token;right=right||nexttoken;if(option.w
 function nonadjacent(left,right){if(option.white){left=left||token;right=right||nexttoken;if(left.character===right.from){warning("Missing space after '{a}'.",nexttoken,left.value);}}}
 function nobreaknonadjacent(left,right){left=left||token;right=right||nexttoken;if(!option.laxbreak&&left.line!==right.line){warning("Bad line breaking before '{a}'.",right,right.id);}else if(option.white){left=left||token;right=right||nexttoken;if(left.character===right.from){warning("Missing space after '{a}'.",nexttoken,left.value);}}}
 function indentation(bias){var i;if(option.white&&nexttoken.id!=='(end)'){i=indent+(bias||0);if(nexttoken.from!==i){warning("Expected '{a}' to have an indentation at {b} instead at {c}.",nexttoken,nexttoken.value,i,nexttoken.from);}}}
-function nolinebreak(t){if(t.line!==nexttoken.line){warning("Line breaking error '{a}'.",t,t.value);}}
+function nolinebreak(t){t=t||token;if(t.line!==nexttoken.line){warning("Line breaking error '{a}'.",t,t.value);}}
 function comma(){if(token.line!==nexttoken.line){if(!option.laxbreak){warning("Bad line breaking before '{a}'.",token,nexttoken.id);}}else if(token.character!==nexttoken.from&&option.white){warning("Unexpected space after '{a}'.",nexttoken,token.value);}
 advance(',');nonadjacent(token,nexttoken);}
 function symbol(s,p){var x=syntax[s];if(!x||typeof x!=='object'){syntax[s]=x={id:s,lbp:p,value:s};}
@@ -211,13 +211,13 @@ if(typeof member[m]==='number'){member[m]+=1;}else{member[m]=1;}}
 function note_implied(token){var name=token.value,line=token.line,a=implied[name];if(typeof a==='function'){a=false;}
 if(!a){a=[line];implied[name]=a;}else if(a[a.length-1]!==line){a.push(line);}}
 function cssName(){if(nexttoken.identifier){advance();return true;}}
-function cssNumber(){if(nexttoken.id==='-'){advance('-');advance('(number)');}
-if(nexttoken.type==='(number)'){advance();return true;}}
+function cssNumber(){if(nexttoken.id==='-'){advance('-');adjacent();nolinebreak();}
+if(nexttoken.type==='(number)'){advance('(number)');return true;}}
 function cssString(){if(nexttoken.type==='(string)'){advance();return true;}}
 function cssColor(){var i,number;if(nexttoken.identifier){if(nexttoken.value==='rgb'){advance();advance('(');for(i=0;i<3;i+=1){number=nexttoken.value;if(nexttoken.type!=='(number)'||number<0){warning("Expected a positive number and instead saw '{a}'",nexttoken,number);advance();}else{advance();if(nexttoken.id==='%'){advance('%');if(number>100){warning("Expected a percentage and instead saw '{a}'",token,number);}}else{if(number>255){warning("Expected a small number and instead saw '{a}'",token,number);}}}}
 advance(')');return true;}else if(cssColorData[nexttoken.value]===true){advance();return true;}}else if(nexttoken.type==='(color)'){advance();return true;}
 return false;}
-function cssLength(){if(nexttoken.id==='-'){advance('-');adjacent();}
+function cssLength(){if(nexttoken.id==='-'){advance('-');adjacent();nolinebreak();}
 if(nexttoken.type==='(number)'){advance();if(nexttoken.type!=='(string)'&&cssLengthData[nexttoken.value]===true){adjacent();advance();}else if(+token.value!==0){warning("Expected a linear unit and instead saw '{a}'.",nexttoken,nexttoken.value);}
 return true;}
 return false;}
@@ -360,7 +360,7 @@ that.left=left;that.right=right;return that;},130);prefix('+','num');infix('-','
 parse(150);return this;});prefix('!','not');prefix('typeof','typeof');prefix('new',function(){var c=parse(155),i;if(c&&c.id!=='function'){if(c.identifier){c['new']=true;switch(c.value){case'Object':warning("Use the object literal notation {}.",token);break;case'Array':if(nexttoken.id!=='('){warning("Use the array literal notation [].",token);}else{advance('(');if(nexttoken.id===')'){warning("Use the array literal notation [].",token);}else{i=parse(0);c.dimension=i;if((i.id==='(number)'&&/[.+\-Ee]/.test(i.value))||(i.id==='-'&&!i.right)||i.id==='(string)'||i.id==='['||i.id==='{'||i.id==='true'||i.id==='false'||i.id==='null'||i.id==='undefined'||i.id==='Infinity'){warning("Use the array literal notation [].",token);}
 if(nexttoken.id!==')'){error("Use the array literal notation [].",token);}}
 advance(')');}
-this.first=c;return this;case'Number':case'String':case'Boolean':case'Math':warning("Do not use {a} as a constructor.",token,c.value);break;case'Function':if(!option.evil){warning("The Function constructor is eval.");}
+this.first=c;return this;case'Number':case'String':case'Boolean':case'Math':case'JSON':warning("Do not use {a} as a constructor.",token,c.value);break;case'Function':if(!option.evil){warning("The Function constructor is eval.");}
 break;case'Date':case'RegExp':break;default:if(c.id!=='function'){i=c.value.substr(0,1);if(option.newcap&&(i<'A'||i>'Z')){warning("A constructor name should start with an uppercase letter.",token);}}}}else{if(c.id!=='.'&&c.id!=='['&&c.id!=='('){warning("Bad constructor.",token);}}}else{warning("Weird construction. Delete 'new'.",this);}
 adjacent(token,nexttoken);if(nexttoken.id!=='('){warning("Missing '()' invoking a constructor.");}
 this.first=c;return this;});syntax['new'].exps=true;infix('.',function(left,that){adjacent(prevtoken,token);var m=identifier();if(typeof m==='string'){countMember(m);}
