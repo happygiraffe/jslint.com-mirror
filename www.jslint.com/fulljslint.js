@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-08-10
+// 2009-08-15
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -1471,6 +1471,9 @@ var JSLINT = (function () {
                                         } else {
                                             captures += 1;
                                         }
+                                        break;
+                                    case '|':
+                                        b = false;
                                         break;
                                     case ')':
                                         if (depth === 0) {
@@ -5314,7 +5317,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-08-10';
+    itself.edition = '2009-08-15';
 
     return itself;
 

@@ -87,7 +87,7 @@ s=s.substr(i+2);token.comment=true;break;case'/*members':case'/*member':case'/*j
 c=s.substr(0,l-1);q={g:true,i:true,m:true};while(q[s.charAt(l)]===true){q[s.charAt(l)]=false;l+=1;}
 character+=l;s=s.substr(l);return it('(regexp)',c);case'\\':c=s.charAt(l);if(c<' '){warningAt("Unexpected control character in regular expression.",line,from+l);}else if(c==='<'){warningAt("Unexpected escaped character '{a}' in regular expression.",line,from+l,c);}
 l+=1;break;case'(':depth+=1;b=false;if(s.charAt(l)==='?'){l+=1;switch(s.charAt(l)){case':':case'=':case'!':l+=1;break;default:warningAt("Expected '{a}' and instead saw '{b}'.",line,from+l,':',s.charAt(l));}}else{captures+=1;}
-break;case')':if(depth===0){warningAt("Unescaped '{a}'.",line,from+l,')');}else{depth-=1;}
+break;case'|':b=false;break;case')':if(depth===0){warningAt("Unescaped '{a}'.",line,from+l,')');}else{depth-=1;}
 break;case' ':q=1;while(s.charAt(l)===' '){l+=1;q+=1;}
 if(q>1){warningAt("Spaces are hard to count. Use {{a}}.",line,from+l,q);}
 break;case'[':c=s.charAt(l);if(c==='^'){l+=1;}
