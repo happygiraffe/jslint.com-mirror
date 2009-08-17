@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-08-15
+// 2009-08-16
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -2466,7 +2466,8 @@ loop:   for (;;) {
                     if (f.id !== 'function') {
                         error('The second argument to lib must be a function.', f);
                     }
-                    p = f.funct['(params)'].join(', ');
+                    p = f.funct['(params)'];
+                    p = p && p.join(', ');
                     if (p && p !== 'lib') {
                         error("Expected '{a}' and instead saw '{b}'.",
                             f, '(lib)', '(' + p + ')');
@@ -5317,7 +5318,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-08-15';
+    itself.edition = '2009-08-16';
 
     return itself;
 
