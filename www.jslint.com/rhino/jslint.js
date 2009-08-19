@@ -454,7 +454,7 @@ if(o.safe){o.browser=false;o.css=false;o.debug=false;o.eqeqeq=true;o.evil=false;
 option=o;}else{option={};}
 option.indent=option.indent||4;option.maxerr=option.maxerr||50;adsafe_id='';adsafe_may=false;adsafe_went=false;approved={};if(option.approved){for(i=0;i<option.approved.length;i+=1){approved[option.approved[i]]=option.approved[i];}}else{approved.test='test';}
 tab='';for(i=0;i<option.indent;i+=1){tab+=' ';}
-indent=1;global=Object.create(predefined);scope=global;funct={'(global)':true,'(name)':'(global)','(scope)':scope,'(breakage)':0,'(loopage)':0};functions=[funct];ids={};urls=[];src=false;xmode=false;stack=null;member={};membersOnly=null;implied={};inblock=false;lookahead=[];jsonmode=false;warnings=0;lex.init(s);prereg=true;prevtoken=token=nexttoken=syntax['(begin)'];assume();try{advance();if(nexttoken.value.charAt(0)==='<'){html();if(option.adsafe&&!adsafe_went){warning("ADsafe violation: Missing ADSAFE.go.",this);}}else{switch(nexttoken.id){case'{':case'[':option.laxbreak=true;jsonmode=true;jsonValue();break;case'@':case'*':case'#':case'.':case':':xmode='style';advance();if(token.id!=='@'||!nexttoken.identifier||nexttoken.value!=='charset'){error('A css file should begin with @charset "UTF-8";');}
+indent=1;global=Object.create(predefined);scope=global;funct={'(global)':true,'(name)':'(global)','(scope)':scope,'(breakage)':0,'(loopage)':0};functions=[funct];ids={};urls=[];src=false;xmode=false;stack=null;member={};membersOnly=null;implied={};inblock=false;lookahead=[];jsonmode=false;warnings=0;lex.init(s);prereg=true;prevtoken=token=nexttoken=syntax['(begin)'];assume();try{advance();if(nexttoken.value.charAt(0)==='<'){html();if(option.adsafe&&!adsafe_went){warning("ADsafe violation: Missing ADSAFE.go.",this);}}else{switch(nexttoken.id){case'{':case'[':option.laxbreak=true;jsonmode=true;jsonValue();break;case'@':case'*':case'#':case'.':case':':xmode='style';advance();if(token.id!=='@'||!nexttoken.identifier||nexttoken.value!=='charset'||token.line!==1||token.from!==1){error('A css file should begin with @charset "UTF-8";');}
 advance();if(nexttoken.type!=='(string)'&&nexttoken.value!=='UTF-8'){error('A css file should begin with @charset "UTF-8";');}
 advance();advance(';');styles();break;default:if(option.adsafe&&option.fragment){error("Expected '{a}' and instead saw '{b}'.",nexttoken,'<div>',nexttoken.value);}
 statements('lib');}}
@@ -500,7 +500,7 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.jslint=itself;itself.edition='2009-08-16';return itself;}());(function(a){if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
+return o.join('');};itself.jslint=itself;itself.edition='2009-08-18';return itself;}());(function(a){if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
 var input=readFile(a[0]);if(!input){print("jslint: Couldn't open file '"+a[0]+"'.");quit(1);}
 if(!JSLINT(input,{bitwise:true,eqeqeq:true,immed:true,newcap:true,nomen:true,onevar:true,plusplus:true,regexp:true,rhino:true,undef:true,white:true})){for(var i=0;i<JSLINT.errors.length;i+=1){var e=JSLINT.errors[i];if(e){print('Lint at line '+(e.line+1)+' character '+
 (e.character+1)+': '+e.reason);print((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));print('');}}

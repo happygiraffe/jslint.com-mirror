@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-08-16
+// 2009-08-18
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -5068,7 +5068,8 @@ loop:   for (;;) {
                     xmode = 'style';
                     advance();
                     if (token.id !== '@' || !nexttoken.identifier ||
-                            nexttoken.value !== 'charset') {
+                            nexttoken.value !== 'charset' || token.line !== 1 ||
+                            token.from !== 1) {
                         error('A css file should begin with @charset "UTF-8";');
                     }
                     advance();
@@ -5318,7 +5319,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-08-16';
+    itself.edition = '2009-08-18';
 
     return itself;
 
