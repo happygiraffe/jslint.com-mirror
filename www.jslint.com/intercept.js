@@ -1,5 +1,5 @@
 // intercept.html
-// 2009-08-08
+// 2009-08-21
 
 // This file makes it possible for JSLint to run as an ADsafe widget by
 // adding lib features.
@@ -15,9 +15,9 @@
 
 /*global ADSAFE, document, JSLINT */
 
-/*members ___nodes___, _intercept, cookie, edition, get, indexOf,
-    innerHTML, jslint, length, parse, replace, report, set, slice,
-    stringify
+/*members ___nodes___, _intercept, cookie, edition, get, getTime,
+    indexOf, innerHTML, jslint, length, parse, replace, report, set,
+    setTime, slice, stringify, toGMTString
 */
 
 
@@ -32,13 +32,13 @@ ADSAFE._intercept(function (id, dom, lib, bunch) {
 
 // Get the raw cookie. Extract this widget's cookie, and parse it.
 
-            var v,
-                c = ' ' + document.cookie + ';',
-                s = c.indexOf((' ' + id + '='));
+            var c = ' ' + document.cookie + ';',
+                s = c.indexOf((' ' + id + '=')),
+                v;
             try {
                 if (s >= 0) {
                     s += id.length + 2;
-                        v = JSON.parse(c.slice(s, c.indexOf(';', s)));
+                    v = JSON.parse(c.slice(s, c.indexOf(';', s)));
                 }
             } catch (ignore) {}
             return v;
@@ -48,18 +48,32 @@ ADSAFE._intercept(function (id, dom, lib, bunch) {
 // Set a cookie. It must be under 2000 in length. Escapify equal sign
 // and semicolon if necessary.
 
-            var text = JSON.stringify(value)
-                .replace(/[=]/g, '\\u003d')
-                .replace(/[;]/g, '\\u003b');
+            var d,
+                text = JSON.stringify(value)
+                    .replace(/[=]/g, '\\u003d')
+                    .replace(/[;]/g, '\\u003b');
 
             if (text.length < 2000) {
-                document.cookie = id + "=" + text;
+                d = new Date();
+                d.setTime(d.getTime() + 1e9);
+                document.cookie = id + "=" + text +
+                        ';expires=' + d.toGMTString();
             }
         }
     };
 });
 
 ADSAFE._intercept(function (id, dom, lib, bunch) {
+
+// Give only the JSLINT_ widget access to the JSLINT function.
+// We add a jslint function to its lib that calls JSLINT and
+// then calls JSLINT.report, and stuffs the html result into
+// a node provided by the widget. A widget does not get direct
+// access to nodes.
+
+// We also add an edition function to the lib that gives the
+// widget access to the current edition string.
+
     if (id === 'JSLINT_') {
         lib.jslint = function (source, options, output) {
             JSLINT(source, options);
