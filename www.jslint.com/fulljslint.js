@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-08-18
+// 2009-08-22
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -262,7 +262,6 @@ var JSLINT = (function () {
         approved,       // ADsafe approved urls.
 
         atrule = {
-            'import'   : true,
             media      : true,
             'font-face': true,
             page       : true
@@ -1126,8 +1125,6 @@ var JSLINT = (function () {
                         return it('(range)', value);
                     case xquote:
                     case '\\':
-                    case '\'':
-                    case '"':
                         warningAt("Unexpected '{a}'.", line, character, c);
                     }
                     value += c;
@@ -2789,10 +2786,24 @@ loop:   for (;;) {
     }
 
     function cssUrl() {
-        var url;
+        var c, url;
         if (nexttoken.identifier && nexttoken.value === 'url') {
             nexttoken = lex.range('(', ')');
             url = nexttoken.value;
+            c = url.charAt(0);
+            if (c === '"' || c === '\'') {
+                if (url.slice(-1) !== c) {
+                    warning("Bad url string.");
+                } else {
+                    url = url.slice(1, -1);
+                    if (url.indexOf(c) >= 0) {
+                        warning("Bad url string.");
+                    }
+                }
+            }
+            if (!url) {
+                warning("Missing url.");
+            }
             advance();
             if (option.safe && ux.test(url)) {
                 error("ADsafe URL violation.");
@@ -3330,6 +3341,22 @@ loop:   for (;;) {
     }
 
     function styles() {
+        var i;
+        while (nexttoken.id === '@') {
+            i = peek();
+            if (i.identifier && i.value === 'import') {
+                advance('@');
+                advance();
+                if (!cssUrl()) {
+                    warning("Expected '{a}' and instead saw '{b}'.", nexttoken,
+                        'url', nexttoken.value);
+                    advance();
+                }
+                advance(';');
+            } else {
+                break;
+            }
+        }
         while (nexttoken.id !== '</' && nexttoken.id !== '(end)') {
             stylePattern();
             xmode = 'styleproperty';
@@ -5319,7 +5346,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-08-18';
+    itself.edition = '2009-08-22';
 
     return itself;
 
