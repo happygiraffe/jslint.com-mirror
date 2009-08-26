@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-08-22
+// 2009-08-26
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -1518,7 +1518,7 @@ var JSLINT = (function () {
                                                 break;
                                             case ']':
                                                 if (!q) {
-                                                    warningAt("Unescaped '{a}'.", line, from + l - 1, ']');
+                                                    warningAt("Unescaped '{a}'.", line, from + l - 1, '-');
                                                 }
                                                 break klass;
                                             case '\\':
@@ -1929,7 +1929,7 @@ loop:   for (;;) {
 // They are key to the parsing method called Top Down Operator Precedence.
 
     function parse(rbp, initial) {
-        var left, o;
+        var left;
         if (nexttoken.id === '(end)') {
             error("Unexpected early end of program.", token);
         }
@@ -1946,7 +1946,6 @@ loop:   for (;;) {
             left = token.fud();
         } else {
             if (token.nud) {
-                o = token.exps;
                 left = token.nud();
             } else {
                 if (nexttoken.type === '(number)' && token.id === '.') {
@@ -1961,7 +1960,6 @@ loop:   for (;;) {
                 }
             }
             while (rbp < nexttoken.lbp) {
-                o = nexttoken.exps;
                 advance();
                 if (token.led) {
                     left = token.led(left);
@@ -1969,11 +1967,6 @@ loop:   for (;;) {
                     error("Expected an operator and instead saw '{a}'.",
                         token, token.id);
                 }
-            }
-            if (initial && !o) {
-                warning(
-"Expected an assignment or function call and instead saw an expression.",
-                        token);
             }
         }
         return left;
@@ -2386,6 +2379,11 @@ loop:   for (;;) {
 // Look for the final semicolon.
 
         if (!t.block) {
+            if (!r || !r.exps) {
+                warning(
+"Expected an assignment or function call and instead saw an expression.",
+                        token);
+            }
             if (nexttoken.id !== ';') {
                 warningAt("Missing semicolon.", token.line,
                         token.from + token.value.length);
@@ -4023,6 +4021,8 @@ loop:   for (;;) {
             warning("Expected '{a}' and instead saw '{b}'.",
                     nexttoken, '.', nexttoken.value);
         }
+        this.first = p;
+        return this;
     }).exps = true;
 
 
@@ -4440,11 +4440,11 @@ loop:   for (;;) {
     }
 
 
-    stmt('var', varstatement);
+    stmt('var', varstatement).exps = true;
 
     stmt('new', function () {
         warning("'new' should not be used as a statement.");
-    });
+    }).exps = true;
 
 
     function functionparams() {
@@ -4509,6 +4509,7 @@ loop:   for (;;) {
             error(
 "Function statements are not invocable. Wrap the whole function invocation in parens.");
         }
+        return this;
     });
 
     prefix('function', function () {
@@ -4584,6 +4585,7 @@ loop:   for (;;) {
             error("Expected '{a}' and instead saw '{b}'.",
                     nexttoken, 'catch', nexttoken.value);
         }
+        return this;
     });
 
     blockstmt('while', function () {
@@ -4604,6 +4606,7 @@ loop:   for (;;) {
         block(true);
         funct['(breakage)'] -= 1;
         funct['(loopage)'] -= 1;
+        return this;
     }).labelled = true;
 
     reserve('with');
@@ -4702,28 +4705,34 @@ loop:   for (;;) {
         if (!option.debug) {
             warning("All 'debugger' statements should be removed.");
         }
-    });
+        return this;
+    }).exps = true;
 
-    stmt('do', function () {
-        funct['(breakage)'] += 1;
-        funct['(loopage)'] += 1;
-        block(true);
-        advance('while');
-        var t = nexttoken;
-        nonadjacent(token, t);
-        advance('(');
-        nospace();
-        parse(20);
-        if (nexttoken.id === '=') {
-            warning("Expected a conditional expression and instead saw an assignment.");
-            advance('=');
+    (function () {
+        var x = stmt('do', function () {
+            funct['(breakage)'] += 1;
+            funct['(loopage)'] += 1;
+            this.first = block(true);
+            advance('while');
+            var t = nexttoken;
+            nonadjacent(token, t);
+            advance('(');
+            nospace();
             parse(20);
-        }
-        advance(')', t);
-        nospace(prevtoken, token);
-        funct['(breakage)'] -= 1;
-        funct['(loopage)'] -= 1;
-    }).labelled = true;
+            if (nexttoken.id === '=') {
+                warning("Expected a conditional expression and instead saw an assignment.");
+                advance('=');
+                parse(20);
+            }
+            advance(')', t);
+            nospace(prevtoken, token);
+            funct['(breakage)'] -= 1;
+            funct['(loopage)'] -= 1;
+            return this;
+        });
+        x.labelled = true;
+        x.exps = true;
+    }());
 
     blockstmt('for', function () {
         var s, t = nexttoken;
@@ -4805,6 +4814,7 @@ loop:   for (;;) {
             block(true);
             funct['(breakage)'] -= 1;
             funct['(loopage)'] -= 1;
+            return this;
         }
     }).labelled = true;
 
@@ -4822,11 +4832,13 @@ loop:   for (;;) {
                 } else if (scope[v] !== funct) {
                     warning("'{a}' is out of scope.", nexttoken, v);
                 }
+                this.first = nexttoken;
                 advance();
             }
         }
         reachable('break');
-    });
+        return this;
+    }).exps = true;
 
 
     stmt('continue', function () {
@@ -4842,11 +4854,13 @@ loop:   for (;;) {
                 } else if (scope[v] !== funct) {
                     warning("'{a}' is out of scope.", nexttoken, v);
                 }
+                this.first = nexttoken;
                 advance();
             }
         }
         reachable('continue');
-    });
+        return this;
+    }).exps = true;
 
 
     stmt('return', function () {
@@ -4856,18 +4870,20 @@ loop:   for (;;) {
         }
         if (nexttoken.id !== ';' && !nexttoken.reach) {
             nonadjacent(token, nexttoken);
-            parse(20);
+            this.first = parse(20);
         }
         reachable('return');
-    });
+        return this;
+    }).exps = true;
 
 
     stmt('throw', function () {
         nolinebreak(this);
         nonadjacent(token, nexttoken);
-        parse(20);
+        this.first = parse(20);
         reachable('throw');
-    });
+        return this;
+    }).exps = true;
 
     reserve('void');
 
@@ -5346,7 +5362,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-08-22';
+    itself.edition = '2009-08-26';
 
     return itself;
 
