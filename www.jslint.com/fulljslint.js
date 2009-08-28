@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-08-26
+// 2009-08-28
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -1732,16 +1732,14 @@ var JSLINT = (function () {
                 nexttoken, t);
         }
         funct[t] = type;
-        if (type === 'label') {
-            scope[t] = funct;
-        } else if (funct['(global)']) {
+        if (funct['(global)']) {
             global[t] = funct;
             if (is_own(implied, t)) {
                 warning("'{a}' was used before it was defined.", nexttoken, t);
                 delete implied[t];
             }
         } else {
-            funct['(scope)'][t] = funct;
+            scope[t] = funct;
         }
     }
 
@@ -2262,13 +2260,14 @@ loop:   for (;;) {
                 if (left.id === '.' || left.id === '[' ||
                         (left.identifier && !left.reserved)) {
                     parse(19);
-                    return left;
+                    return that;
                 }
                 if (left === syntax['function']) {
                     warning(
 "Expected an identifier in an assignment, and instead saw a function invocation.",
                                 token);
                 }
+                return that;
             }
             error("Bad assignment.", that);
         }, 20);
@@ -2490,9 +2489,7 @@ loop:   for (;;) {
     function block(f) {
         var a, b = inblock, s = scope, t;
         inblock = f;
-        if (f) {
-            scope = Object.create(scope);
-        }
+        scope = Object.create(scope);
         nonadjacent(token, nexttoken);
         t = nexttoken;
         if (nexttoken.id === '{') {
@@ -5362,7 +5359,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-08-26';
+    itself.edition = '2009-08-28';
 
     return itself;
 

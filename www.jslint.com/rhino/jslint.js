@@ -96,7 +96,7 @@ if(!((c>='0'&&c<='9')||(c>='a'&&c<='z')||c==='#')){errorAt("Bad entity",line,fro
 break;}
 return it('(punctuator)',t);}}}}};}());function addlabel(t,type){if(option.safe&&funct['(global)']&&typeof predefined[t]!=='boolean'){warning('ADsafe global: '+t+'.',token);}else if(t==='hasOwnProperty'){warning("'hasOwnProperty' is a really bad name.");}
 if(is_own(funct,t)&&!funct['(global)']){warning(funct[t]===true?"'{a}' was used before it was defined.":"'{a}' is already defined.",nexttoken,t);}
-funct[t]=type;if(type==='label'){scope[t]=funct;}else if(funct['(global)']){global[t]=funct;if(is_own(implied,t)){warning("'{a}' was used before it was defined.",nexttoken,t);delete implied[t];}}else{funct['(scope)'][t]=funct;}}
+funct[t]=type;if(funct['(global)']){global[t]=funct;if(is_own(implied,t)){warning("'{a}' was used before it was defined.",nexttoken,t);delete implied[t];}}else{scope[t]=funct;}}
 function doOption(){var b,obj,filter,o=nexttoken.value,t,v;switch(o){case'*/':error("Unbegun comment.");break;case'/*members':case'/*member':o='/*members';if(!membersOnly){membersOnly={};}
 obj=membersOnly;break;case'/*jslint':if(option.safe){warning("ADsafe restriction.");}
 obj=option;filter=boolOptions;break;case'/*global':if(option.safe){warning("ADsafe restriction.");}
@@ -166,8 +166,9 @@ error("Bad assignment.",that);},20);}
 function bitwise(s,f,p){var x=symbol(s,p);reserveName(x);x.led=(typeof f==='function')?f:function(left){if(option.bitwise){warning("Unexpected use of '{a}'.",this,this.id);}
 this.left=left;this.right=parse(p);return this;};return x;}
 function bitwiseassignop(s){symbol(s,20).exps=true;return infix(s,function(left,that){if(option.bitwise){warning("Unexpected use of '{a}'.",that,that.id);}
-nonadjacent(prevtoken,token);nonadjacent(token,nexttoken);if(left){if(left.id==='.'||left.id==='['||(left.identifier&&!left.reserved)){parse(19);return left;}
-if(left===syntax['function']){warning("Expected an identifier in an assignment, and instead saw a function invocation.",token);}}
+nonadjacent(prevtoken,token);nonadjacent(token,nexttoken);if(left){if(left.id==='.'||left.id==='['||(left.identifier&&!left.reserved)){parse(19);return that;}
+if(left===syntax['function']){warning("Expected an identifier in an assignment, and instead saw a function invocation.",token);}
+return that;}
 error("Bad assignment.",that);},20);}
 function suffix(s,f){var x=symbol(s,150);x.led=function(left){if(option.plusplus){warning("Unexpected use of '{a}'.",this,this.id);}else if((!left.identifier||left.reserved)&&left.id!=='.'&&left.id!=='['){warning("Bad operand.",this);}
 this.left=left;return this;};return x;}
@@ -199,8 +200,7 @@ p=f.funct['(params)'];p=p&&p.join(', ');if(p&&p!=='lib'){error("Expected '{a}' a
 advance(')');advance(';');return a;}else{error("ADsafe lib violation.");}}}
 while(!nexttoken.reach&&nexttoken.id!=='(end)'){if(nexttoken.id===';'){warning("Unnecessary semicolon.");advance(';');}else{a.push(statement());}}
 return a;}
-function block(f){var a,b=inblock,s=scope,t;inblock=f;if(f){scope=Object.create(scope);}
-nonadjacent(token,nexttoken);t=nexttoken;if(nexttoken.id==='{'){advance('{');if(nexttoken.id!=='}'||token.line!==nexttoken.line){indent+=option.indent;if(!f&&nexttoken.from===indent+option.indent){indent+=option.indent;}
+function block(f){var a,b=inblock,s=scope,t;inblock=f;scope=Object.create(scope);nonadjacent(token,nexttoken);t=nexttoken;if(nexttoken.id==='{'){advance('{');if(nexttoken.id!=='}'||token.line!==nexttoken.line){indent+=option.indent;if(!f&&nexttoken.from===indent+option.indent){indent+=option.indent;}
 if(!f){use_strict();}
 a=statements();indent-=option.indent;indentation();}
 advance('}',t);}else{warning("Expected '{a}' and instead saw '{b}'.",nexttoken,'{',nexttoken.value);noreach=true;a=[statement()];noreach=false;}
@@ -508,7 +508,7 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.jslint=itself;itself.edition='2009-08-26';return itself;}());(function(a){if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
+return o.join('');};itself.jslint=itself;itself.edition='2009-08-28';return itself;}());(function(a){if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
 var input=readFile(a[0]);if(!input){print("jslint: Couldn't open file '"+a[0]+"'.");quit(1);}
 if(!JSLINT(input,{bitwise:true,eqeqeq:true,immed:true,newcap:true,nomen:true,onevar:true,plusplus:true,regexp:true,rhino:true,undef:true,white:true})){for(var i=0;i<JSLINT.errors.length;i+=1){var e=JSLINT.errors[i];if(e){print('Lint at line '+(e.line+1)+' character '+
 (e.character+1)+': '+e.reason);print((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));print('');}}
