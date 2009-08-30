@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-08-28
+// 2009-08-30
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -2588,6 +2588,9 @@ loop:   for (;;) {
                 advance();
                 advance('(');
                 for (i = 0; i < 3; i += 1) {
+                    if (i) {
+                        advance(',');
+                    }
                     number = nexttoken.value;
                     if (nexttoken.type !== '(number)' || number < 0) {
                         warning("Expected a positive number and instead saw '{a}'",
@@ -5359,7 +5362,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-08-28';
+    itself.edition = '2009-08-30';
 
     return itself;
 
