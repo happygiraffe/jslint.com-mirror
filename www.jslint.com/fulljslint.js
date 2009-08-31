@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-08-30
+// 2009-08-31
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -2373,6 +2373,9 @@ loop:   for (;;) {
         if (!noindent) {
             indentation();
         }
+        if (nexttoken.id === 'new') {
+            warning("'new' should not be used as a statement.");
+        }
         r = parse(0, true);
 
 // Look for the final semicolon.
@@ -4442,10 +4445,6 @@ loop:   for (;;) {
 
     stmt('var', varstatement).exps = true;
 
-    stmt('new', function () {
-        warning("'new' should not be used as a statement.");
-    }).exps = true;
-
 
     function functionparams() {
         var i, t = nexttoken, p = [];
@@ -4735,7 +4734,7 @@ loop:   for (;;) {
     }());
 
     blockstmt('for', function () {
-        var s, t = nexttoken;
+        var f = option.forin, s, t = nexttoken;
         funct['(breakage)'] += 1;
         funct['(loopage)'] += 1;
         advance('(');
@@ -4762,7 +4761,7 @@ loop:   for (;;) {
             parse(20);
             advance(')', t);
             s = block(true);
-            if (!option.forin && (s.length > 1 || typeof s[0] !== 'object' ||
+            if (!f && (s.length > 1 || typeof s[0] !== 'object' ||
                     s[0].value !== 'if')) {
                 warning("The body of a for in should be wrapped in an if statement to filter unwanted properties from the prototype.", this);
             }
@@ -5362,7 +5361,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-08-30';
+    itself.edition = '2009-08-31';
 
     return itself;
 

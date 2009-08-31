@@ -11,7 +11,7 @@
 // option = {adsafe: true, fragment: false}
 
 /*members check, cookie, each, edition, get, getTitle, getValue, indent,
-    isArray, join, jslint, maxerr, on, passfail, predef, push, q, select,
+    isArray, join, jslint, lib, maxerr, on, passfail, predef, push, q, select,
     set, split, value, white
 */
 

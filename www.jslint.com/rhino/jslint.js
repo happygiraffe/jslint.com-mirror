@@ -186,6 +186,7 @@ if(t.identifier&&!t.reserved&&peek().id===':'){advance();advance(':');scope=Obje
 if(jx.test(t.value+':')){warning("Label '{a}' looks like a javascript url.",t,t.value);}
 nexttoken.label=t.value;t=nexttoken;}
 if(!noindent){indentation();}
+if(nexttoken.id==='new'){warning("'new' should not be used as a statement.");}
 r=parse(0,true);if(!t.block){if(!r||!r.exps){warning("Expected an assignment or function call and instead saw an expression.",token);}
 if(nexttoken.id!==';'){warningAt("Missing semicolon.",token.line,token.from+token.value.length);}else{adjacent(token,nexttoken);advance(';');nonadjacent(token,nexttoken);}}
 indent=i;scope=s;return r;}
@@ -409,7 +410,7 @@ value=parse(0);name.first=value;}
 if(nexttoken.id!==','){break;}
 comma();}
 return this;}
-stmt('var',varstatement).exps=true;stmt('new',function(){warning("'new' should not be used as a statement.");}).exps=true;function functionparams(){var i,t=nexttoken,p=[];advance('(');nospace();if(nexttoken.id===')'){advance(')');nospace(prevtoken,token);return;}
+stmt('var',varstatement).exps=true;function functionparams(){var i,t=nexttoken,p=[];advance('(');nospace();if(nexttoken.id===')'){advance(')');nospace(prevtoken,token);return;}
 for(;;){i=identifier();p.push(i);addlabel(i,'parameter');if(nexttoken.id===','){comma();}else{advance(')',t);nospace(prevtoken,token);return p;}}}
 function doFunction(i){var s=scope;scope=Object.create(s);funct={'(name)':i||'"'+anonname+'"','(line)':nexttoken.line,'(context)':funct,'(breakage)':0,'(loopage)':0,'(scope)':scope};token.funct=funct;functions.push(funct);if(i){addlabel(i,'function');}
 funct['(params)']=functionparams();block(false);scope=s;funct['(last)']=token.line;funct=funct['(context)'];}
@@ -429,9 +430,9 @@ indentation(-option.indent);advance('case');this.cases.push(parse(20));g=true;ad
 indentation(-option.indent);advance('default');g=true;advance(':');break;case'}':indent-=option.indent;indentation();advance('}',t);if(this.cases.length===1||this.condition.id==='true'||this.condition.id==='false'){warning("This 'switch' should be an 'if'.",this);}
 funct['(breakage)']-=1;funct['(verb)']=undefined;return;case'(end)':error("Missing '{a}'.",nexttoken,'}');return;default:if(g){switch(token.id){case',':error("Each value should have its own case label.");return;case':':statements();break;default:error("Missing ':' on a case clause.",token);}}else{error("Expected '{a}' and instead saw '{b}'.",nexttoken,'case',nexttoken.value);}}}}).labelled=true;stmt('debugger',function(){if(!option.debug){warning("All 'debugger' statements should be removed.");}
 return this;}).exps=true;(function(){var x=stmt('do',function(){funct['(breakage)']+=1;funct['(loopage)']+=1;this.first=block(true);advance('while');var t=nexttoken;nonadjacent(token,t);advance('(');nospace();parse(20);if(nexttoken.id==='='){warning("Expected a conditional expression and instead saw an assignment.");advance('=');parse(20);}
-advance(')',t);nospace(prevtoken,token);funct['(breakage)']-=1;funct['(loopage)']-=1;return this;});x.labelled=true;x.exps=true;}());blockstmt('for',function(){var s,t=nexttoken;funct['(breakage)']+=1;funct['(loopage)']+=1;advance('(');nonadjacent(this,t);nospace();if(peek(nexttoken.id==='var'?1:0).id==='in'){if(nexttoken.id==='var'){advance('var');varstatement(true);}else{switch(funct[nexttoken.value]){case'unused':funct[nexttoken.value]='var';break;case'var':break;default:warning("Bad for in variable '{a}'.",nexttoken,nexttoken.value);}
+advance(')',t);nospace(prevtoken,token);funct['(breakage)']-=1;funct['(loopage)']-=1;return this;});x.labelled=true;x.exps=true;}());blockstmt('for',function(){var f=option.forin,s,t=nexttoken;funct['(breakage)']+=1;funct['(loopage)']+=1;advance('(');nonadjacent(this,t);nospace();if(peek(nexttoken.id==='var'?1:0).id==='in'){if(nexttoken.id==='var'){advance('var');varstatement(true);}else{switch(funct[nexttoken.value]){case'unused':funct[nexttoken.value]='var';break;case'var':break;default:warning("Bad for in variable '{a}'.",nexttoken,nexttoken.value);}
 advance();}
-advance('in');parse(20);advance(')',t);s=block(true);if(!option.forin&&(s.length>1||typeof s[0]!=='object'||s[0].value!=='if')){warning("The body of a for in should be wrapped in an if statement to filter unwanted properties from the prototype.",this);}
+advance('in');parse(20);advance(')',t);s=block(true);if(!f&&(s.length>1||typeof s[0]!=='object'||s[0].value!=='if')){warning("The body of a for in should be wrapped in an if statement to filter unwanted properties from the prototype.",this);}
 funct['(breakage)']-=1;funct['(loopage)']-=1;return this;}else{if(nexttoken.id!==';'){if(nexttoken.id==='var'){advance('var');varstatement();}else{for(;;){parse(0,'for');if(nexttoken.id!==','){break;}
 comma();}}}
 nolinebreak(token);advance(';');if(nexttoken.id!==';'){parse(20);if(nexttoken.id==='='){warning("Expected a conditional expression and instead saw an assignment.");advance('=');parse(20);}}
