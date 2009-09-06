@@ -389,11 +389,12 @@ if(!left.identifier&&left.id!=='.'&&left.id!=='['&&left.id!=='('&&left.id!=='&&'
 that.left=left;return that;},155,true).exps=true;prefix('(',function(){nospace();var v=parse(0);advance(')',this);nospace(prevtoken,token);if(option.immed&&v.id==='function'){if(nexttoken.id==='('){warning("Move the invocation into the parens that contain the function.",nexttoken);}else{warning("Do not wrap function literals in parens unless they are to be immediately invoked.",this);}}
 return v;});infix('[',function(left,that){nospace();var e=parse(0),s;if(e&&e.type==='(string)'){if(option.safe&&banned[e.value]===true){warning("ADsafe restricted word '{a}'.",that,e.value);}else if(!option.evil&&(e.value==='eval'||e.value==='execScript')){warning("eval is evil.",that);}else if(option.safe&&(e.value.charAt(0)==='_'||e.value.charAt(0)==='-')){warning("ADsafe restricted subscript '{a}'.",that,e.value);}
 countMember(e.value);if(!option.sub&&ix.test(e.value)){s=syntax[e.value];if(!s||!s.reserved){warning("['{a}'] is better written in dot notation.",e,e.value);}}}else if(!e||e.type!=='(number)'||e.value<0){if(option.safe){warning('ADsafe subscripting.');}}
-advance(']',that);nospace(prevtoken,token);that.left=left;that.right=e;return that;},160,true);prefix('[',function(){this.first=[];if(nexttoken.id===']'){advance(']');return this;}
-var b=token.line!==nexttoken.line;if(b){indent+=option.indent;if(nexttoken.from===indent+option.indent){indent+=option.indent;}}
-for(;;){if(b&&token.line!==nexttoken.line){indentation();}
-parse(10);if(nexttoken.id===','){comma();if(nexttoken.id===','){warning("Extra comma.",token);}else if(nexttoken.id===']'){warning("Extra comma.",token);break;}}else{if(b){indent-=option.indent;indentation();}
-break;}}
+advance(']',that);nospace(prevtoken,token);that.left=left;that.right=e;return that;},160,true);prefix('[',function(){var b=token.line!==nexttoken.line;this.first=[];if(b){indent+=option.indent;if(nexttoken.from===indent+option.indent){indent+=option.indent;}}
+while(nexttoken.id!=='(end)'){while(nexttoken.id===','){warning("Extra comma.");advance(',');}
+if(nexttoken.id===']'){break;}
+if(b&&token.line!==nexttoken.line){indentation();}
+this.first.push(parse(10));if(nexttoken.id===','){comma();if(nexttoken.id===']'){warning("Extra comma.",token);break;}}else{break;}}
+if(b){indent-=option.indent;indentation();}
 advance(']',this);return this;},160);(function(x){x.nud=function(){var b,i,s,seen={};b=token.line!==nexttoken.line;if(b){indent+=option.indent;if(nexttoken.from===indent+option.indent){indent+=option.indent;}}
 for(;;){if(nexttoken.id==='}'){break;}
 if(b){indentation();}
@@ -510,7 +511,7 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.jslint=itself;itself.edition='2009-08-30';return itself;}());(function(a){if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
+return o.join('');};itself.jslint=itself;itself.edition='2009-08-31';return itself;}());(function(a){if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
 var input=readFile(a[0]);if(!input){print("jslint: Couldn't open file '"+a[0]+"'.");quit(1);}
 if(!JSLINT(input,{bitwise:true,eqeqeq:true,immed:true,newcap:true,nomen:true,onevar:true,plusplus:true,regexp:true,rhino:true,undef:true,white:true})){for(var i=0;i<JSLINT.errors.length;i+=1){var e=JSLINT.errors[i];if(e){print('Lint at line '+(e.line+1)+' character '+
 (e.character+1)+': '+e.reason);print((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));print('');}}

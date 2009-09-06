@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-08-31
+// 2009-09-06
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -4298,38 +4298,39 @@ loop:   for (;;) {
     }, 160, true);
 
     prefix('[', function () {
-        this.first = [];
-        if (nexttoken.id === ']') {
-            advance(']');
-            return this;
-        }
         var b = token.line !== nexttoken.line;
+        this.first = [];
         if (b) {
             indent += option.indent;
             if (nexttoken.from === indent + option.indent) {
                 indent += option.indent;
             }
         }
-        for (;;) {
+        while (nexttoken.id !== '(end)') {
+            while (nexttoken.id === ',') {
+                warning("Extra comma.");
+                advance(',');
+            }
+            if (nexttoken.id === ']') {
+                break;
+            }
             if (b && token.line !== nexttoken.line) {
                 indentation();
             }
-            parse(10);
+            this.first.push(parse(10));
             if (nexttoken.id === ',') {
                 comma();
-                if (nexttoken.id === ',') {
-                    warning("Extra comma.", token);
-                } else if (nexttoken.id === ']') {
+                if (nexttoken.id === ']') {
                     warning("Extra comma.", token);
                     break;
                 }
             } else {
-                if (b) {
-                    indent -= option.indent;
-                    indentation();
-                }
                 break;
             }
+        }
+        if (b) {
+            indent -= option.indent;
+            indentation();
         }
         advance(']', this);
         return this;
@@ -5361,7 +5362,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-08-31';
+    itself.edition = '2009-09-06';
 
     return itself;
 
