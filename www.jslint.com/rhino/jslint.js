@@ -158,7 +158,7 @@ function isPoorRelation(node){return(node.type==='(number)'&&!+node.value)||(nod
 function assignop(s,f){symbol(s,20).exps=true;return infix(s,function(left,that){var l;that.left=left;if(predefined[left.value]===false&&scope[left.value]['(global)']===true){warning('Read only.',left);}
 if(option.safe){l=left;do{if(typeof predefined[l.value]==='boolean'){warning('ADsafe violation.',l);}
 l=l.left;}while(l);}
-if(left){if(left.id==='.'||left.id==='['){if(left.left.value==='arguments'){warning('Bad assignment.',that);}
+if(left){if(left.id==='.'||left.id==='['){if(!left.left||left.left.value==='arguments'){warning('Bad assignment.',that);}
 that.right=parse(19);return that;}else if(left.identifier&&!left.reserved){if(funct[left.value]==='exception'){warning("Do not assign to the exception parameter.",left);}
 that.right=parse(19);return that;}
 if(left===syntax['function']){warning("Expected an identifier in an assignment and instead saw a function invocation.",token);}}
@@ -511,7 +511,7 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.jslint=itself;itself.edition='2009-08-31';return itself;}());(function(a){if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
+return o.join('');};itself.jslint=itself;itself.edition='2009-09-06';return itself;}());(function(a){if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
 var input=readFile(a[0]);if(!input){print("jslint: Couldn't open file '"+a[0]+"'.");quit(1);}
 if(!JSLINT(input,{bitwise:true,eqeqeq:true,immed:true,newcap:true,nomen:true,onevar:true,plusplus:true,regexp:true,rhino:true,undef:true,white:true})){for(var i=0;i<JSLINT.errors.length;i+=1){var e=JSLINT.errors[i];if(e){print('Lint at line '+(e.line+1)+' character '+
 (e.character+1)+': '+e.reason);print((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));print('');}}

@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-09-06
+// 2009-09-10
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -2212,7 +2212,7 @@ loop:   for (;;) {
             }
             if (left) {
                 if (left.id === '.' || left.id === '[') {
-                    if (left.left.value === 'arguments') {
+                    if (!left.left || left.left.value === 'arguments') {
                         warning('Bad assignment.', that);
                     }
                     that.right = parse(19);
@@ -5362,7 +5362,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-09-06';
+    itself.edition = '2009-09-10';
 
     return itself;
 
