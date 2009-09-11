@@ -511,4 +511,4 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.jslint=itself;itself.edition='2009-09-06';return itself;}());(function(){if(!JSLINT(WScript.StdIn.ReadAll(),{passfail:true})){var e=JSLINT.errors[0];WScript.StdErr.WriteLine('Lint at line '+(e.line+1)+' character '+(e.character+1)+': '+e.reason);WScript.StdErr.WriteLine((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));WScript.Quit(1);}}());
+return o.join('');};itself.jslint=itself;itself.edition='2009-09-10';return itself;}());(function(){if(!JSLINT(WScript.StdIn.ReadAll(),{passfail:true})){var e=JSLINT.errors[0];WScript.StdErr.WriteLine('Lint at line '+e.line+' character '+e.character+': '+e.reason);WScript.StdErr.WriteLine((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));WScript.Quit(1);}}());
