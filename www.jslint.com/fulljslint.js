@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-09-10
+// 2009-09-13
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -2490,7 +2490,7 @@ loop:   for (;;) {
 
 
     function block(f) {
-        var a, b = inblock, s = scope, t;
+        var a, b = inblock, old_indent = indent, s = scope, t;
         inblock = f;
         scope = Object.create(scope);
         nonadjacent(token, nexttoken);
@@ -2499,7 +2499,7 @@ loop:   for (;;) {
             advance('{');
             if (nexttoken.id !== '}' || token.line !== nexttoken.line) {
                 indent += option.indent;
-                if (!f && nexttoken.from === indent + option.indent) {
+                while (!f && nexttoken.from > indent) {
                     indent += option.indent;
                 }
                 if (!f) {
@@ -2510,6 +2510,7 @@ loop:   for (;;) {
                 indentation();
             }
             advance('}', t);
+            indent = old_indent;
         } else {
             warning("Expected '{a}' and instead saw '{b}'.",
                     nexttoken, '{', nexttoken.value);
@@ -5362,7 +5363,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-09-10';
+    itself.edition = '2009-09-13';
 
     return itself;
 

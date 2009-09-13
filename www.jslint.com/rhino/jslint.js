@@ -201,10 +201,10 @@ p=f.funct['(params)'];p=p&&p.join(', ');if(p&&p!=='lib'){error("Expected '{a}' a
 advance(')');advance(';');return a;}else{error("ADsafe lib violation.");}}}
 while(!nexttoken.reach&&nexttoken.id!=='(end)'){if(nexttoken.id===';'){warning("Unnecessary semicolon.");advance(';');}else{a.push(statement());}}
 return a;}
-function block(f){var a,b=inblock,s=scope,t;inblock=f;scope=Object.create(scope);nonadjacent(token,nexttoken);t=nexttoken;if(nexttoken.id==='{'){advance('{');if(nexttoken.id!=='}'||token.line!==nexttoken.line){indent+=option.indent;if(!f&&nexttoken.from===indent+option.indent){indent+=option.indent;}
+function block(f){var a,b=inblock,old_indent=indent,s=scope,t;inblock=f;scope=Object.create(scope);nonadjacent(token,nexttoken);t=nexttoken;if(nexttoken.id==='{'){advance('{');if(nexttoken.id!=='}'||token.line!==nexttoken.line){indent+=option.indent;while(!f&&nexttoken.from>indent){indent+=option.indent;}
 if(!f){use_strict();}
 a=statements();indent-=option.indent;indentation();}
-advance('}',t);}else{warning("Expected '{a}' and instead saw '{b}'.",nexttoken,'{',nexttoken.value);noreach=true;a=[statement()];noreach=false;}
+advance('}',t);indent=old_indent;}else{warning("Expected '{a}' and instead saw '{b}'.",nexttoken,'{',nexttoken.value);noreach=true;a=[statement()];noreach=false;}
 funct['(verb)']=null;scope=s;inblock=b;return a;}
 function idValue(){return this;}
 function countMember(m){if(membersOnly&&typeof membersOnly[m]!=='boolean'){warning("Unexpected /*member '{a}'.",token,m);}
@@ -511,7 +511,7 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.jslint=itself;itself.edition='2009-09-10';return itself;}());(function(a){var e,i,input;if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
+return o.join('');};itself.jslint=itself;itself.edition='2009-09-13';return itself;}());(function(a){var e,i,input;if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
 input=readFile(a[0]);if(!input){print("jslint: Couldn't open file '"+a[0]+"'.");quit(1);}
 if(!JSLINT(input,{bitwise:true,eqeqeq:true,immed:true,newcap:true,nomen:true,onevar:true,plusplus:true,regexp:true,rhino:true,undef:true,white:true})){for(i=0;i<JSLINT.errors.length;i+=1){e=JSLINT.errors[i];if(e){print('Lint at line '+e.line+' character '+
 e.character+': '+e.reason);print((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));print('');}}

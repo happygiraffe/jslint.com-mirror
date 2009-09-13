@@ -201,10 +201,10 @@ p=f.funct['(params)'];p=p&&p.join(', ');if(p&&p!=='lib'){error("Expected '{a}' a
 advance(')');advance(';');return a;}else{error("ADsafe lib violation.");}}}
 while(!nexttoken.reach&&nexttoken.id!=='(end)'){if(nexttoken.id===';'){warning("Unnecessary semicolon.");advance(';');}else{a.push(statement());}}
 return a;}
-function block(f){var a,b=inblock,s=scope,t;inblock=f;scope=Object.create(scope);nonadjacent(token,nexttoken);t=nexttoken;if(nexttoken.id==='{'){advance('{');if(nexttoken.id!=='}'||token.line!==nexttoken.line){indent+=option.indent;if(!f&&nexttoken.from===indent+option.indent){indent+=option.indent;}
+function block(f){var a,b=inblock,old_indent=indent,s=scope,t;inblock=f;scope=Object.create(scope);nonadjacent(token,nexttoken);t=nexttoken;if(nexttoken.id==='{'){advance('{');if(nexttoken.id!=='}'||token.line!==nexttoken.line){indent+=option.indent;while(!f&&nexttoken.from>indent){indent+=option.indent;}
 if(!f){use_strict();}
 a=statements();indent-=option.indent;indentation();}
-advance('}',t);}else{warning("Expected '{a}' and instead saw '{b}'.",nexttoken,'{',nexttoken.value);noreach=true;a=[statement()];noreach=false;}
+advance('}',t);indent=old_indent;}else{warning("Expected '{a}' and instead saw '{b}'.",nexttoken,'{',nexttoken.value);noreach=true;a=[statement()];noreach=false;}
 funct['(verb)']=null;scope=s;inblock=b;return a;}
 function idValue(){return this;}
 function countMember(m){if(membersOnly&&typeof membersOnly[m]!=='boolean'){warning("Unexpected /*member '{a}'.",token,m);}
@@ -511,4 +511,4 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.jslint=itself;itself.edition='2009-09-10';return itself;}());(function(){if(!JSLINT(WScript.StdIn.ReadAll(),{passfail:true})){var e=JSLINT.errors[0];WScript.StdErr.WriteLine('Lint at line '+e.line+' character '+e.character+': '+e.reason);WScript.StdErr.WriteLine((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));WScript.Quit(1);}}());
+return o.join('');};itself.jslint=itself;itself.edition='2009-09-13';return itself;}());(function(){if(!JSLINT(WScript.StdIn.ReadAll(),{passfail:true})){var e=JSLINT.errors[0];WScript.StdErr.WriteLine('Lint at line '+e.line+' character '+e.character+': '+e.reason);WScript.StdErr.WriteLine((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));WScript.Quit(1);}}());
