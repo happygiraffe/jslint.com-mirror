@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-09-13
+// 2009-09-18
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -1493,6 +1493,9 @@ var JSLINT = (function () {
                                         c = s.charAt(l);
                                         if (c === '^') {
                                             l += 1;
+                                            if (option.regexp) {
+                                                warningAt("Insecure '{a}'.", line, from + l, c);
+                                            }
                                         }
                                         q = false;
                                         if (c === ']') {
@@ -1551,7 +1554,7 @@ var JSLINT = (function () {
                                         break;
                                     case '.':
                                         if (option.regexp) {
-                                            warningAt("Unexpected '{a}'.", line, from + l, c);
+                                            warningAt("Insecure '{a}'.", line, from + l, c);
                                         }
                                         break;
                                     case ']':
@@ -5287,7 +5290,7 @@ loop:   for (;;) {
             if (data.unused) {
                 s = [];
                 for (i = 0; i < data.unused.length; i += 1) {
-                    s[i] = '<code>' + data.unused[i].name + '</code>&nbsp;<i>' +
+                    s[i] = '<code><u>' + data.unused[i].name + '</u></code>&nbsp;<i>' +
                         data.unused[i].line + '</i> <code>' +
                         data.unused[i]['function'] + '</code>';
                 }
@@ -5363,7 +5366,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-09-13';
+    itself.edition = '2009-09-18';
 
     return itself;
 

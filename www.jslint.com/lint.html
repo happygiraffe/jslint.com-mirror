@@ -584,10 +584,10 @@ by <code>-</code> or <code>--</code>. A misplaced space can turn <code>+ +</code
       statement to declare global variables in a script file.</td>
   </tr>
   <tr>
-    <td>Disallow . in RegExp literals </td>
+    <td>Disallow insecure <code>.</code> and <code>[^</code>...<code>]</code>. in /RegExp/ </td>
     <td><code>regexp</code></td>
     <td><code>true</code> if <code>.</code> and <code>[^</code>...<code>]</code> should not be allowed in RegExp
-      literals</td>
+      literals. These forms should not be used when validating in secure applications.</td>
   </tr>
   <tr>
     <td>Assume Rhino </td>

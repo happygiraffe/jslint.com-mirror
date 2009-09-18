@@ -64,13 +64,13 @@ l+=1;break;case'(':depth+=1;b=false;if(s.charAt(l)==='?'){l+=1;switch(s.charAt(l
 break;case'|':b=false;break;case')':if(depth===0){warningAt("Unescaped '{a}'.",line,from+l,')');}else{depth-=1;}
 break;case' ':q=1;while(s.charAt(l)===' '){l+=1;q+=1;}
 if(q>1){warningAt("Spaces are hard to count. Use {{a}}.",line,from+l,q);}
-break;case'[':c=s.charAt(l);if(c==='^'){l+=1;}
+break;case'[':c=s.charAt(l);if(c==='^'){l+=1;if(option.regexp){warningAt("Insecure '{a}'.",line,from+l,c);}}
 q=false;if(c===']'){warningAt("Empty class.",line,from+l-1);q=true;}
 klass:do{c=s.charAt(l);l+=1;switch(c){case'[':case'^':warningAt("Unescaped '{a}'.",line,from+l,c);q=true;break;case'-':if(q){q=false;}else{warningAt("Unescaped '{a}'.",line,from+l,'-');q=true;}
 break;case']':if(!q){warningAt("Unescaped '{a}'.",line,from+l-1,'-');}
 break klass;case'\\':c=s.charAt(l);if(c<' '){warningAt("Unexpected control character in regular expression.",line,from+l);}else if(c==='<'){warningAt("Unexpected escaped character '{a}' in regular expression.",line,from+l,c);}
 l+=1;q=true;break;case'/':warningAt("Unescaped '{a}'.",line,from+l-1,'/');q=true;break;case'<':if(xmode==='script'){c=s.charAt(l);if(c==='!'||c==='/'){warningAt("HTML confusion in regular expression '<{a}'.",line,from+l,c);}}
-q=true;break;default:q=true;}}while(c);break;case'.':if(option.regexp){warningAt("Unexpected '{a}'.",line,from+l,c);}
+q=true;break;default:q=true;}}while(c);break;case'.':if(option.regexp){warningAt("Insecure '{a}'.",line,from+l,c);}
 break;case']':case'?':case'{':case'}':case'+':case'*':warningAt("Unescaped '{a}'.",line,from+l,c);break;case'<':if(xmode==='script'){c=s.charAt(l);if(c==='!'||c==='/'){warningAt("HTML confusion in regular expression '<{a}'.",line,from+l,c);}}}
 if(b){switch(s.charAt(l)){case'?':case'+':case'*':l+=1;if(s.charAt(l)==='?'){l+=1;}
 break;case'{':l+=1;c=s.charAt(l);if(c<'0'||c>'9'){warningAt("Expected a number and instead saw '{a}'.",line,from+l,c);}
@@ -493,7 +493,7 @@ c.line+' character '+c.character:'')+': '+c.reason.entityify()+'</p><p class=evi
 if(data.implieds){s=[];for(i=0;i<data.implieds.length;i+=1){s[i]='<code>'+data.implieds[i].name+'</code>&nbsp;<i>'+
 data.implieds[i].line+'</i>';}
 o.push('<p><i>Implied global:</i> '+s.join(', ')+'</p>');}
-if(data.unused){s=[];for(i=0;i<data.unused.length;i+=1){s[i]='<code>'+data.unused[i].name+'</code>&nbsp;<i>'+
+if(data.unused){s=[];for(i=0;i<data.unused.length;i+=1){s[i]='<code><u>'+data.unused[i].name+'</u></code>&nbsp;<i>'+
 data.unused[i].line+'</i> <code>'+
 data.unused[i]['function']+'</code>';}
 o.push('<p><i>Unused variable:</i> '+s.join(', ')+'</p>');}
@@ -511,4 +511,4 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.jslint=itself;itself.edition='2009-09-13';return itself;}());(function(){if(!JSLINT(WScript.StdIn.ReadAll(),{passfail:true})){var e=JSLINT.errors[0];WScript.StdErr.WriteLine('Lint at line '+e.line+' character '+e.character+': '+e.reason);WScript.StdErr.WriteLine((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));WScript.Quit(1);}}());
+return o.join('');};itself.jslint=itself;itself.edition='2009-09-18';return itself;}());(function(){if(!JSLINT(WScript.StdIn.ReadAll(),{passfail:true})){var e=JSLINT.errors[0];WScript.StdErr.WriteLine('Lint at line '+e.line+' character '+e.character+': '+e.reason);WScript.StdErr.WriteLine((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));WScript.Quit(1);}}());

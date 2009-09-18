@@ -90,13 +90,13 @@ l+=1;break;case'(':depth+=1;b=false;if(s.charAt(l)==='?'){l+=1;switch(s.charAt(l
 break;case'|':b=false;break;case')':if(depth===0){warningAt("Unescaped '{a}'.",line,from+l,')');}else{depth-=1;}
 break;case' ':q=1;while(s.charAt(l)===' '){l+=1;q+=1;}
 if(q>1){warningAt("Spaces are hard to count. Use {{a}}.",line,from+l,q);}
-break;case'[':c=s.charAt(l);if(c==='^'){l+=1;}
+break;case'[':c=s.charAt(l);if(c==='^'){l+=1;if(option.regexp){warningAt("Insecure '{a}'.",line,from+l,c);}}
 q=false;if(c===']'){warningAt("Empty class.",line,from+l-1);q=true;}
 klass:do{c=s.charAt(l);l+=1;switch(c){case'[':case'^':warningAt("Unescaped '{a}'.",line,from+l,c);q=true;break;case'-':if(q){q=false;}else{warningAt("Unescaped '{a}'.",line,from+l,'-');q=true;}
 break;case']':if(!q){warningAt("Unescaped '{a}'.",line,from+l-1,'-');}
 break klass;case'\\':c=s.charAt(l);if(c<' '){warningAt("Unexpected control character in regular expression.",line,from+l);}else if(c==='<'){warningAt("Unexpected escaped character '{a}' in regular expression.",line,from+l,c);}
 l+=1;q=true;break;case'/':warningAt("Unescaped '{a}'.",line,from+l-1,'/');q=true;break;case'<':if(xmode==='script'){c=s.charAt(l);if(c==='!'||c==='/'){warningAt("HTML confusion in regular expression '<{a}'.",line,from+l,c);}}
-q=true;break;default:q=true;}}while(c);break;case'.':if(option.regexp){warningAt("Unexpected '{a}'.",line,from+l,c);}
+q=true;break;default:q=true;}}while(c);break;case'.':if(option.regexp){warningAt("Insecure '{a}'.",line,from+l,c);}
 break;case']':case'?':case'{':case'}':case'+':case'*':warningAt("Unescaped '{a}'.",line,from+l,c);break;case'<':if(xmode==='script'){c=s.charAt(l);if(c==='!'||c==='/'){warningAt("HTML confusion in regular expression '<{a}'.",line,from+l,c);}}}
 if(b){switch(s.charAt(l)){case'?':case'+':case'*':l+=1;if(s.charAt(l)==='?'){l+=1;}
 break;case'{':l+=1;c=s.charAt(l);if(c<'0'||c>'9'){warningAt("Expected a number and instead saw '{a}'.",line,from+l,c);}
@@ -519,7 +519,7 @@ c.line+' character '+c.character:'')+': '+c.reason.entityify()+'</p><p class=evi
 if(data.implieds){s=[];for(i=0;i<data.implieds.length;i+=1){s[i]='<code>'+data.implieds[i].name+'</code>&nbsp;<i>'+
 data.implieds[i].line+'</i>';}
 o.push('<p><i>Implied global:</i> '+s.join(', ')+'</p>');}
-if(data.unused){s=[];for(i=0;i<data.unused.length;i+=1){s[i]='<code>'+data.unused[i].name+'</code>&nbsp;<i>'+
+if(data.unused){s=[];for(i=0;i<data.unused.length;i+=1){s[i]='<code><u>'+data.unused[i].name+'</u></code>&nbsp;<i>'+
 data.unused[i].line+'</i> <code>'+
 data.unused[i]['function']+'</code>';}
 o.push('<p><i>Unused variable:</i> '+s.join(', ')+'</p>');}
@@ -537,7 +537,7 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.jslint=itself;itself.edition='2009-09-13';return itself;}());"use strict";var ADSAFE=(function(){var adsafe_id,adsafe_lib,banned={'arguments':true,callee:true,caller:true,constructor:true,'eval':true,prototype:true,unwatch:true,valueOf:true,watch:true},cache_style_object,cache_style_node,defaultView=document.defaultView,ephemeral,flipflop,has_focus,hunter,interceptors=[],makeableTagName={a:true,abbr:true,acronym:true,address:true,area:true,b:true,bdo:true,big:true,blockquote:true,br:true,button:true,canvas:true,caption:true,center:true,cite:true,code:true,col:true,colgroup:true,dd:true,del:true,dfn:true,dir:true,div:true,dl:true,dt:true,em:true,fieldset:true,font:true,form:true,h1:true,h2:true,h3:true,h4:true,h5:true,h6:true,hr:true,i:true,img:true,input:true,ins:true,kbd:true,label:true,legend:true,li:true,map:true,menu:true,object:true,ol:true,optgroup:true,option:true,p:true,pre:true,q:true,samp:true,select:true,small:true,span:true,strong:true,sub:true,sup:true,table:true,tbody:true,td:true,textarea:true,tfoot:true,th:true,thead:true,tr:true,tt:true,u:true,ul:true,'var':true},name,pecker,result,star,the_range,value;function error(message){throw{name:"ADsafe",message:message||"ADsafe violation."};}
+return o.join('');};itself.jslint=itself;itself.edition='2009-09-18';return itself;}());"use strict";var ADSAFE=(function(){var adsafe_id,adsafe_lib,banned={'arguments':true,callee:true,caller:true,constructor:true,'eval':true,prototype:true,unwatch:true,valueOf:true,watch:true},cache_style_object,cache_style_node,defaultView=document.defaultView,ephemeral,flipflop,has_focus,hunter,interceptors=[],makeableTagName={a:true,abbr:true,acronym:true,address:true,area:true,b:true,bdo:true,big:true,blockquote:true,br:true,button:true,canvas:true,caption:true,center:true,cite:true,code:true,col:true,colgroup:true,dd:true,del:true,dfn:true,dir:true,div:true,dl:true,dt:true,em:true,fieldset:true,font:true,form:true,h1:true,h2:true,h3:true,h4:true,h5:true,h6:true,hr:true,i:true,img:true,input:true,ins:true,kbd:true,label:true,legend:true,li:true,map:true,menu:true,object:true,ol:true,optgroup:true,option:true,p:true,pre:true,q:true,samp:true,select:true,small:true,span:true,strong:true,sub:true,sup:true,table:true,tbody:true,td:true,textarea:true,tfoot:true,th:true,thead:true,tr:true,tt:true,u:true,ul:true,'var':true},name,pecker,result,star,the_range,value;function error(message){throw{name:"ADsafe",message:message||"ADsafe violation."};}
 function mozilla(name){var method=Array.prototype[name];Array.prototype[name]=function(){if(this===this.window){return error();}
 return method.apply(this,arguments);};}
 mozilla('concat');mozilla('every');mozilla('filter');mozilla('forEach');mozilla('map');mozilla('reduce');mozilla('reduceRight');mozilla('reverse');mozilla('slice');mozilla('some');mozilla('sort');function reject(object,name){return typeof object!=='object'||banned[name]||((typeof name!=='number'||name<0)&&(typeof name!=='string'||name.charAt(0)==='_'||name.charAt(0)==='-'));}
