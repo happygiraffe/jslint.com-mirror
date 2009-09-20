@@ -208,7 +208,7 @@ advance('}',t);indent=old_indent;}else{warning("Expected '{a}' and instead saw '
 funct['(verb)']=null;scope=s;inblock=b;return a;}
 function idValue(){return this;}
 function countMember(m){if(membersOnly&&typeof membersOnly[m]!=='boolean'){warning("Unexpected /*member '{a}'.",token,m);}
-if(typeof member[m]==='number'){member[m]+=1;}else{member[m]=1;}}
+if(/^__\w+__$/.test(m)){warning("Reserved property name '{a}'.",nexttoken,m);}else{if(typeof member[m]==='number'){member[m]+=1;}else{member[m]=1;}}}
 function note_implied(token){var name=token.value,line=token.line,a=implied[name];if(typeof a==='function'){a=false;}
 if(!a){a=[line];implied[name]=a;}else if(a[a.length-1]!==line){a.push(line);}}
 function cssName(){if(nexttoken.identifier){advance();return true;}}
@@ -511,4 +511,4 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.jslint=itself;itself.edition='2009-09-18';return itself;}());(function(){if(!JSLINT(WScript.StdIn.ReadAll(),{passfail:true})){var e=JSLINT.errors[0];WScript.StdErr.WriteLine('Lint at line '+e.line+' character '+e.character+': '+e.reason);WScript.StdErr.WriteLine((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));WScript.Quit(1);}}());
+return o.join('');};itself.jslint=itself;itself.edition='2009-09-20';return itself;}());(function(){if(!JSLINT(WScript.StdIn.ReadAll(),{passfail:true})){var e=JSLINT.errors[0];WScript.StdErr.WriteLine('Lint at line '+e.line+' character '+e.character+': '+e.reason);WScript.StdErr.WriteLine((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));WScript.Quit(1);}}());

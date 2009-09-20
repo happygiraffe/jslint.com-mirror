@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-09-18
+// 2009-09-20
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -2539,12 +2539,17 @@ loop:   for (;;) {
         if (membersOnly && typeof membersOnly[m] !== 'boolean') {
             warning("Unexpected /*member '{a}'.", token, m);
         }
-        if (typeof member[m] === 'number') {
-            member[m] += 1;
+        if (/^__\w+__$/.test(m)) {
+            warning("Reserved property name '{a}'.", nexttoken, m);
         } else {
-            member[m] = 1;
+            if (typeof member[m] === 'number') {
+                member[m] += 1;
+            } else {
+                member[m] = 1;
+            }
         }
     }
+
 
     function note_implied(token) {
         var name = token.value, line = token.line, a = implied[name];
@@ -5366,7 +5371,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-09-18';
+    itself.edition = '2009-09-20';
 
     return itself;
 
