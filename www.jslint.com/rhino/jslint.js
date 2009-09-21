@@ -131,7 +131,7 @@ while(rbp<nexttoken.lbp){advance();if(token.led){left=token.led(left);}else{erro
 return left;}
 function adjacent(left,right){left=left||token;right=right||nexttoken;if(option.white||xmode==='styleproperty'||xmode==='style'){if(left.character!==right.from&&left.line===right.line){warning("Unexpected space after '{a}'.",right,left.value);}}}
 function nospace(left,right){left=left||token;right=right||nexttoken;if(option.white&&!left.comment){if(left.line===right.line){adjacent(left,right);}}}
-function nonadjacent(left,right){if(option.white){left=left||token;right=right||nexttoken;if(left.character===right.from){warning("Missing space after '{a}'.",nexttoken,left.value);}}}
+function nonadjacent(left,right){if(option.white){left=left||token;right=right||nexttoken;if(left.line===right.line&&left.character===right.from){warning("Missing space after '{a}'.",nexttoken,left.value);}}}
 function nobreaknonadjacent(left,right){left=left||token;right=right||nexttoken;if(!option.laxbreak&&left.line!==right.line){warning("Bad line breaking before '{a}'.",right,right.id);}else if(option.white){left=left||token;right=right||nexttoken;if(left.character===right.from){warning("Missing space after '{a}'.",nexttoken,left.value);}}}
 function indentation(bias){var i;if(option.white&&nexttoken.id!=='(end)'){i=indent+(bias||0);if(nexttoken.from!==i){warning("Expected '{a}' to have an indentation at {b} instead at {c}.",nexttoken,nexttoken.value,i,nexttoken.from);}}}
 function nolinebreak(t){t=t||token;if(t.line!==nexttoken.line){warning("Line breaking error '{a}'.",t,t.value);}}
@@ -511,7 +511,7 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.jslint=itself;itself.edition='2009-09-20';return itself;}());(function(a){var e,i,input;if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
+return o.join('');};itself.jslint=itself;itself.edition='2009-09-21';return itself;}());(function(a){var e,i,input;if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
 input=readFile(a[0]);if(!input){print("jslint: Couldn't open file '"+a[0]+"'.");quit(1);}
 if(!JSLINT(input,{bitwise:true,eqeqeq:true,immed:true,newcap:true,nomen:true,onevar:true,plusplus:true,regexp:true,rhino:true,undef:true,white:true})){for(i=0;i<JSLINT.errors.length;i+=1){e=JSLINT.errors[i];if(e){print('Lint at line '+e.line+' character '+
 e.character+': '+e.reason);print((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));print('');}}

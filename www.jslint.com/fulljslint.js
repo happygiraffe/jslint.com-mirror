@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-09-20
+// 2009-09-21
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -2001,7 +2001,7 @@ loop:   for (;;) {
         if (option.white) {
             left = left || token;
             right = right || nexttoken;
-            if (left.character === right.from) {
+            if (left.line === right.line && left.character === right.from) {
                 warning("Missing space after '{a}'.",
                         nexttoken, left.value);
             }
@@ -5371,7 +5371,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-09-20';
+    itself.edition = '2009-09-21';
 
     return itself;
 
