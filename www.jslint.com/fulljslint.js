@@ -738,6 +738,7 @@ var JSLINT = (function () {
             POSITIVE_INFINITY   : true
         },
 
+        strict_mode,
         syntax = {},
         tab,
         token,
@@ -2137,11 +2138,14 @@ loop:   for (;;) {
 
     function reservevar(s, v) {
         return reserve(s, function () {
-            if (option.safe &&
-                    (this.id === 'this' || this.id === 'arguments')) {
-                warning("ADsafe violation.", this);
+            if (this.id === 'this' || this.id === 'arguments') {
+                if (strict_mode && funct['(global)']) {
+                    warning("Strict violation.", this);
+                } else if (option.safe) {
+                    warning("ADsafe violation.", this);
+                }
+                return this;
             }
-            return this;
         });
     }
 
@@ -2411,6 +2415,7 @@ loop:   for (;;) {
         if (nexttoken.value === 'use strict') {
             advance();
             advance(';');
+            strict_mode = true;
             return true;
         } else {
             return false;
@@ -5093,6 +5098,7 @@ loop:   for (;;) {
         warnings = 0;
         lex.init(s);
         prereg = true;
+        strict_mode = false;
 
         prevtoken = token = nexttoken = syntax['(begin)'];
         assume();
