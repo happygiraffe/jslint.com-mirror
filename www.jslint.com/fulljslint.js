@@ -2144,8 +2144,8 @@ loop:   for (;;) {
                 } else if (option.safe) {
                     warning("ADsafe violation.", this);
                 }
-                return this;
             }
+            return this;
         });
     }
 
@@ -2190,12 +2190,13 @@ loop:   for (;;) {
 
 
     function isPoorRelation(node) {
-        return (node.type === '(number)' && !+node.value) ||
+        return node &&
+              ((node.type === '(number)' && !+node.value) ||
                (node.type === '(string)' && !node.value) ||
                 node.type === 'true' ||
                 node.type === 'false' ||
                 node.type === 'undefined' ||
-                node.type === 'null';
+                node.type === 'null');
     }
 
 

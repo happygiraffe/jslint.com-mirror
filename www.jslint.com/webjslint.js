@@ -175,13 +175,13 @@ function prefix(s,f){var x=symbol(s,150);reserveName(x);x.nud=(typeof f==='funct
 return this;};return x;}
 function type(s,f){var x=delim(s);x.type=s;x.nud=f;return x;}
 function reserve(s,f){var x=type(s,f);x.identifier=x.reserved=true;return x;}
-function reservevar(s,v){return reserve(s,function(){if(this.id==='this'||this.id==='arguments'){if(strict_mode&&funct['(global)']){warning("Strict violation.",this);}else if(option.safe){warning("ADsafe violation.",this);}
-return this;}});}
+function reservevar(s,v){return reserve(s,function(){if(this.id==='this'||this.id==='arguments'){if(strict_mode&&funct['(global)']){warning("Strict violation.",this);}else if(option.safe){warning("ADsafe violation.",this);}}
+return this;});}
 function infix(s,f,p,w){var x=symbol(s,p);reserveName(x);x.led=function(left){if(!w){nobreaknonadjacent(prevtoken,token);nonadjacent(token,nexttoken);}
 if(typeof f==='function'){return f(left,this);}else{this.left=left;this.right=parse(p);return this;}};return x;}
 function relation(s,f){var x=symbol(s,100);x.led=function(left){nobreaknonadjacent(prevtoken,token);nonadjacent(token,nexttoken);var right=parse(100);if((left&&left.id==='NaN')||(right&&right.id==='NaN')){warning("Use the isNaN function to compare with NaN.",this);}else if(f){f.apply(this,[left,right]);}
 this.left=left;this.right=right;return this;};return x;}
-function isPoorRelation(node){return(node.type==='(number)'&&!+node.value)||(node.type==='(string)'&&!node.value)||node.type==='true'||node.type==='false'||node.type==='undefined'||node.type==='null';}
+function isPoorRelation(node){return node&&((node.type==='(number)'&&!+node.value)||(node.type==='(string)'&&!node.value)||node.type==='true'||node.type==='false'||node.type==='undefined'||node.type==='null');}
 function assignop(s,f){symbol(s,20).exps=true;return infix(s,function(left,that){var l;that.left=left;if(predefined[left.value]===false&&scope[left.value]['(global)']===true){warning('Read only.',left);}
 if(option.safe){l=left;do{if(typeof predefined[l.value]==='boolean'){warning('ADsafe violation.',l);}
 l=l.left;}while(l);}
