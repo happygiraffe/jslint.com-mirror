@@ -1,6 +1,7 @@
 // (C)2002 Douglas Crockford
 // www.JSLint.com
-"use strict";if(!this.JSON){this.JSON={};}
+
+if(!this.JSON){this.JSON={};}
 (function(){function f(n){return n<10?'0'+n:n;}
 if(typeof Date.prototype.toJSON!=='function'){Date.prototype.toJSON=function(key){return isFinite(this.valueOf())?this.getUTCFullYear()+'-'+
 f(this.getUTCMonth()+1)+'-'+
