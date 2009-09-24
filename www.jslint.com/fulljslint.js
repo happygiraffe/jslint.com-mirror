@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-09-21
+// 2009-09-23
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -1071,7 +1071,11 @@ var JSLINT = (function () {
             }
             if (type === '(identifier)') {
                 t.identifier = true;
-                if (option.nomen && value.charAt(0) === '_') {
+                if (/^__(?:iterator|proto)__$/.test(value)) {
+                    error("Reserved name '{a}'.", nexttoken, value);
+                } else if (option.nomen &&
+                        (value.charAt(0) === '_' ||
+                         value.charAt(value.length - 1) === '_')) {
                     warningAt("Unexpected '_' in '{a}'.", line, from, value);
                 }
             }
@@ -2545,14 +2549,10 @@ loop:   for (;;) {
         if (membersOnly && typeof membersOnly[m] !== 'boolean') {
             warning("Unexpected /*member '{a}'.", token, m);
         }
-        if (/^__\w+__$/.test(m)) {
-            warning("Reserved property name '{a}'.", nexttoken, m);
+        if (typeof member[m] === 'number') {
+            member[m] += 1;
         } else {
-            if (typeof member[m] === 'number') {
-                member[m] += 1;
-            } else {
-                member[m] = 1;
-            }
+            member[m] = 1;
         }
     }
 
@@ -5378,7 +5378,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-09-21';
+    itself.edition = '2009-09-23';
 
     return itself;
 
