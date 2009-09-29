@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-09-23
+// 2009-09-29
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -144,11 +144,12 @@ SOFTWARE.
     evil: true, nomen: false, onevar: false, regexp: false, strict: true
 */
 
-/*members "\b", "\t", "\n", "\f", "\r", "\"", "%", "(begin)",
-    "(breakage)", "(context)", "(error)", "(global)", "(identifier)",
-    "(last)", "(line)", "(loopage)", "(name)", "(onevar)", "(params)",
-    "(scope)", "(verb)", "++", "--", "\/", ADSAFE, Array, Boolean, COM,
-    Canvas, CustomAnimation, Date, Debug, E, Error, EvalError,
+/*members "\b", "\t", "\n", "\f", "\r", "!=", "!==", "\"", "%",
+    "(begin)", "(breakage)", "(context)", "(error)", "(global)",
+    "(identifier)", "(last)", "(line)", "(loopage)", "(name)", "(onevar)",
+    "(params)", "(scope)", "(verb)", "*", "+", "++", "-", "--", "\/",
+    "<", "<=", "==", "===", ">", ">=", ADSAFE, Array, Boolean,
+    COM, Canvas, CustomAnimation, Date, Debug, E, Error, EvalError,
     FadeAnimation, Flash, FormField, Frame, Function, HotKey, Image, JSON,
     LN10, LN2, LOG10E, LOG2E, MAX_VALUE, MIN_VALUE, Math, MenuItem,
     MoveAnimation, NEGATIVE_INFINITY, Number, Object, Option, PI,
@@ -194,11 +195,11 @@ SOFTWARE.
     gc, getComputedStyle, ghostwhite, global, globals, gold, goldenrod,
     gray, green, greenyellow, h1, h2, h3, h4, h5, h6, hasOwnProperty, head,
     height, help, history, honeydew, hotpink, hr, html, i, iTunes, id,
-    identifier, iframe, img, immed, implieds, import, in, include, indent,
-    indexOf, indianred, indigo, init, input, ins, isAlpha,
-    isApplicationRunning, isDigit, isFinite, isNaN, ivory, join, jslint,
-    json, kbd, khaki, konfabulatorVersion, label, labelled, lang, last,
-    lavender, lavenderblush, lawngreen, laxbreak, lbp, led, left, legend,
+    identifier, iframe, img, immed, implieds, in, include, indent, indexOf,
+    indianred, indigo, init, input, ins, isAlpha, isApplicationRunning,
+    isDigit, isFinite, isNaN, ivory, join, jslint, json, kbd, khaki,
+    konfabulatorVersion, label, labelled, lang, last, lavender,
+    lavenderblush, lawngreen, laxbreak, lbp, led, left, legend,
     lemonchiffon, length, "letter-spacing", li, lib, lightblue, lightcoral,
     lightcyan, lightgoldenrodyellow, lightgreen, lightpink, lightsalmon,
     lightseagreen, lightskyblue, lightslategray, lightsteelblue,
@@ -247,7 +248,6 @@ SOFTWARE.
 */
 
 
-
 // We build the application inside a function so that we produce only a single
 // global variable. The function will be invoked, its return value is the JSLINT
 // application itself.
@@ -265,6 +265,24 @@ var JSLINT = (function () {
             media      : true,
             'font-face': true,
             page       : true
+        },
+
+// These are operators that should not be used with the ! operator.
+
+        bang = {
+            '<': true,
+            '<=': true,
+            '==': true,
+            '===': true,
+            '!==': true,
+            '!=': true,
+            '>': true,
+            '>=': true,
+            '+': true,
+            '-': true,
+            '*': true,
+            '/': true,
+            '%': true
         },
 
 // These are members that should not be permitted in the safe subset.
@@ -1071,12 +1089,14 @@ var JSLINT = (function () {
             }
             if (type === '(identifier)') {
                 t.identifier = true;
-                if (/^__(?:iterator|proto)__$/.test(value)) {
-                    error("Reserved name '{a}'.", nexttoken, value);
+                if (value === '__iterator__' || value === '__proto__') {
+                    errorAt("Reserved name '{a}'.",
+                        line, from, value);
                 } else if (option.nomen &&
                         (value.charAt(0) === '_' ||
                          value.charAt(value.length - 1) === '_')) {
-                    warningAt("Unexpected '_' in '{a}'.", line, from, value);
+                    warningAt("Unexpected {a} in '{b}'.", line, from,
+                        "dangling '_'", value);
                 }
             }
             t.value = value;
@@ -2185,6 +2205,12 @@ loop:   for (;;) {
             } else if (f) {
                 f.apply(this, [left, right]);
             }
+            if (left.id === '!') {
+                warning("Confusing use of '{a}'.", left, '!');
+            }
+            if (right.id === '!') {
+                warning("Confusing use of '{a}'.", left, '!');
+            }
             this.left = left;
             this.right = right;
             return this;
@@ -2195,8 +2221,8 @@ loop:   for (;;) {
 
     function isPoorRelation(node) {
         return node &&
-              ((node.type === '(number)' && !+node.value) ||
-               (node.type === '(string)' && !node.value) ||
+              ((node.type === '(number)' && +node.value === 0) ||
+               (node.type === '(string)' && node.value === ' ') ||
                 node.type === 'true' ||
                 node.type === 'false' ||
                 node.type === 'undefined' ||
@@ -4051,7 +4077,14 @@ loop:   for (;;) {
         parse(150);
         return this;
     });
-    prefix('!', 'not');
+    prefix('!', function () {
+        this.right = parse(150);
+        this.arity = 'unary';
+        if (bang[this.right.id] === true) {
+            warning("Confusing use of '{a}'.", this, '!');
+        }
+        return this;
+    });
     prefix('typeof', 'typeof');
     prefix('new', function () {
         var c = parse(155), i;
@@ -5378,7 +5411,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-09-23';
+    itself.edition = '2009-09-29';
 
     return itself;
 
