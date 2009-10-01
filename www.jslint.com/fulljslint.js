@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-09-29
+// 2009-10-01
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -3267,7 +3267,7 @@ loop:   for (;;) {
                 case 'first-letter':
                 case 'first-line':
                 case 'first-of-type':
-                case 'focus ':
+                case 'focus':
                 case 'hover':
                 case 'last-of-type':
                 case 'link':
@@ -5411,7 +5411,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-09-29';
+    itself.edition = '2009-10-01';
 
     return itself;
 

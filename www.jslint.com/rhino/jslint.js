@@ -280,7 +280,7 @@ v=styleAttribute();advance(':');if(nexttoken.identifier&&nexttoken.value==='inhe
 if(nexttoken.id==='!'){advance('!');adjacent();if(nexttoken.identifier&&nexttoken.value==='important'){advance();}else{warning("Expected '{a}' and instead saw '{b}'.",nexttoken,'important',nexttoken.value);}}
 if(nexttoken.id==='}'||nexttoken.id===xquote){warning("Missing '{a}'.",nexttoken,';');}else{advance(';');}}}
 function styleSelector(){if(nexttoken.identifier){if(!is_own(htmltag,nexttoken.value)){warning("Expected a tagName, and instead saw {a}.",nexttoken,nexttoken.value);}
-advance();}else{switch(nexttoken.id){case'>':case'+':advance();styleSelector();break;case':':advance(':');switch(nexttoken.value){case'active':case'after':case'before':case'checked':case'disabled':case'empty':case'enabled':case'first-child':case'first-letter':case'first-line':case'first-of-type':case'focus ':case'hover':case'last-of-type':case'link':case'only-of-type':case'root':case'target':case'visited':advance();break;case'lang':advance();advance('(');if(!nexttoken.identifier){warning("Expected a lang code, and instead saw :{a}.",nexttoken,nexttoken.value);}
+advance();}else{switch(nexttoken.id){case'>':case'+':advance();styleSelector();break;case':':advance(':');switch(nexttoken.value){case'active':case'after':case'before':case'checked':case'disabled':case'empty':case'enabled':case'first-child':case'first-letter':case'first-line':case'first-of-type':case'focus':case'hover':case'last-of-type':case'link':case'only-of-type':case'root':case'target':case'visited':advance();break;case'lang':advance();advance('(');if(!nexttoken.identifier){warning("Expected a lang code, and instead saw :{a}.",nexttoken,nexttoken.value);}
 advance(')');break;case'nth-child':case'nth-last-child':case'nth-last-of-type':case'nth-of-type':advance();advance('(');styleChild();advance(')');break;case'not':advance();advance('(');if(nexttoken.id===':'&&peek(0).value==='not'){warning("Nested not.");}
 styleSelector();advance(')');break;default:warning("Expected a pseudo, and instead saw :{a}.",nexttoken,nexttoken.value);}
 break;case'#':advance('#');if(!nexttoken.identifier){warning("Expected an id, and instead saw #{a}.",nexttoken,nexttoken.value);}
@@ -514,7 +514,7 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.jslint=itself;itself.edition='2009-09-29';return itself;}());(function(a){var e,i,input;if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
+return o.join('');};itself.jslint=itself;itself.edition='2009-10-01';return itself;}());(function(a){var e,i,input;if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
 input=readFile(a[0]);if(!input){print("jslint: Couldn't open file '"+a[0]+"'.");quit(1);}
 if(!JSLINT(input,{bitwise:true,eqeqeq:true,immed:true,newcap:true,nomen:true,onevar:true,plusplus:true,regexp:true,rhino:true,undef:true,white:true})){for(i=0;i<JSLINT.errors.length;i+=1){e=JSLINT.errors[i];if(e){print('Lint at line '+e.line+' character '+
 e.character+': '+e.reason);print((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));print('');}}
