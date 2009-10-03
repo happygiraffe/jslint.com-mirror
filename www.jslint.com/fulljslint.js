@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-10-01
+// 2009-10-03
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -1065,6 +1065,9 @@ var JSLINT = (function () {
             at = s.search(cx);
             if (at >= 0) {
                 warningAt("Unsafe character.", line, at);
+            }
+            if (option.maxlen && option.maxlen < s.length) {
+                warningAt("Line too long.", line, s.length);
             }
             return true;
         }
@@ -5411,7 +5414,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-10-01';
+    itself.edition = '2009-10-03';
 
     return itself;
 

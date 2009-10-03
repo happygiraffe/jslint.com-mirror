@@ -1,5 +1,5 @@
 // web.js
-// 2009-08-08
+// 2009-10-03
 
 // This is the web browser companion to fulljslint.js. It is an ADsafe
 // lib file that implements a web ui by adding behavior to the widget's
@@ -11,8 +11,8 @@
 // option = {adsafe: true, fragment: false}
 
 /*members check, cookie, each, edition, get, getTitle, getValue, indent,
-    isArray, join, jslint, lib, maxerr, on, passfail, predef, push, q, select,
-    set, split, value, white
+    isArray, join, jslint, lib, maxerr, maxlen, on, passfail, predef, push,
+    q, select, set, split, value, white
 */
 
 "use strict";
@@ -25,6 +25,7 @@ ADSAFE.lib("init_jslint_ui", function (lib) {
             input = dom.q('#JSLINT_INPUT'),
             jslintstring = dom.q('#JSLINT_JSLINTSTRING'),
             maxerr = dom.q('#JSLINT_MAXERR'),
+            maxlen = dom.q('#JSLINT_MAXLEN'),
             option = lib.cookie.get(),
             output = dom.q('#JSLINT_OUTPUT'),
             predefined = dom.q('#JSLINT_PREDEF');
@@ -42,6 +43,9 @@ ADSAFE.lib("init_jslint_ui", function (lib) {
             }
             if (+option.maxerr > 0) {
                 a.push('maxerr: ' + option.maxerr);
+            }
+            if (+option.maxlen > 0) {
+                a.push('maxlen: ' + option.maxlen);
             }
             if (+option.indent > 0) {
                 a.push('indent: ' + option.indent);
@@ -71,6 +75,8 @@ ADSAFE.lib("init_jslint_ui", function (lib) {
                     option.maxerr = value;
                 }
             }
+            value = +maxlen.getValue();
+            option.maxlen = value && value > 0 ? value : 0;
             value = predefined.getValue();
             if (value) {
                 option.predef = value.split(/\s*,\s*/);
@@ -88,6 +94,7 @@ ADSAFE.lib("init_jslint_ui", function (lib) {
                 bunch.check(ADSAFE.get(option, bunch.getTitle()));
             });
             indent.value(option.indent || '4');
+            maxlen.value(option.maxlen || '');
             maxerr.value(option.maxerr || '50');
             predefined.value(ADSAFE.isArray(option.predef) ?
                     option.predef.join(',') : '');
@@ -122,6 +129,7 @@ ADSAFE.lib("init_jslint_ui", function (lib) {
         dom.q('#JSLINT_CLEARALL').on('click', function (e) {
             checkboxes.check(false);
             indent.value(option.indent || '4');
+            maxlen.value(option.maxlen || '');
             maxerr.value(option.maxerr || '50');
             update_options();
         });
@@ -135,6 +143,7 @@ ADSAFE.lib("init_jslint_ui", function (lib) {
 
         indent.on('change', update_options);
         maxerr.on('change', update_options);
+        maxlen.on('change', update_options);
         predefined.on('change', update_options);
 
         input
