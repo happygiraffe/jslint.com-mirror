@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-10-03
+// 2009-10-04
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -207,8 +207,8 @@ SOFTWARE.
     "list-style", "list-style-image", "list-style-position",
     "list-style-type", load, loadClass, location, log, m, magenta, map,
     margin, "margin-bottom", "margin-left", "margin-right", "margin-top",
-    "marker-offset", maroon, match, "max-height", "max-width", maxerr, md5,
-    media, mediumaquamarine, mediumblue, mediumorchid, mediumpurple,
+    "marker-offset", maroon, match, "max-height", "max-width", maxerr, maxlen,
+    md5, media, mediumaquamarine, mediumblue, mediumorchid, mediumpurple,
     mediumseagreen, mediumslateblue, mediumspringgreen, mediumturquoise,
     mediumvioletred, member, menu, message, meta, midnightblue,
     "min-height", "min-width", mintcream, mistyrose, mm, moccasin, moveBy,
@@ -1060,8 +1060,13 @@ var JSLINT = (function () {
                 return false;
             }
             character = 1;
-            s = lines[line].replace(/\t/g, tab);
+            s = lines[line];
             line += 1;
+            at = s.search(/ \t/);
+            if (at >= 0) {
+                warningAt("Mixed spaces and tabs.", line, at + 1);
+            }
+            s = s.replace(/\t/g, tab);
             at = s.search(cx);
             if (at >= 0) {
                 warningAt("Unsafe character.", line, at);
@@ -5414,7 +5419,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-10-03';
+    itself.edition = '2009-10-04';
 
     return itself;
 

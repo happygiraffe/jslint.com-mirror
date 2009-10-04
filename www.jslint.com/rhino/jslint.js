@@ -21,7 +21,8 @@ function warningAt(m,l,ch,a,b,c,d){return warning(m,{line:l,from:ch},a,b,c,d);}
 function error(m,t,a,b,c,d){var w=warning(m,t,a,b,c,d);quit("Stopping, unable to continue.",w.line,w.character);}
 function errorAt(m,l,ch,a,b,c,d){return error(m,{line:l,from:ch},a,b,c,d);}
 var lex=(function lex(){var character,from,line,s;function nextLine(){var at;if(line>=lines.length){return false;}
-character=1;s=lines[line].replace(/\t/g,tab);line+=1;at=s.search(cx);if(at>=0){warningAt("Unsafe character.",line,at);}
+character=1;s=lines[line];line+=1;at=s.search(/ \t/);if(at>=0){warningAt("Mixed spaces and tabs.",line,at+1);}
+s=s.replace(/\t/g,tab);at=s.search(cx);if(at>=0){warningAt("Unsafe character.",line,at);}
 if(option.maxlen&&option.maxlen<s.length){warningAt("Line too long.",line,s.length);}
 return true;}
 function it(type,value){var i,t;if(type==='(color)'){t={type:type};}else if(type==='(punctuator)'||(type==='(identifier)'&&is_own(syntax,value))){t=syntax[value]||syntax['(error)'];}else{t=syntax[type];}
@@ -515,7 +516,7 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.jslint=itself;itself.edition='2009-10-03';return itself;}());(function(a){var e,i,input;if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
+return o.join('');};itself.jslint=itself;itself.edition='2009-10-04';return itself;}());(function(a){var e,i,input;if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
 input=readFile(a[0]);if(!input){print("jslint: Couldn't open file '"+a[0]+"'.");quit(1);}
 if(!JSLINT(input,{bitwise:true,eqeqeq:true,immed:true,newcap:true,nomen:true,onevar:true,plusplus:true,regexp:true,rhino:true,undef:true,white:true})){for(i=0;i<JSLINT.errors.length;i+=1){e=JSLINT.errors[i];if(e){print('Lint at line '+e.line+' character '+
 e.character+': '+e.reason);print((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));print('');}}
