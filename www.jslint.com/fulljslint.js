@@ -3906,6 +3906,9 @@ loop:   for (;;) {
 
                     if (s === true) {
                         funct[v] = true;
+                    } else if (s === null) {
+                        warning("'{a}' is not allowed.", token, v);
+                        note_implied(token);
                     } else if (typeof s !== 'object') {
                         if (option.undef) {
                             warning("'{a}' is not defined.", token, v);
