@@ -107,13 +107,18 @@ at issuing warnings. <code>lint</code> is no longer needed.</p>
 <p id=browser>Some globals can be predefined for you. Select the <i>Assume
   a browser</i> (<code>browser</code>) <a href="#options">option</a> to
   predefine the standard global properties that are supplied by web browsers,
-  such as <code>document</code> and <code>alert</code>. It has the same
+  such as <code>document</code> and <code>addEventListener</code>. It has the same
   effect as this comment:</p>
 <blockquote>
-<code>/*global addEventListener: false, alert: false, blur: false, clearInterval: false, clearTimeout: false, close: false, closed: false, confirm: false, console: false, Debug: false, defaultStatus: false, document: false, event: false, focus: false, frames: false, getComputedStyle: false, history: false, Image: false, length: false, location: false, moveBy: false, moveTo: false, name: false, navigator: false, onblur: true, onerror: true, onfocus: true, onload: true, onresize: true, onunload: true, open: false, opener: false, opera: false, Option: false, parent: false, print: false, prompt: false, resizeBy: false, resizeTo: false, screen: false, scroll: false, scrollBy: false, scrollTo: false, setInterval: false, setTimeout: false, status: false, top: false, XMLHttpRequest: false  */</code></blockquote>
+<code>/*global addEventListener: false, blur: false, clearInterval: false, clearTimeout: false, close: false, closed: false, defaultStatus: false, document: false, event: false, focus: false, frames: false, getComputedStyle: false, history: false, Image: false, length: false, location: false, moveBy: false, moveTo: false, name: false, navigator: false, onblur: true, onerror: true, onfocus: true, onload: true, onresize: true, onunload: true, open: false, opener: false, Option: false, parent: false, print: false, resizeBy: false, resizeTo: false, screen: false, scroll: false, scrollBy: false, scrollTo: false, setInterval: false, setTimeout: false, status: false, top: false, XMLHttpRequest: false  */</code></blockquote>
 <p> The <code>browser</code> <a href="#options">option</a> does
   not include the aliases of the global object, <code>window</code> and
   <code>self</code>. </p>
+<p id=devel>Select the 
+  <label for="JSLINT_DEVEL" title="devel"><em>Assume console, alert, ...</em></label> 
+(<code>devel</code>) <a href="#options">option</a> to predefine globals that are useful in development but that should be avoided in production, such as <code>console</code> and <code>alert</code>. It has the same
+effect as this comment:</p>
+<pre>/*global alert: false, confirm: false, console: false, Debug: false, opera: false, prompt: false */</pre>
 <p id=rhino>Select the <i>Assume Rhino</i> (<code>rhino</code>) <a href="#options">option</a>
   to predefine the global properties provided by the Rhino environment.
   It has the same effect as this statement:</p>
@@ -490,12 +495,6 @@ by <code>-</code> or <code>--</code>. A misplaced space can turn <code>+ +</code
     <td><code>true</code> if upper case HTML should be allowed.</td>
   </tr>
   <tr>
-    <td>Require Initial Caps for constructors </td>
-    <td><code>newcap</code></td>
-    <td><code>true</code> if Initial Caps must be used with constructor
-      functions. <a href="#new"><small>(more)</small></a></td>
-  </tr>
-  <tr>
     <td>Tolerate CSS workarounds</td>
     <td><code>css</code></td>
     <td><code>true</code> if CSS workarounds should be tolerated. <a href="#css"><small>(more)</small></a></td>
@@ -505,6 +504,12 @@ by <code>-</code> or <code>--</code>. A misplaced space can turn <code>+ +</code
     <td><code>debug</code></td>
     <td><code>true</code> if <code>debugger</code> statements should be
       allowed. Set this option to <code>false</code> before going into production.</td>
+  </tr>
+  <tr>
+    <td>Assume <code>console</code>, <code>alert</code>, ...</td>
+    <td><code>devel</code></td>
+    <td><code>true</code> if browser globals that are useful in development should be
+      predefined. (<a href="#devel">more</a>)</td>
   </tr>
   <tr>
     <td>Disallow <code>==</code> and <code>!=</code></td>
@@ -557,6 +562,12 @@ by <code>-</code> or <code>--</code>. A misplaced space can turn <code>+ +</code
     <td>Disallow dangling _ in identifiers </td>
     <td><code>nomen</code></td>
     <td><code>true</code> if names should be checked for initial or trailing underbars</td>
+  </tr>
+  <tr>
+    <td>Require Initial Caps for constructors </td>
+    <td><code>newcap</code></td>
+    <td><code>true</code> if Initial Caps must be used with constructor
+      functions. <a href="#new"><small>(more)</small></a></td>
   </tr>
   <tr>
     <td>Tolerate HTML event handlers </td>
