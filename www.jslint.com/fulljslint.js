@@ -1,5 +1,5 @@
 // jslint.js
-// 2009-11-22
+// 2010-01-04
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -867,7 +867,8 @@ var JSLINT = (function () {
 // token
         tx = /^\s*([(){}\[.,:;'"~\?\]#@]|==?=?|\/(\*(jslint|members?|global)?|=|\/)?|\*[\/=]?|\+[+=]?|-[\-=]?|%=?|&[&=]?|\|[|=]?|>>?>?=?|<([\/=!]|\!(\[|--)?|<=?)?|\^=?|\!=?=?|[a-zA-Z_$][a-zA-Z0-9_$]*|[0-9]+([xX][0-9a-fA-F]+|\.[0-9]*)?([eE][+\-]?[0-9]+)?)/,
 // html token
-        hx = /^\s*(['"=>\/&#]|<(?:\/|\!(?:--)?)?|[a-zA-Z][a-zA-Z0-9_\-]*|[0-9]+|--|.)/,
+////////        hx = /^\s*(['"=>\/&#]|<(?:\/|\!(?:--)?)?|[a-zA-Z][a-zA-Z0-9_\-]*|[0-9]+|--|.)/,
+        hx = /^\s*(['"=>\/&#]|<(?:\/|\!(?:--)?)?|[a-zA-Z][a-zA-Z0-9_\-]*|[0-9]+|--)/,
 // characters in strings that need escapement
         nx = /[\u0000-\u001f&<"\/\\\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/,
         nxg = /[\u0000-\u001f&<"\/\\\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
@@ -1327,17 +1328,32 @@ var JSLINT = (function () {
                             }
                         }
                     }
+//                     t = match(rx[xmode] || tx);
+//                     if (!t) {
+//                         if (xmode === 'html') {
+//                             return it('(error)', s.charAt(0));
+//                         } else {
+//                             t = '';
+//                             c = '';
+//                             while (s && s < '!') {
+//                                 s = s.substr(1);
+//                             }
+//                             if (s) {
+//                                 errorAt("Unexpected '{a}'.",
+//                                         line, character, s.substr(0, 1));
+//                             }
+//                         }
                     t = match(rx[xmode] || tx);
                     if (!t) {
-                        if (xmode === 'html') {
-                            return it('(error)', s.charAt(0));
-                        } else {
-                            t = '';
-                            c = '';
-                            while (s && s < '!') {
-                                s = s.substr(1);
-                            }
-                            if (s) {
+                        t = '';
+                        c = '';
+                        while (s && s < '!') {
+                            s = s.substr(1);
+                        }
+                        if (s) {
+                            if (xmode === 'html') {
+                                return it('(error)', s.charAt(0));
+                            } else {
                                 errorAt("Unexpected '{a}'.",
                                         line, character, s.substr(0, 1));
                             }
@@ -5324,10 +5340,19 @@ loop:   for (;;) {
 
         var a = [], c, e, err, f, i, k, l, m = '', n, o = [], s;
 
-        function detail(h, s) {
-            if (s) {
-                o.push('<div><i>' + h + '</i> ' +
-                        s.sort().join(', ') + '</div>');
+        function detail(h, array) {
+            var b, i, singularity;
+            if (array) {
+                o.push('<div><i>' + h + '</i> ');
+                array = array.sort();
+                for (i = 0; i < array.length; i += 1) {
+                    if (array[i] !== singularity) {
+                        singularity = array[i];
+                        o.push((b ? ', ' : '') + singularity);
+                        b = true;
+                    }
+                }
+                o.push('</div>');
             }
         }
 
@@ -5382,7 +5407,9 @@ loop:   for (;;) {
                 detail("URLs<br>", data.urls, '<br>');
             }
 
-            if (data.json && !err) {
+            if (xmode === 'style') {
+                o.push('<p>CSS.</p>');
+            } else if (data.json && !err) {
                 o.push('<p>JSON: good.</p>');
             } else if (data.globals) {
                 o.push('<div><i>Global</i> ' +
@@ -5438,7 +5465,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2009-11-22';
+    itself.edition = '2010-01-04';
 
     return itself;
 
