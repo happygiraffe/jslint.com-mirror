@@ -60,9 +60,11 @@ if(option.safe&&ax.test(s)){warningAt("ADsafe comment violation.",line,character
 for(;;){i=s.search(lx);if(i>=0){break;}
 if(!nextLine()){errorAt("Unclosed comment.",line,character);}else{if(option.safe&&ax.test(s)){warningAt("ADsafe comment violation.",line,character);}}}
 character+=i+2;if(s.substr(i,1)==='/'){errorAt("Nested comment.",line,character);}
-s=s.substr(i+2);token.comment=true;break;case'/*members':case'/*member':case'/*jslint':case'/*global':case'*/':return{value:t,type:'special',line:line,character:character,from:from};case'':break;case'/':if(prereg){depth=0;captures=0;l=0;for(;;){b=true;c=s.charAt(l);l+=1;switch(c){case'':errorAt("Unclosed regular expression.",line,from);return;case'/':if(depth>0){warningAt("Unescaped '{a}'.",line,from+l,'/');}
+s=s.substr(i+2);token.comment=true;break;case'/*members':case'/*member':case'/*jslint':case'/*global':case'*/':return{value:t,type:'special',line:line,character:character,from:from};case'':break;case'/':if(token.id==='/='){errorAt("A regular expression literal can be confused with '/='.",line,from);}
+if(prereg){depth=0;captures=0;l=0;for(;;){b=true;c=s.charAt(l);l+=1;switch(c){case'':errorAt("Unclosed regular expression.",line,from);return;case'/':if(depth>0){warningAt("Unescaped '{a}'.",line,from+l,'/');}
 c=s.substr(0,l-1);q={g:true,i:true,m:true};while(q[s.charAt(l)]===true){q[s.charAt(l)]=false;l+=1;}
-character+=l;s=s.substr(l);return it('(regexp)',c);case'\\':c=s.charAt(l);if(c<' '){warningAt("Unexpected control character in regular expression.",line,from+l);}else if(c==='<'){warningAt("Unexpected escaped character '{a}' in regular expression.",line,from+l,c);}
+character+=l;s=s.substr(l);q=s.charAt(0);if(q==='/'||q==='*'){errorAt("Confusing regular expression.",line,from);}
+return it('(regexp)',c);case'\\':c=s.charAt(l);if(c<' '){warningAt("Unexpected control character in regular expression.",line,from+l);}else if(c==='<'){warningAt("Unexpected escaped character '{a}' in regular expression.",line,from+l,c);}
 l+=1;break;case'(':depth+=1;b=false;if(s.charAt(l)==='?'){l+=1;switch(s.charAt(l)){case':':case'=':case'!':l+=1;break;default:warningAt("Expected '{a}' and instead saw '{b}'.",line,from+l,':',s.charAt(l));}}else{captures+=1;}
 break;case'|':b=false;break;case')':if(depth===0){warningAt("Unescaped '{a}'.",line,from+l,')');}else{depth-=1;}
 break;case' ':q=1;while(s.charAt(l)===' '){l+=1;q+=1;}
