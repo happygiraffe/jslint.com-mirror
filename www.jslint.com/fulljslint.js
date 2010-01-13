@@ -4526,7 +4526,7 @@ loop:   for (;;) {
                 nonadjacent(token, nexttoken);
                 advance('=');
                 nonadjacent(token, nexttoken);
-                if (nexttoken.id = 'undefined') {
+                if (nexttoken.id === 'undefined') {
                     warning("It is not necessary to initialize '{a}' to 'undefined'.", token, id);
                 }
                 if (peek(0).id === '=' && nexttoken.identifier) {
@@ -5476,7 +5476,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2010-01-04';
+    itself.edition = '2010-01-12';
 
     return itself;
 

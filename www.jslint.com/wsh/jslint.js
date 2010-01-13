@@ -415,7 +415,7 @@ if(b){indent-=option.indent;indentation();}
 advance('}',this);return this;};x.fud=function(){error("Expected to see a statement and instead saw a block.",token);};}(delim('{')));function varstatement(prefix){var id,name,value;if(funct['(onevar)']&&option.onevar){warning("Too many var statements.");}else if(!funct['(global)']){funct['(onevar)']=true;}
 this.first=[];for(;;){nonadjacent(token,nexttoken);id=identifier();if(funct['(global)']&&predefined[id]===false){warning("Redefinition of '{a}'.",token,id);}
 addlabel(id,'unused');if(prefix){break;}
-name=token;this.first.push(token);if(nexttoken.id==='='){nonadjacent(token,nexttoken);advance('=');nonadjacent(token,nexttoken);if(nexttoken.id='undefined'){warning("It is not necessary to initialize '{a}' to 'undefined'.",token,id);}
+name=token;this.first.push(token);if(nexttoken.id==='='){nonadjacent(token,nexttoken);advance('=');nonadjacent(token,nexttoken);if(nexttoken.id==='undefined'){warning("It is not necessary to initialize '{a}' to 'undefined'.",token,id);}
 if(peek(0).id==='='&&nexttoken.identifier){error("Variable {a} was not declared correctly.",nexttoken,nexttoken.value);}
 value=parse(0);name.first=value;}
 if(nexttoken.id!==','){break;}
@@ -521,4 +521,4 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.jslint=itself;itself.edition='2010-01-04';return itself;}());(function(){if(!JSLINT(WScript.StdIn.ReadAll(),{passfail:true})){var e=JSLINT.errors[0];WScript.StdErr.WriteLine('Lint at line '+e.line+' character '+e.character+': '+e.reason);WScript.StdErr.WriteLine((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));WScript.Quit(1);}}());
+return o.join('');};itself.jslint=itself;itself.edition='2010-01-12';return itself;}());(function(){if(!JSLINT(WScript.StdIn.ReadAll(),{passfail:true})){var e=JSLINT.errors[0];WScript.StdErr.WriteLine('Lint at line '+e.line+' character '+e.character+': '+e.reason);WScript.StdErr.WriteLine((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));WScript.Quit(1);}}());
