@@ -1,5 +1,5 @@
 // jslint.js
-// 2010-01-10
+// 2010-01-12
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -4526,6 +4526,9 @@ loop:   for (;;) {
                 nonadjacent(token, nexttoken);
                 advance('=');
                 nonadjacent(token, nexttoken);
+                if (nexttoken.id = 'undefined') {
+                    warning("It is not necessary to initialize '{a}' to 'undefined'.", token, id);
+                }
                 if (peek(0).id === '=' && nexttoken.identifier) {
                     error("Variable {a} was not declared correctly.",
                             nexttoken, nexttoken.value);
