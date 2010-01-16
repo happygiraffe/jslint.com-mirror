@@ -455,7 +455,7 @@ nolinebreak(this);if(nexttoken.id!==';'){if(token.line===nexttoken.line){if(func
 this.first=nexttoken;advance();}}
 reachable('break');return this;}).exps=true;stmt('continue',function(){var v=nexttoken.value;if(funct['(breakage)']===0){warning("Unexpected '{a}'.",nexttoken,this.value);}
 nolinebreak(this);if(nexttoken.id!==';'){if(token.line===nexttoken.line){if(funct[v]!=='label'){warning("'{a}' is not a statement label.",nexttoken,v);}else if(scope[v]!==funct){warning("'{a}' is out of scope.",nexttoken,v);}
-this.first=nexttoken;advance();}}
+this.first=nexttoken;advance();}}else if(!funct['(loopage)']){warning("Unexpected '{a}'.",nexttoken,this.value);}
 reachable('continue');return this;}).exps=true;stmt('return',function(){nolinebreak(this);if(nexttoken.id==='(regexp)'){warning("Wrap the /regexp/ literal in parens to disambiguate the slash operator.");}
 if(nexttoken.id!==';'&&!nexttoken.reach){nonadjacent(token,nexttoken);this.first=parse(20);}
 reachable('return');return this;}).exps=true;stmt('throw',function(){nolinebreak(this);nonadjacent(token,nexttoken);this.first=parse(20);reachable('throw');return this;}).exps=true;reserve('void');reserve('class');reserve('const');reserve('enum');reserve('export');reserve('extends');reserve('import');reserve('super');reserve('let');reserve('yield');reserve('implements');reserve('interface');reserve('package');reserve('private');reserve('protected');reserve('public');reserve('static');function jsonValue(){function jsonObject(){var o={},t=nexttoken;advance('{');if(nexttoken.id!=='}'){for(;;){if(nexttoken.id==='(end)'){error("Missing '}' to match '{' from line {a}.",nexttoken,t.line);}else if(nexttoken.id==='}'){warning("Unexpected comma.",token);break;}else if(nexttoken.id===','){error("Unexpected comma.",nexttoken);}else if(nexttoken.id!=='(string)'){warning("Expected a string and instead saw {a}.",nexttoken,nexttoken.value);}
@@ -521,7 +521,7 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.jslint=itself;itself.edition='2010-01-12';return itself;}());(function(a){var e,i,input;if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
+return o.join('');};itself.jslint=itself;itself.edition='2010-01-15';return itself;}());(function(a){var e,i,input;if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
 input=readFile(a[0]);if(!input){print("jslint: Couldn't open file '"+a[0]+"'.");quit(1);}
 if(!JSLINT(input,{bitwise:true,eqeqeq:true,immed:true,newcap:true,nomen:true,onevar:true,plusplus:true,regexp:true,rhino:true,undef:true,white:true})){for(i=0;i<JSLINT.errors.length;i+=1){e=JSLINT.errors[i];if(e){print('Lint at line '+e.line+' character '+
 e.character+': '+e.reason);print((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));print('');}}

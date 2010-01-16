@@ -1,5 +1,5 @@
 // jslint.js
-// 2010-01-12
+// 2010-01-15
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -4958,6 +4958,8 @@ loop:   for (;;) {
                 this.first = nexttoken;
                 advance();
             }
+        } else if (!funct['(loopage)']) {
+            warning("Unexpected '{a}'.", nexttoken, this.value);
         }
         reachable('continue');
         return this;
@@ -5476,7 +5478,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2010-01-12';
+    itself.edition = '2010-01-15';
 
     return itself;
 
