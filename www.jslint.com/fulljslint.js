@@ -1,5 +1,5 @@
 // jslint.js
-// 2010-01-15
+// 2010-01-19
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -2673,12 +2673,20 @@ loop:   for (;;) {
     }
 
     function cssColor() {
-        var i, number;
+        var i, limit, number;
         if (nexttoken.identifier) {
-            if (nexttoken.value === 'rgb') {
+            switch (nexttoken.value) {
+            case 'rgb':
+                limit = 3;
+                break;
+            case 'rgba':
+                limit = 4;
+                break;
+            }
+            if (limit) {
                 advance();
                 advance('(');
-                for (i = 0; i < 3; i += 1) {
+                for (i = 0; i < limit; i += 1) {
                     if (i) {
                         advance(',');
                     }
@@ -5478,7 +5486,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2010-01-15';
+    itself.edition = '2010-01-19';
 
     return itself;
 
