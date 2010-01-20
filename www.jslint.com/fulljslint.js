@@ -1,5 +1,5 @@
 // jslint.js
-// 2010-01-19
+// 2010-01-20
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -2673,20 +2673,13 @@ loop:   for (;;) {
     }
 
     function cssColor() {
-        var i, limit, number;
+        var i, number, value;
         if (nexttoken.identifier) {
-            switch (nexttoken.value) {
-            case 'rgb':
-                limit = 3;
-                break;
-            case 'rgba':
-                limit = 4;
-                break;
-            }
-            if (limit) {
+            value = nexttoken.value;
+            if (value === 'rgb' || value === 'rgba') {
                 advance();
                 advance('(');
-                for (i = 0; i < limit; i += 1) {
+                for (i = 0; i < 3; i += 1) {
                     if (i) {
                         advance(',');
                     }
@@ -2709,6 +2702,19 @@ loop:   for (;;) {
                                     token, number);
                             }
                         }
+                    }
+                }
+                if (value === 'rgba') {
+                    advance(',');
+                    number = +nexttoken.value;
+                    if (nexttoken.type !== '(number)' || number < 0 || number > 1) {
+                        warning("Expected a number between 0 and 1 and instead saw '{a}'",
+                            nexttoken, number);
+                    }
+                    advance();
+                    if (nexttoken.id === '%') {
+                        warning("Unexpected '%'.");
+                        advance('%');
                     }
                 }
                 advance(')');
@@ -5486,7 +5492,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2010-01-19';
+    itself.edition = '2010-01-20';
 
     return itself;
 
