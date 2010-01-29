@@ -309,7 +309,7 @@ if(option.adsafe){if(n==='html'){error("Currently, ADsafe does not operate on wh
 if(option.fragment){if(n!=='div'){error("ADsafe violation: Wrap the widget in a div.",token);}}else{error("Use the fragment option.",token);}}
 option.browser=true;assume();}
 function doAttribute(n,a,v){var u,x;if(a==='id'){u=typeof v==='string'?v.toUpperCase():'';if(ids[u]===true){warning("Duplicate id='{a}'.",nexttoken,v);}
-if(option.adsafe){if(adsafe_id){if(v.slice(0,adsafe_id.length)!==adsafe_id){warning("ADsafe violation: An id must have a '{a}' prefix",nexttoken,adsafe_id);}else if(!/^[A-Z]+_[A-Z]+$/.test(v)){warning("ADSAFE violation: bad id.");}}else{adsafe_id=v;if(!/^[A-Z]+_$/.test(v)){warning("ADSAFE violation: bad id.");}}}
+debugger;if(!/^[A-Za-z][A-Za-z0-9._:\-]*$/.test(v)){warning("Bad id: '{a}'.",nexttoken,v);}else if(option.adsafe){if(adsafe_id){if(v.slice(0,adsafe_id.length)!==adsafe_id){warning("ADsafe violation: An id must have a '{a}' prefix",nexttoken,adsafe_id);}else if(!/^[A-Z]+_[A-Z]+$/.test(v)){warning("ADSAFE violation: bad id.");}}else{adsafe_id=v;if(!/^[A-Z]+_$/.test(v)){warning("ADSAFE violation: bad id.");}}}
 x=v.search(dx);if(x>=0){warning("Unexpected character '{a}' in {b}.",token,v.charAt(x),a);}
 ids[u]=true;}else if(a==='class'||a==='type'||a==='name'){x=v.search(qx);if(x>=0){warning("Unexpected character '{a}' in {b}.",token,v.charAt(x),a);}
 ids[u]=true;}else if(a==='href'||a==='background'||a==='content'||a==='data'||a.indexOf('src')>=0||a.indexOf('url')>=0){if(option.safe&&ux.test(v)){error("ADsafe URL violation.");}
@@ -523,7 +523,7 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.jslint=itself;itself.edition='2010-01-20';return itself;}());(function(a){var e,i,input;if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
+return o.join('');};itself.jslint=itself;itself.edition='2010-01-28';return itself;}());(function(a){var e,i,input;if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
 input=readFile(a[0]);if(!input){print("jslint: Couldn't open file '"+a[0]+"'.");quit(1);}
 if(!JSLINT(input,{bitwise:true,eqeqeq:true,immed:true,newcap:true,nomen:true,onevar:true,plusplus:true,regexp:true,rhino:true,undef:true,white:true})){for(i=0;i<JSLINT.errors.length;i+=1){e=JSLINT.errors[i];if(e){print('Lint at line '+e.line+' character '+
 e.character+': '+e.reason);print((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));print('');}}

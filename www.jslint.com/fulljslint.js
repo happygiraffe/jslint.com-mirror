@@ -1,5 +1,5 @@
 // jslint.js
-// 2010-01-20
+// 2010-01-28
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -3510,7 +3510,9 @@ loop:   for (;;) {
             if (ids[u] === true) {
                 warning("Duplicate id='{a}'.", nexttoken, v);
             }
-            if (option.adsafe) {
+            if (!/^[A-Za-z][A-Za-z0-9._:\-]*$/.test(v)) {
+                warning("Bad id: '{a}'.", nexttoken, v);
+            } else if (option.adsafe) {
                 if (adsafe_id) {
                     if (v.slice(0, adsafe_id.length) !== adsafe_id) {
                         warning("ADsafe violation: An id must have a '{a}' prefix",
@@ -3524,7 +3526,7 @@ loop:   for (;;) {
                         warning("ADSAFE violation: bad id.");
                     }
                 }
-            }
+            }  
             x = v.search(dx);
             if (x >= 0) {
                 warning("Unexpected character '{a}' in {b}.", token, v.charAt(x), a);
@@ -5492,7 +5494,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2010-01-20';
+    itself.edition = '2010-01-28';
 
     return itself;
 
