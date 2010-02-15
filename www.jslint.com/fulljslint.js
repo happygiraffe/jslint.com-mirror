@@ -1,5 +1,5 @@
 // jslint.js
-// 2010-01-28
+// 2010-02-14
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -4637,8 +4637,8 @@ loop:   for (;;) {
             nonadjacent(token, nexttoken);
         }
         doFunction(i);
-        if (funct['(loopage)'] && nexttoken.id !== '(') {
-            warning("Be careful when making functions within a loop. Consider putting the function in a closure.");
+        if (funct['(loopage)']) {
+            warning("Don't make functions within a loop.");
         }
         return this;
     });
@@ -5494,7 +5494,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2010-01-28';
+    itself.edition = '2010-02-14';
 
     return itself;
 
