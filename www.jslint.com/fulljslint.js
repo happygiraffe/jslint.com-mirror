@@ -1,5 +1,5 @@
 // jslint.js
-// 2010-02-14
+// 2010-02-20
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -2458,9 +2458,6 @@ loop:   for (;;) {
         if (!noindent) {
             indentation();
         }
-        if (nexttoken.id === 'new') {
-            warning("'new' should not be used as a statement.");
-        }
         r = parse(0, true);
 
 // Look for the final semicolon.
@@ -2470,6 +2467,8 @@ loop:   for (;;) {
                 warning(
 "Expected an assignment or function call and instead saw an expression.",
                         token);
+            } else if (r.id === '(' && r.left.id === 'new') {
+                warning("Do not use 'new' for side effects.");
             }
             if (nexttoken.id !== ';') {
                 warningAt("Missing semicolon.", token.line,
@@ -5494,7 +5493,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2010-02-14';
+    itself.edition = '2010-02-20';
 
     return itself;
 
