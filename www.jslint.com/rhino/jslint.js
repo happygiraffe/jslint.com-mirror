@@ -154,7 +154,7 @@ function prefix(s,f){var x=symbol(s,150);reserveName(x);x.nud=(typeof f==='funct
 return this;};return x;}
 function type(s,f){var x=delim(s);x.type=s;x.nud=f;return x;}
 function reserve(s,f){var x=type(s,f);x.identifier=x.reserved=true;return x;}
-function reservevar(s,v){return reserve(s,function(){if(this.id==='this'||this.id==='arguments'){if(strict_mode&&funct['(global)']){warning("Strict violation.",this);}else if(option.safe){warning("ADsafe violation.",this);}}
+function reservevar(s,v){return reserve(s,function(){if(this.id==='this'||this.id==='arguments'||this.id==='eval'){if(strict_mode&&funct['(global)']){warning("Strict violation.",this);}else if(option.safe){warning("ADsafe violation.",this);}}
 return this;});}
 function infix(s,f,p,w){var x=symbol(s,p);reserveName(x);x.led=function(left){if(!w){nobreaknonadjacent(prevtoken,token);nonadjacent(token,nexttoken);}
 if(typeof f==='function'){return f(left,this);}else{this.left=left;this.right=parse(p);return this;}};return x;}
@@ -522,7 +522,7 @@ if(i<a.length-1){n+=', ';}
 m+=n;}
 o.push(m+'<br>*/</pre>');}
 o.push('</div>');}}
-return o.join('');};itself.jslint=itself;itself.edition='2010-02-20';return itself;}());(function(a){var e,i,input;if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
+return o.join('');};itself.jslint=itself;itself.edition='2010-03-02';return itself;}());(function(a){var e,i,input;if(!a[0]){print("Usage: jslint.js file.js");quit(1);}
 input=readFile(a[0]);if(!input){print("jslint: Couldn't open file '"+a[0]+"'.");quit(1);}
 if(!JSLINT(input,{bitwise:true,eqeqeq:true,immed:true,newcap:true,nomen:true,onevar:true,plusplus:true,regexp:true,rhino:true,undef:true,white:true})){for(i=0;i<JSLINT.errors.length;i+=1){e=JSLINT.errors[i];if(e){print('Lint at line '+e.line+' character '+
 e.character+': '+e.reason);print((e.evidence||'').replace(/^\s*(\S*(\s+\S+)*)\s*$/,"$1"));print('');}}

@@ -1,5 +1,5 @@
 // jslint.js
-// 2010-02-20
+// 2010-03-02
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -2209,7 +2209,8 @@ loop:   for (;;) {
 
     function reservevar(s, v) {
         return reserve(s, function () {
-            if (this.id === 'this' || this.id === 'arguments') {
+            if (this.id === 'this' || this.id === 'arguments' || 
+                    this.id === 'eval') {
                 if (strict_mode && funct['(global)']) {
                     warning("Strict violation.", this);
                 } else if (option.safe) {
@@ -5493,7 +5494,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2010-02-20';
+    itself.edition = '2010-03-02';
 
     return itself;
 
