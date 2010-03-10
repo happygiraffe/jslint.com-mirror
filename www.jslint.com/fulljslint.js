@@ -1,5 +1,5 @@
 // jslint.js
-// 2010-03-06
+// 2010-03-10
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -141,7 +141,7 @@ SOFTWARE.
 */
 
 /*jslint
-    nomen: false, onevar: false, regexp: false, strict: true
+    evil: true, nomen: false, onevar: false, regexp: false, strict: true
 */
 
 /*members "\b", "\t", "\n", "\f", "\r", "!=", "!==", "\"", "%", 
@@ -235,7 +235,7 @@ SOFTWARE.
     seashell, section, select, serialize, setInterval, setTimeout, shift, 
     showWidgetPreferences, sidebar, sienna, silver, skyblue, slateblue, 
     slategray, sleep, slice, small, snow, sort, source, span, spawn, speak, 
-    split, springgreen, src, status, steelblue, strict, strong, style, 
+    split, springgreen, src, stack, status, steelblue, strict, strong, style, 
     styleproperty, sub, substr, sup, supplant, suppressUpdates, sync, 
     system, table, "table-layout", tan, tbody, td, teal, tellWidget, test, 
     "text-align", "text-decoration", "text-indent", "text-shadow", 
@@ -296,6 +296,7 @@ var JSLINT = (function () {
             constructor     : true,
             'eval'          : true,
             prototype       : true,
+            stack           : true,
             unwatch         : true,
             valueOf         : true,
             watch           : true
@@ -5520,7 +5521,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2010-03-06';
+    itself.edition = '2010-03-10';
 
     return itself;
 
