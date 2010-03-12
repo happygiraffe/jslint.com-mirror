@@ -1,5 +1,5 @@
 // jslint.js
-// 2010-03-10
+// 2010-03-12
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -144,108 +144,108 @@ SOFTWARE.
     evil: true, nomen: false, onevar: false, regexp: false, strict: true
 */
 
-/*members "\b", "\t", "\n", "\f", "\r", "!=", "!==", "\"", "%", 
-    "(begin)", "(breakage)", "(context)", "(error)", "(global)", 
-    "(identifier)", "(last)", "(line)", "(loopage)", "(name)", "(onevar)", 
-    "(params)", "(scope)", "(verb)", "*", "+", "++", "-", "--", "\/", 
-    "<", "<=", "==", "===", ">", ">=", ADSAFE, Array, Boolean, 
-    COM, Canvas, CustomAnimation, Date, Debug, E, Error, EvalError, 
-    FadeAnimation, Flash, FormField, Frame, Function, HotKey, Image, JSON, 
-    LN10, LN2, LOG10E, LOG2E, MAX_VALUE, MIN_VALUE, Math, MenuItem, 
-    MoveAnimation, NEGATIVE_INFINITY, Number, Object, Option, PI, 
-    POSITIVE_INFINITY, Point, RangeError, Rectangle, ReferenceError, RegExp, 
-    ResizeAnimation, RotateAnimation, SQRT1_2, SQRT2, ScrollBar, String, 
-    Style, SyntaxError, System, Text, TextArea, Timer, TypeError, URIError, 
-    URL, Web, Window, XMLDOM, XMLHttpRequest, "\\", a, abbr, acronym, 
-    addEventListener, address, adsafe, alert, aliceblue, animator, 
-    antiquewhite, appleScript, applet, apply, approved, aqua, aquamarine, 
-    area, arguments, arity, article, aside, audio, autocomplete, azure, b, 
-    background, "background-attachment", "background-color", 
-    "background-image", "background-position", "background-repeat", base, 
-    bdo, beep, beige, big, bisque, bitwise, black, blanchedalmond, block, 
-    blockquote, blue, blueviolet, blur, body, border, "border-bottom", 
-    "border-bottom-color", "border-bottom-style", "border-bottom-width", 
-    "border-collapse", "border-color", "border-left", "border-left-color", 
-    "border-left-style", "border-left-width", "border-right", 
-    "border-right-color", "border-right-style", "border-right-width", 
-    "border-spacing", "border-style", "border-top", "border-top-color", 
-    "border-top-style", "border-top-width", "border-width", bottom, br, 
-    brown, browser, burlywood, button, bytesToUIString, c, cadetblue, call, 
-    callee, caller, canvas, cap, caption, "caption-side", cases, center, 
-    charAt, charCodeAt, character, chartreuse, chocolate, chooseColor, 
-    chooseFile, chooseFolder, cite, clear, clearInterval, clearTimeout, 
-    clip, close, closeWidget, closed, closure, cm, code, col, colgroup, 
-    color, command, comment, condition, confirm, console, constructor, 
-    content, convertPathToHFS, convertPathToPlatform, coral, cornflowerblue, 
-    cornsilk, "counter-increment", "counter-reset", create, crimson, css, 
-    cursor, cyan, d, darkblue, darkcyan, darkgoldenrod, darkgray, darkgreen, 
-    darkkhaki, darkmagenta, darkolivegreen, darkorange, darkorchid, darkred, 
-    darksalmon, darkseagreen, darkslateblue, darkslategray, darkturquoise, 
-    darkviolet, data, datalist, dd, debug, decodeURI, decodeURIComponent, 
-    deeppink, deepskyblue, defaultStatus, defineClass, del, deserialize, 
-    details, devel, dfn, dialog, dimension, dimgray, dir, direction, 
-    display, div, dl, document, dodgerblue, dt, edition, else, em, embed, 
-    empty, "empty-cells", encodeURI, encodeURIComponent, entityify, eqeqeq, 
-    errors, escape, eval, event, evidence, evil, ex, exception, exec, exps, 
-    fieldset, figure, filesystem, firebrick, first, float, floor, 
-    floralwhite, focus, focusWidget, font, "font-face", "font-family", 
-    "font-size", "font-size-adjust", "font-stretch", "font-style", 
-    "font-variant", "font-weight", footer, forestgreen, forin, form, 
-    fragment, frame, frames, frameset, from, fromCharCode, fuchsia, fud, 
-    funct, function, functions, g, gainsboro, gc, getComputedStyle, 
-    ghostwhite, global, globals, gold, goldenrod, gray, green, greenyellow, 
-    h1, h2, h3, h4, h5, h6, hasOwnProperty, head, header, height, help, 
-    hgroup, history, honeydew, hotpink, hr, html, i, iTunes, id, identifier, 
-    iframe, img, immed, implieds, in, include, indent, indexOf, indianred, 
-    indigo, init, input, ins, isAlpha, isApplicationRunning, isDigit, 
-    isFinite, isNaN, ivory, join, jslint, json, kbd, keygen, khaki, 
-    konfabulatorVersion, label, labelled, lang, last, lavender, 
-    lavenderblush, lawngreen, laxbreak, lbp, led, left, legend, 
-    lemonchiffon, length, "letter-spacing", li, lib, lightblue, lightcoral, 
-    lightcyan, lightgoldenrodyellow, lightgreen, lightpink, lightsalmon, 
-    lightseagreen, lightskyblue, lightslategray, lightsteelblue, 
-    lightyellow, lime, limegreen, line, "line-height", linen, link, 
-    "list-style", "list-style-image", "list-style-position", 
-    "list-style-type", load, loadClass, location, log, m, magenta, map, 
-    margin, "margin-bottom", "margin-left", "margin-right", "margin-top", 
-    mark, "marker-offset", maroon, match, "max-height", "max-width", maxerr, 
-    maxlen, md5, media, mediumaquamarine, mediumblue, mediumorchid, 
-    mediumpurple, mediumseagreen, mediumslateblue, mediumspringgreen, 
-    mediumturquoise, mediumvioletred, member, menu, message, meta, meter, 
-    midnightblue, "min-height", "min-width", mintcream, mistyrose, mm, 
-    moccasin, moveBy, moveTo, name, nav, navajowhite, navigator, navy, new, 
-    newcap, noframes, nomen, noscript, nud, object, ol, oldlace, olive, 
-    olivedrab, on, onbeforeunload, onblur, onerror, onevar, onfocus, onload, 
-    onresize, onunload, opacity, open, openURL, opener, opera, optgroup, 
-    option, orange, orangered, orchid, outer, outline, "outline-color", 
-    "outline-style", "outline-width", output, overflow, "overflow-x", 
-    "overflow-y", p, padding, "padding-bottom", "padding-left", 
-    "padding-right", "padding-top", page, "page-break-after", 
-    "page-break-before", palegoldenrod, palegreen, paleturquoise, 
-    palevioletred, papayawhip, param, parent, parseFloat, parseInt, 
-    passfail, pc, peachpuff, peru, pink, play, plum, plusplus, pop, 
-    popupMenu, position, powderblue, pre, predef, preferenceGroups, 
-    preferences, print, progress, prompt, prototype, pt, purple, push, px, 
-    q, quit, quotes, random, range, raw, reach, readFile, readUrl, reason, 
-    red, regexp, reloadWidget, removeEventListener, replace, report, 
-    reserved, resizeBy, resizeTo, resolvePath, resumeUpdates, rhino, right, 
-    rosybrown, royalblue, rp, rt, ruby, runCommand, runCommandInBg, 
-    saddlebrown, safe, salmon, samp, sandybrown, saveAs, savePreferences, 
-    screen, script, scroll, scrollBy, scrollTo, seagreen, seal, search, 
-    seashell, section, select, serialize, setInterval, setTimeout, shift, 
-    showWidgetPreferences, sidebar, sienna, silver, skyblue, slateblue, 
-    slategray, sleep, slice, small, snow, sort, source, span, spawn, speak, 
-    split, springgreen, src, stack, status, steelblue, strict, strong, style, 
-    styleproperty, sub, substr, sup, supplant, suppressUpdates, sync, 
-    system, table, "table-layout", tan, tbody, td, teal, tellWidget, test, 
-    "text-align", "text-decoration", "text-indent", "text-shadow", 
-    "text-transform", textarea, tfoot, th, thead, thistle, time, title, 
-    toLowerCase, toString, toUpperCase, toint32, token, tomato, top, tr, tt, 
-    turquoise, type, u, ul, undef, unescape, "unicode-bidi", unused, 
-    unwatch, updateNow, urls, value, valueOf, var, version, 
-    "vertical-align", video, violet, visibility, watch, wheat, white, 
-    "white-space", whitesmoke, widget, width, "word-spacing", "word-wrap", 
-    yahooCheckLogin, yahooLogin, yahooLogout, yellow, yellowgreen, 
+/*members "\b", "\t", "\n", "\f", "\r", "!=", "!==", "\"", "%",
+    "(begin)", "(breakage)", "(context)", "(error)", "(global)",
+    "(identifier)", "(last)", "(line)", "(loopage)", "(name)", "(onevar)",
+    "(params)", "(scope)", "(verb)", "*", "+", "++", "-", "--", "\/",
+    "<", "<=", "==", "===", ">", ">=", ADSAFE, Array, Boolean,
+    COM, Canvas, CustomAnimation, Date, Debug, E, Error, EvalError,
+    FadeAnimation, Flash, FormField, Frame, Function, HotKey, Image, JSON,
+    LN10, LN2, LOG10E, LOG2E, MAX_VALUE, MIN_VALUE, Math, MenuItem,
+    MoveAnimation, NEGATIVE_INFINITY, Number, Object, Option, PI,
+    POSITIVE_INFINITY, Point, RangeError, Rectangle, ReferenceError, RegExp,
+    ResizeAnimation, RotateAnimation, SQRT1_2, SQRT2, ScrollBar, String,
+    Style, SyntaxError, System, Text, TextArea, Timer, TypeError, URIError,
+    URL, Web, Window, XMLDOM, XMLHttpRequest, "\\", a, abbr, acronym,
+    addEventListener, address, adsafe, alert, aliceblue, animator,
+    antiquewhite, appleScript, applet, apply, approved, aqua, aquamarine,
+    area, arguments, arity, article, aside, audio, autocomplete, azure, b,
+    background, "background-attachment", "background-color",
+    "background-image", "background-position", "background-repeat", base,
+    bdo, beep, beige, big, bisque, bitwise, black, blanchedalmond, block,
+    blockquote, blue, blueviolet, blur, body, border, "border-bottom",
+    "border-bottom-color", "border-bottom-style", "border-bottom-width",
+    "border-collapse", "border-color", "border-left", "border-left-color",
+    "border-left-style", "border-left-width", "border-right",
+    "border-right-color", "border-right-style", "border-right-width",
+    "border-spacing", "border-style", "border-top", "border-top-color",
+    "border-top-style", "border-top-width", "border-width", bottom, br,
+    brown, browser, burlywood, button, bytesToUIString, c, cadetblue, call,
+    callee, caller, canvas, cap, caption, "caption-side", cases, center,
+    charAt, charCodeAt, character, chartreuse, chocolate, chooseColor,
+    chooseFile, chooseFolder, cite, clear, clearInterval, clearTimeout,
+    clip, close, closeWidget, closed, closure, cm, code, col, colgroup,
+    color, command, comment, condition, confirm, console, constructor,
+    content, convertPathToHFS, convertPathToPlatform, coral, cornflowerblue,
+    cornsilk, "counter-increment", "counter-reset", create, crimson, css,
+    cursor, cyan, d, darkblue, darkcyan, darkgoldenrod, darkgray, darkgreen,
+    darkkhaki, darkmagenta, darkolivegreen, darkorange, darkorchid, darkred,
+    darksalmon, darkseagreen, darkslateblue, darkslategray, darkturquoise,
+    darkviolet, data, datalist, dd, debug, decodeURI, decodeURIComponent,
+    deeppink, deepskyblue, defaultStatus, defineClass, del, deserialize,
+    details, devel, dfn, dialog, dimension, dimgray, dir, direction,
+    display, div, dl, document, dodgerblue, dt, edition, else, em, embed,
+    empty, "empty-cells", encodeURI, encodeURIComponent, entityify, eqeqeq,
+    errors, escape, eval, event, evidence, evil, ex, exception, exec, exps,
+    fieldset, figure, filesystem, firebrick, first, float, floor,
+    floralwhite, focus, focusWidget, font, "font-face", "font-family",
+    "font-size", "font-size-adjust", "font-stretch", "font-style",
+    "font-variant", "font-weight", footer, forestgreen, forin, form,
+    fragment, frame, frames, frameset, from, fromCharCode, fuchsia, fud,
+    funct, function, functions, g, gainsboro, gc, getComputedStyle,
+    ghostwhite, global, globals, gold, goldenrod, gray, green, greenyellow,
+    h1, h2, h3, h4, h5, h6, hasOwnProperty, head, header, height, help,
+    hgroup, history, honeydew, hotpink, hr, html, i, iTunes, id, identifier,
+    iframe, img, immed, implieds, in, include, indent, indexOf, indianred,
+    indigo, init, input, ins, isAlpha, isApplicationRunning, isDigit,
+    isFinite, isNaN, ivory, join, jslint, json, kbd, keygen, khaki,
+    konfabulatorVersion, label, labelled, lang, last, lavender,
+    lavenderblush, lawngreen, laxbreak, lbp, led, left, legend,
+    lemonchiffon, length, "letter-spacing", li, lib, lightblue, lightcoral,
+    lightcyan, lightgoldenrodyellow, lightgreen, lightpink, lightsalmon,
+    lightseagreen, lightskyblue, lightslategray, lightsteelblue,
+    lightyellow, lime, limegreen, line, "line-height", linen, link,
+    "list-style", "list-style-image", "list-style-position",
+    "list-style-type", load, loadClass, location, log, m, magenta, map,
+    margin, "margin-bottom", "margin-left", "margin-right", "margin-top",
+    mark, "marker-offset", maroon, match, "max-height", "max-width", maxerr,
+    maxlen, md5, media, mediumaquamarine, mediumblue, mediumorchid,
+    mediumpurple, mediumseagreen, mediumslateblue, mediumspringgreen,
+    mediumturquoise, mediumvioletred, member, menu, message, meta, meter,
+    midnightblue, "min-height", "min-width", mintcream, mistyrose, mm,
+    moccasin, moveBy, moveTo, name, nav, navajowhite, navigator, navy, new,
+    newcap, noframes, nomen, noscript, nud, object, ol, oldlace, olive,
+    olivedrab, on, onbeforeunload, onblur, onerror, onevar, onfocus, onload,
+    onresize, onunload, opacity, open, openURL, opener, opera, optgroup,
+    option, orange, orangered, orchid, outer, outline, "outline-color",
+    "outline-style", "outline-width", output, overflow, "overflow-x",
+    "overflow-y", p, padding, "padding-bottom", "padding-left",
+    "padding-right", "padding-top", page, "page-break-after",
+    "page-break-before", palegoldenrod, palegreen, paleturquoise,
+    palevioletred, papayawhip, param, parent, parseFloat, parseInt,
+    passfail, pc, peachpuff, peru, pink, play, plum, plusplus, pop,
+    popupMenu, position, powderblue, pre, predef, preferenceGroups,
+    preferences, print, progress, prompt, prototype, pt, purple, push, px,
+    q, quit, quotes, random, range, raw, reach, readFile, readUrl, reason,
+    red, regexp, reloadWidget, removeEventListener, replace, report,
+    reserved, resizeBy, resizeTo, resolvePath, resumeUpdates, rhino, right,
+    rosybrown, royalblue, rp, rt, ruby, runCommand, runCommandInBg,
+    saddlebrown, safe, salmon, samp, sandybrown, saveAs, savePreferences,
+    screen, script, scroll, scrollBy, scrollTo, seagreen, seal, search,
+    seashell, section, select, serialize, setInterval, setTimeout, shift,
+    showWidgetPreferences, sidebar, sienna, silver, skyblue, slateblue,
+    slategray, sleep, slice, small, snow, sort, source, span, spawn, speak,
+    split, springgreen, src, stack, status, steelblue, strict, strong, style,
+    styleproperty, sub, substr, sup, supplant, suppressUpdates, sync,
+    system, table, "table-layout", tan, tbody, td, teal, tellWidget, test,
+    "text-align", "text-decoration", "text-indent", "text-shadow",
+    "text-transform", textarea, tfoot, th, thead, thistle, time, title,
+    toLowerCase, toString, toUpperCase, toint32, token, tomato, top, tr, tt,
+    turquoise, type, u, ul, undef, unescape, "unicode-bidi", unused,
+    unwatch, updateNow, urls, value, valueOf, var, version,
+    "vertical-align", video, violet, visibility, watch, wheat, white,
+    "white-space", whitesmoke, widget, width, "word-spacing", "word-wrap",
+    yahooCheckLogin, yahooLogin, yahooLogout, yellow, yellowgreen,
     "z-index"
 */
 
@@ -913,7 +913,7 @@ var JSLINT = (function () {
         sx = /^\s*([{:#%.=,>+\[\]@()"';]|\*=?|\$=|\|=|\^=|~=|[a-zA-Z_][a-zA-Z0-9_\-]*|[0-9]+|<\/|\/\*)/,
         ssx = /^\s*([@#!"'};:\-%.=,+\[\]()*_]|[a-zA-Z][a-zA-Z0-9._\-]*|\/\*?|\d+(?:\.\d+)?|<\/)/,
 // attributes characters
-        qx = /[^a-zA-Z0-9-_\/ ]/,
+        qx = /[^a-zA-Z0-9+\-_\/ ]/,
 // query characters for ids
         dx = /[\[\]\/\\"'*<>.&:(){}+=#]/,
 
@@ -1465,7 +1465,8 @@ var JSLINT = (function () {
                                     errorAt("Unclosed comment.", line, character);
                                 } else {
                                     if (option.safe && ax.test(s)) {
-                                        warningAt("ADsafe comment violation.", line, character);
+                                        warningAt("ADsafe comment violation.",
+                                                line, character);
                                     }
                                 }
                             }
@@ -1510,11 +1511,13 @@ var JSLINT = (function () {
                                     l += 1;
                                     switch (c) {
                                     case '':
-                                        errorAt("Unclosed regular expression.", line, from);
+                                        errorAt("Unclosed regular expression.",
+                                                line, from);
                                         return;
                                     case '/':
                                         if (depth > 0) {
-                                            warningAt("Unescaped '{a}'.", line, from + l, '/');
+                                            warningAt("Unescaped '{a}'.",
+                                                    line, from + l, '/');
                                         }
                                         c = s.substr(0, l - 1);
                                         q = {
@@ -1530,15 +1533,18 @@ var JSLINT = (function () {
                                         s = s.substr(l);
                                         q = s.charAt(0);
                                         if (q === '/' || q === '*') {
-                                            errorAt("Confusing regular expression.", line, from);
+                                            errorAt("Confusing regular expression.",
+                                                    line, from);
                                         }
                                         return it('(regexp)', c);
                                     case '\\':
                                         c = s.charAt(l);
                                         if (c < ' ') {
-                                            warningAt("Unexpected control character in regular expression.", line, from + l);
+                                            warningAt(
+"Unexpected control character in regular expression.", line, from + l);
                                         } else if (c === '<') {
-                                            warningAt("Unexpected escaped character '{a}' in regular expression.", line, from + l, c);
+                                            warningAt(
+"Unexpected escaped character '{a}' in regular expression.", line, from + l, c);
                                         }
                                         l += 1;
                                         break;
@@ -1554,7 +1560,8 @@ var JSLINT = (function () {
                                                 l += 1;
                                                 break;
                                             default:
-                                                warningAt("Expected '{a}' and instead saw '{b}'.", line, from + l, ':', s.charAt(l));
+                                                warningAt(
+"Expected '{a}' and instead saw '{b}'.", line, from + l, ':', s.charAt(l));
                                             }
                                         } else {
                                             captures += 1;
@@ -1565,7 +1572,8 @@ var JSLINT = (function () {
                                         break;
                                     case ')':
                                         if (depth === 0) {
-                                            warningAt("Unescaped '{a}'.", line, from + l, ')');
+                                            warningAt("Unescaped '{a}'.",
+                                                    line, from + l, ')');
                                         } else {
                                             depth -= 1;
                                         }
@@ -1577,7 +1585,8 @@ var JSLINT = (function () {
                                             q += 1;
                                         }
                                         if (q > 1) {
-                                            warningAt("Spaces are hard to count. Use {{a}}.", line, from + l, q);
+                                            warningAt(
+"Spaces are hard to count. Use {{a}}.", line, from + l, q);
                                         }
                                         break;
                                     case '[':
@@ -1585,55 +1594,64 @@ var JSLINT = (function () {
                                         if (c === '^') {
                                             l += 1;
                                             if (option.regexp) {
-                                                warningAt("Insecure '{a}'.", line, from + l, c);
+                                                warningAt("Insecure '{a}'.",
+                                                        line, from + l, c);
                                             }
                                         }
                                         q = false;
                                         if (c === ']') {
-                                            warningAt("Empty class.", line, from + l - 1);
+                                            warningAt("Empty class.", line,
+                                                    from + l - 1);
                                             q = true;
                                         }
-    klass:                              do {
+klass:                                  do {
                                             c = s.charAt(l);
                                             l += 1;
                                             switch (c) {
                                             case '[':
                                             case '^':
-                                                warningAt("Unescaped '{a}'.", line, from + l, c);
+                                                warningAt("Unescaped '{a}'.",
+                                                        line, from + l, c);
                                                 q = true;
                                                 break;
                                             case '-':
                                                 if (q) {
                                                     q = false;
                                                 } else {
-                                                    warningAt("Unescaped '{a}'.", line, from + l, '-');
+                                                    warningAt("Unescaped '{a}'.",
+                                                            line, from + l, '-');
                                                     q = true;
                                                 }
                                                 break;
                                             case ']':
                                                 if (!q) {
-                                                    warningAt("Unescaped '{a}'.", line, from + l - 1, '-');
+                                                    warningAt("Unescaped '{a}'.",
+                                                            line, from + l - 1, '-');
                                                 }
                                                 break klass;
                                             case '\\':
                                                 c = s.charAt(l);
                                                 if (c < ' ') {
-                                                    warningAt("Unexpected control character in regular expression.", line, from + l);
+                                                    warningAt(
+"Unexpected control character in regular expression.", line, from + l);
                                                 } else if (c === '<') {
-                                                    warningAt("Unexpected escaped character '{a}' in regular expression.", line, from + l, c);
+                                                    warningAt(
+"Unexpected escaped character '{a}' in regular expression.", line, from + l, c);
                                                 }
                                                 l += 1;
                                                 q = true;
                                                 break;
                                             case '/':
-                                                warningAt("Unescaped '{a}'.", line, from + l - 1, '/');
+                                                warningAt("Unescaped '{a}'.",
+                                                        line, from + l - 1, '/');
                                                 q = true;
                                                 break;
                                             case '<':
                                                 if (xmode === 'script') {
                                                     c = s.charAt(l);
                                                     if (c === '!' || c === '/') {
-                                                        warningAt("HTML confusion in regular expression '<{a}'.", line, from + l, c);
+                                                        warningAt(
+"HTML confusion in regular expression '<{a}'.", line, from + l, c);
                                                     }
                                                 }
                                                 q = true;
@@ -1645,7 +1663,8 @@ var JSLINT = (function () {
                                         break;
                                     case '.':
                                         if (option.regexp) {
-                                            warningAt("Insecure '{a}'.", line, from + l, c);
+                                            warningAt("Insecure '{a}'.", line,
+                                                    from + l, c);
                                         }
                                         break;
                                     case ']':
@@ -1654,13 +1673,15 @@ var JSLINT = (function () {
                                     case '}':
                                     case '+':
                                     case '*':
-                                        warningAt("Unescaped '{a}'.", line, from + l, c);
+                                        warningAt("Unescaped '{a}'.", line,
+                                                from + l, c);
                                         break;
                                     case '<':
                                         if (xmode === 'script') {
                                             c = s.charAt(l);
                                             if (c === '!' || c === '/') {
-                                                warningAt("HTML confusion in regular expression '<{a}'.", line, from + l, c);
+                                                warningAt(
+"HTML confusion in regular expression '<{a}'.", line, from + l, c);
                                             }
                                         }
                                     }
@@ -1678,7 +1699,8 @@ var JSLINT = (function () {
                                             l += 1;
                                             c = s.charAt(l);
                                             if (c < '0' || c > '9') {
-                                                warningAt("Expected a number and instead saw '{a}'.", line, from + l, c);
+                                                warningAt(
+"Expected a number and instead saw '{a}'.", line, from + l, c);
                                             }
                                             l += 1;
                                             low = +c;
@@ -1709,7 +1731,8 @@ var JSLINT = (function () {
                                                 }
                                             }
                                             if (s.charAt(l) !== '}') {
-                                                warningAt("Expected '{a}' and instead saw '{b}'.", line, from + l, '}', c);
+                                                warningAt(
+"Expected '{a}' and instead saw '{b}'.", line, from + l, '}', c);
                                             } else {
                                                 l += 1;
                                             }
@@ -1717,7 +1740,8 @@ var JSLINT = (function () {
                                                 l += 1;
                                             }
                                             if (low > high) {
-                                                warningAt("'{a}' should not be greater than '{b}'.", line, from + l, low, high);
+                                                warningAt(
+"'{a}' should not be greater than '{b}'.", line, from + l, low, high);
                                             }
                                         }
                                     }
@@ -1811,7 +1835,8 @@ var JSLINT = (function () {
 
     function addlabel(t, type) {
 
-        if (option.safe && funct['(global)'] && typeof predefined[t] !== 'boolean') {
+        if (option.safe && funct['(global)'] &&
+                typeof predefined[t] !== 'boolean') {
             warning('ADsafe global: ' + t + '.', token);
         } else if (t === 'hasOwnProperty') {
             warning("'hasOwnProperty' is a really bad name.");
@@ -1987,7 +2012,8 @@ loop:   for (;;) {
                 if (nexttoken.id === '(end)') {
                     warning("Unmatched '{a}'.", t, t.id);
                 } else {
-                    warning("Expected '{a}' to match '{b}' from line {c} and instead saw '{d}'.",
+                    warning(
+"Expected '{a}' to match '{b}' from line {c} and instead saw '{d}'.",
                             nexttoken, id, t.id, t.line, nexttoken.value);
                 }
             } else if (nexttoken.type !== '(identifier)' ||
@@ -2127,7 +2153,8 @@ loop:   for (;;) {
         if (option.white && nexttoken.id !== '(end)') {
             i = indent + (bias || 0);
             if (nexttoken.from !== i) {
-                warning("Expected '{a}' to have an indentation at {b} instead at {c}.",
+                warning(
+"Expected '{a}' to have an indentation at {b} instead at {c}.",
                         nexttoken, nexttoken.value, i, nexttoken.from);
             }
         }
@@ -2236,7 +2263,7 @@ loop:   for (;;) {
 
     function reservevar(s, v) {
         return reserve(s, function () {
-            if (this.id === 'this' || this.id === 'arguments' || 
+            if (this.id === 'this' || this.id === 'arguments' ||
                     this.id === 'eval') {
                 if (strict_mode && funct['(global)']) {
                     warning("Strict violation.", this);
@@ -2392,7 +2419,8 @@ loop:   for (;;) {
         x.led = function (left) {
             if (option.plusplus) {
                 warning("Unexpected use of '{a}'.", this, this.id);
-            } else if ((!left.identifier || left.reserved) && left.id !== '.' && left.id !== '[') {
+            } else if ((!left.identifier || left.reserved) &&
+                    left.id !== '.' && left.id !== '[') {
                 warning("Bad operand.", this);
             }
             this.left = left;
@@ -3553,7 +3581,7 @@ loop:   for (;;) {
                         warning("ADSAFE violation: bad id.");
                     }
                 }
-            }  
+            }
             x = v.search(dx);
             if (x >= 0) {
                 warning("Unexpected character '{a}' in {b}.", token, v.charAt(x), a);
@@ -4027,6 +4055,9 @@ loop:   for (;;) {
     type('(regexp)', function () {
         return this;
     });
+
+
+// ECMAScript parser
 
     delim('(endline)');
     delim('(begin)');
@@ -5053,6 +5084,9 @@ loop:   for (;;) {
     reserve('public');
     reserve('static');
 
+
+// Parse JSON
+
     function jsonValue() {
 
         function jsonObject() {
@@ -5308,6 +5342,7 @@ loop:   for (;;) {
         return a;
     }
 
+
 // Data summary.
 
     itself.data = function () {
@@ -5521,7 +5556,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2010-03-10';
+    itself.edition = '2010-03-12';
 
     return itself;
 
