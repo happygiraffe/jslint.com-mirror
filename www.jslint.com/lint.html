@@ -131,8 +131,11 @@ effect as this comment:</p>
 <blockquote>
   <code>/*global alert: true, animator: true, appleScript: true, beep: true, bytesToUIString: true, Canvas: true, chooseColor: true, chooseFile: true, chooseFolder: true, closeWidget: true, COM: true, convertPathToHFS: true, convertPathToPlatform: true, CustomAnimation: true, escape: true, FadeAnimation: true, filesystem: true, Flash: true, focusWidget: true, form: true, FormField: true, Frame: true, HotKey: true, Image: true, include: true, isApplicationRunning: true, iTunes: true, konfabulatorVersion: true, log: true, md5: true, MenuItem: true, MoveAnimation: true, openURL: true, play: true, Point: true, popupMenu: true, preferenceGroups: true, preferences: true, print: true, prompt: true, random: true, Rectangle: true, reloadWidget: true, ResizeAnimation: true, resolvePath: true, resumeUpdates: true, RotateAnimation: true, runCommand: true, runCommandInBg: true, saveAs: true, savePreferences: true, screen: true, ScrollBar: true, showWidgetPreferences: true, sleep: true, speak: true, Style: true, suppressUpdates: true, system: true, tellWidget: true, Text: true, TextArea: true, Timer: true, unescape: true, updateNow: true, URL: true, Web: true, widget: true, Window: true, XMLDOM: true, XMLHttpRequest: true, yahooCheckLogin: true, yahooLogin: true, yahooLogout: true */</code>
 </blockquote>
-<p id=sidebar>Select Assume a <i>Windows Sidebar Gadget</i> (<code>sidebar</code>)
-  <a href="#options">option</a> to predefine the global properties provided to a Windows Sidebar.</p>
+<p id=windows>Select the <i>Assume Windows</i> (<code>windows</code>)
+  <a href="#options">option</a> to predefine the global properties provided by Microsoft Windows. It has the same effect as this statement:</p>
+<blockquote>
+    <p><code>/*global ActiveXObject: false, CScript: false, Debug: false, Enumerator: false, System: false, VBArray: false, WScript: false  */</code></p>
+</blockquote>
 <h2 id=semicolon>Semicolon</h2>
 <p>JavaScript uses a C-like syntax which requires the use of semicolons to delimit
   statements. JavaScript attempts to make semicolons optional with a semicolon
@@ -619,12 +622,6 @@ by <code>-</code> or <code>--</code>. A misplaced space can turn <code>+ +</code
       the safe subset rules but not the widget structure rules.</td>
   </tr>
   <tr>
-    <td>Assume a Windows Sidebar Gadget </td>
-    <td><code>sidebar</code></td>
-    <td><code>true</code> if the <a href="http://msdn2.microsoft.com/en-us/library/aa965850(VS.85).aspx">Windows
-      Sidebar Gadgets</a> globals should be predefined. <a href="#sidebar"><small>(more)</small></a></td>
-  </tr>
-  <tr>
     <td>Require <code>&quot;use strict&quot;;</code> </td>
     <td><code>strict</code></td>
     <td><code>true</code> if the ES5 <code>"use strict";</code> pragma
@@ -652,6 +649,11 @@ by <code>-</code> or <code>--</code>. A misplaced space can turn <code>+ +</code
     <td><code>widget</code></td>
     <td><code>true</code> if the <a href="http://widgets.yahoo.com/gallery/view.php?widget=37484">Yahoo
       Widgets</a> globals should be predefined. <a href="#widget"><small>(more)</small></a></td>
+  </tr>
+  <tr>
+    <td>AssumeWindows</td>
+    <td><code>windows</code></td>
+    <td><code>true</code> if the Windows</a> globals should be predefined. <a href="#<var>windows</var>"><small>(more)</small></a></td>
   </tr>
   </tbody>
 </table>

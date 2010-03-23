@@ -1,5 +1,5 @@
 // jslint.js
-// 2010-03-12
+// 2010-03-23
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -144,111 +144,111 @@ SOFTWARE.
     evil: true, nomen: false, onevar: false, regexp: false, strict: true
 */
 
-/*members "\b", "\t", "\n", "\f", "\r", "!=", "!==", "\"", "%",
-    "(begin)", "(breakage)", "(context)", "(error)", "(global)",
-    "(identifier)", "(last)", "(line)", "(loopage)", "(name)", "(onevar)",
-    "(params)", "(scope)", "(verb)", "*", "+", "++", "-", "--", "\/",
-    "<", "<=", "==", "===", ">", ">=", ADSAFE, Array, Boolean,
-    COM, Canvas, CustomAnimation, Date, Debug, E, Error, EvalError,
-    FadeAnimation, Flash, FormField, Frame, Function, HotKey, Image, JSON,
-    LN10, LN2, LOG10E, LOG2E, MAX_VALUE, MIN_VALUE, Math, MenuItem,
-    MoveAnimation, NEGATIVE_INFINITY, Number, Object, Option, PI,
-    POSITIVE_INFINITY, Point, RangeError, Rectangle, ReferenceError, RegExp,
-    ResizeAnimation, RotateAnimation, SQRT1_2, SQRT2, ScrollBar, String,
-    Style, SyntaxError, System, Text, TextArea, Timer, TypeError, URIError,
-    URL, Web, Window, XMLDOM, XMLHttpRequest, "\\", a, abbr, acronym,
-    addEventListener, address, adsafe, alert, aliceblue, animator,
-    antiquewhite, appleScript, applet, apply, approved, aqua, aquamarine,
-    area, arguments, arity, article, aside, audio, autocomplete, azure, b,
-    background, "background-attachment", "background-color",
-    "background-image", "background-position", "background-repeat", base,
-    bdo, beep, beige, big, bisque, bitwise, black, blanchedalmond, block,
-    blockquote, blue, blueviolet, blur, body, border, "border-bottom",
-    "border-bottom-color", "border-bottom-style", "border-bottom-width",
-    "border-collapse", "border-color", "border-left", "border-left-color",
-    "border-left-style", "border-left-width", "border-right",
-    "border-right-color", "border-right-style", "border-right-width",
-    "border-spacing", "border-style", "border-top", "border-top-color",
-    "border-top-style", "border-top-width", "border-width", bottom, br,
-    brown, browser, burlywood, button, bytesToUIString, c, cadetblue, call,
-    callee, caller, canvas, cap, caption, "caption-side", cases, center,
-    charAt, charCodeAt, character, chartreuse, chocolate, chooseColor,
-    chooseFile, chooseFolder, cite, clear, clearInterval, clearTimeout,
-    clip, close, closeWidget, closed, closure, cm, code, col, colgroup,
-    color, command, comment, condition, confirm, console, constructor,
-    content, convertPathToHFS, convertPathToPlatform, coral, cornflowerblue,
-    cornsilk, "counter-increment", "counter-reset", create, crimson, css,
-    cursor, cyan, d, darkblue, darkcyan, darkgoldenrod, darkgray, darkgreen,
-    darkkhaki, darkmagenta, darkolivegreen, darkorange, darkorchid, darkred,
-    darksalmon, darkseagreen, darkslateblue, darkslategray, darkturquoise,
-    darkviolet, data, datalist, dd, debug, decodeURI, decodeURIComponent,
-    deeppink, deepskyblue, defaultStatus, defineClass, del, deserialize,
-    details, devel, dfn, dialog, dimension, dimgray, dir, direction,
-    display, div, dl, document, dodgerblue, dt, edition, else, em, embed,
-    empty, "empty-cells", encodeURI, encodeURIComponent, entityify, eqeqeq,
-    errors, escape, eval, event, evidence, evil, ex, exception, exec, exps,
-    fieldset, figure, filesystem, firebrick, first, float, floor,
-    floralwhite, focus, focusWidget, font, "font-face", "font-family",
-    "font-size", "font-size-adjust", "font-stretch", "font-style",
-    "font-variant", "font-weight", footer, forestgreen, forin, form,
-    fragment, frame, frames, frameset, from, fromCharCode, fuchsia, fud,
-    funct, function, functions, g, gainsboro, gc, getComputedStyle,
-    ghostwhite, global, globals, gold, goldenrod, gray, green, greenyellow,
-    h1, h2, h3, h4, h5, h6, hasOwnProperty, head, header, height, help,
-    hgroup, history, honeydew, hotpink, hr, html, i, iTunes, id, identifier,
-    iframe, img, immed, implieds, in, include, indent, indexOf, indianred,
-    indigo, init, input, ins, isAlpha, isApplicationRunning, isDigit,
-    isFinite, isNaN, ivory, join, jslint, json, kbd, keygen, khaki,
-    konfabulatorVersion, label, labelled, lang, last, lavender,
-    lavenderblush, lawngreen, laxbreak, lbp, led, left, legend,
-    lemonchiffon, length, "letter-spacing", li, lib, lightblue, lightcoral,
-    lightcyan, lightgoldenrodyellow, lightgreen, lightpink, lightsalmon,
-    lightseagreen, lightskyblue, lightslategray, lightsteelblue,
-    lightyellow, lime, limegreen, line, "line-height", linen, link,
-    "list-style", "list-style-image", "list-style-position",
-    "list-style-type", load, loadClass, location, log, m, magenta, map,
-    margin, "margin-bottom", "margin-left", "margin-right", "margin-top",
-    mark, "marker-offset", maroon, match, "max-height", "max-width", maxerr,
-    maxlen, md5, media, mediumaquamarine, mediumblue, mediumorchid,
-    mediumpurple, mediumseagreen, mediumslateblue, mediumspringgreen,
-    mediumturquoise, mediumvioletred, member, menu, message, meta, meter,
-    midnightblue, "min-height", "min-width", mintcream, mistyrose, mm,
-    moccasin, moveBy, moveTo, name, nav, navajowhite, navigator, navy, new,
-    newcap, noframes, nomen, noscript, nud, object, ol, oldlace, olive,
-    olivedrab, on, onbeforeunload, onblur, onerror, onevar, onfocus, onload,
-    onresize, onunload, opacity, open, openURL, opener, opera, optgroup,
-    option, orange, orangered, orchid, outer, outline, "outline-color",
-    "outline-style", "outline-width", output, overflow, "overflow-x",
-    "overflow-y", p, padding, "padding-bottom", "padding-left",
-    "padding-right", "padding-top", page, "page-break-after",
-    "page-break-before", palegoldenrod, palegreen, paleturquoise,
-    palevioletred, papayawhip, param, parent, parseFloat, parseInt,
-    passfail, pc, peachpuff, peru, pink, play, plum, plusplus, pop,
-    popupMenu, position, powderblue, pre, predef, preferenceGroups,
-    preferences, print, progress, prompt, prototype, pt, purple, push, px,
-    q, quit, quotes, random, range, raw, reach, readFile, readUrl, reason,
-    red, regexp, reloadWidget, removeEventListener, replace, report,
-    reserved, resizeBy, resizeTo, resolvePath, resumeUpdates, rhino, right,
-    rosybrown, royalblue, rp, rt, ruby, runCommand, runCommandInBg,
-    saddlebrown, safe, salmon, samp, sandybrown, saveAs, savePreferences,
-    screen, script, scroll, scrollBy, scrollTo, seagreen, seal, search,
-    seashell, section, select, serialize, setInterval, setTimeout, shift,
-    showWidgetPreferences, sidebar, sienna, silver, skyblue, slateblue,
-    slategray, sleep, slice, small, snow, sort, source, span, spawn, speak,
-    split, springgreen, src, stack, status, steelblue, strict, strong, style,
-    styleproperty, sub, substr, sup, supplant, suppressUpdates, sync,
-    system, table, "table-layout", tan, tbody, td, teal, tellWidget, test,
-    "text-align", "text-decoration", "text-indent", "text-shadow",
-    "text-transform", textarea, tfoot, th, thead, thistle, time, title,
-    toLowerCase, toString, toUpperCase, toint32, token, tomato, top, tr, tt,
-    turquoise, type, u, ul, undef, unescape, "unicode-bidi", unused,
-    unwatch, updateNow, urls, value, valueOf, var, version,
-    "vertical-align", video, violet, visibility, watch, wheat, white,
-    "white-space", whitesmoke, widget, width, "word-spacing", "word-wrap",
-    yahooCheckLogin, yahooLogin, yahooLogout, yellow, yellowgreen,
-    "z-index"
+/*members "\b", "\t", "\n", "\f", "\r", "!=", "!==", "\"", "%", 
+    "(begin)", "(breakage)", "(context)", "(error)", "(global)", 
+    "(identifier)", "(last)", "(line)", "(loopage)", "(name)", "(onevar)", 
+    "(params)", "(scope)", "(verb)", "*", "+", "++", "-", "--", "\/", 
+    "<", "<=", "==", "===", ">", ">=", ADSAFE, ActiveXObject, 
+    Array, Boolean, COM, CScript, Canvas, CustomAnimation, Date, Debug, E, 
+    Enumerator, Error, EvalError, FadeAnimation, Flash, FormField, Frame, 
+    Function, HotKey, Image, JSON, LN10, LN2, LOG10E, LOG2E, MAX_VALUE, 
+    MIN_VALUE, Math, MenuItem, MoveAnimation, NEGATIVE_INFINITY, Number, 
+    Object, Option, PI, POSITIVE_INFINITY, Point, RangeError, Rectangle, 
+    ReferenceError, RegExp, ResizeAnimation, RotateAnimation, SQRT1_2, 
+    SQRT2, ScrollBar, String, Style, SyntaxError, System, Text, TextArea, 
+    Timer, TypeError, URIError, URL, VBArray, WScript, Web, Window, XMLDOM, 
+    XMLHttpRequest, "\\", a, abbr, acronym, addEventListener, address, 
+    adsafe, alert, aliceblue, animator, antiquewhite, appleScript, applet, 
+    apply, approved, aqua, aquamarine, area, arguments, arity, article, 
+    aside, audio, autocomplete, azure, b, background, 
+    "background-attachment", "background-color", "background-image", 
+    "background-position", "background-repeat", base, bdo, beep, beige, big, 
+    bisque, bitwise, black, blanchedalmond, block, blockquote, blue, 
+    blueviolet, blur, body, border, "border-bottom", "border-bottom-color", 
+    "border-bottom-style", "border-bottom-width", "border-collapse", 
+    "border-color", "border-left", "border-left-color", "border-left-style", 
+    "border-left-width", "border-right", "border-right-color", 
+    "border-right-style", "border-right-width", "border-spacing", 
+    "border-style", "border-top", "border-top-color", "border-top-style", 
+    "border-top-width", "border-width", bottom, br, brown, browser, 
+    burlywood, button, bytesToUIString, c, cadetblue, call, callee, caller, 
+    canvas, cap, caption, "caption-side", cases, center, charAt, charCodeAt, 
+    character, chartreuse, chocolate, chooseColor, chooseFile, chooseFolder, 
+    cite, clear, clearInterval, clearTimeout, clip, close, closeWidget, 
+    closed, closure, cm, code, col, colgroup, color, command, comment, 
+    condition, confirm, console, constructor, content, convertPathToHFS, 
+    convertPathToPlatform, coral, cornflowerblue, cornsilk, 
+    "counter-increment", "counter-reset", create, crimson, css, cursor, 
+    cyan, d, darkblue, darkcyan, darkgoldenrod, darkgray, darkgreen, 
+    darkkhaki, darkmagenta, darkolivegreen, darkorange, darkorchid, darkred, 
+    darksalmon, darkseagreen, darkslateblue, darkslategray, darkturquoise, 
+    darkviolet, data, datalist, dd, debug, decodeURI, decodeURIComponent, 
+    deeppink, deepskyblue, defaultStatus, defineClass, del, deserialize, 
+    details, devel, dfn, dialog, dimension, dimgray, dir, direction, 
+    display, div, dl, document, dodgerblue, dt, edition, else, em, embed, 
+    empty, "empty-cells", encodeURI, encodeURIComponent, entityify, eqeqeq, 
+    errors, escape, eval, event, evidence, evil, ex, exception, exec, exps, 
+    fieldset, figure, filesystem, firebrick, first, float, floor, 
+    floralwhite, focus, focusWidget, font, "font-face", "font-family", 
+    "font-size", "font-size-adjust", "font-stretch", "font-style", 
+    "font-variant", "font-weight", footer, forestgreen, forin, form, 
+    fragment, frame, frames, frameset, from, fromCharCode, fuchsia, fud, 
+    funct, function, functions, g, gainsboro, gc, getComputedStyle, 
+    ghostwhite, global, globals, gold, goldenrod, gray, green, greenyellow, 
+    h1, h2, h3, h4, h5, h6, hasOwnProperty, head, header, height, help, 
+    hgroup, history, honeydew, hotpink, hr, html, i, iTunes, id, identifier, 
+    iframe, img, immed, implieds, in, include, indent, indexOf, indianred, 
+    indigo, init, input, ins, isAlpha, isApplicationRunning, isDigit, 
+    isFinite, isNaN, ivory, join, jslint, json, kbd, keygen, khaki, 
+    konfabulatorVersion, label, labelled, lang, last, lavender, 
+    lavenderblush, lawngreen, laxbreak, lbp, led, left, legend, 
+    lemonchiffon, length, "letter-spacing", li, lib, lightblue, lightcoral, 
+    lightcyan, lightgoldenrodyellow, lightgreen, lightpink, lightsalmon, 
+    lightseagreen, lightskyblue, lightslategray, lightsteelblue, 
+    lightyellow, lime, limegreen, line, "line-height", linen, link, 
+    "list-style", "list-style-image", "list-style-position", 
+    "list-style-type", load, loadClass, location, log, m, magenta, map, 
+    margin, "margin-bottom", "margin-left", "margin-right", "margin-top", 
+    mark, "marker-offset", maroon, match, "max-height", "max-width", maxerr, 
+    maxlen, md5, media, mediumaquamarine, mediumblue, mediumorchid, 
+    mediumpurple, mediumseagreen, mediumslateblue, mediumspringgreen, 
+    mediumturquoise, mediumvioletred, member, menu, message, meta, meter, 
+    midnightblue, "min-height", "min-width", mintcream, mistyrose, mm, 
+    moccasin, moveBy, moveTo, name, nav, navajowhite, navigator, navy, new, 
+    newcap, noframes, nomen, noscript, nud, object, ol, oldlace, olive, 
+    olivedrab, on, onbeforeunload, onblur, onerror, onevar, onfocus, onload, 
+    onresize, onunload, opacity, open, openURL, opener, opera, optgroup, 
+    option, orange, orangered, orchid, outer, outline, "outline-color", 
+    "outline-style", "outline-width", output, overflow, "overflow-x", 
+    "overflow-y", p, padding, "padding-bottom", "padding-left", 
+    "padding-right", "padding-top", page, "page-break-after", 
+    "page-break-before", palegoldenrod, palegreen, paleturquoise, 
+    palevioletred, papayawhip, param, parent, parseFloat, parseInt, 
+    passfail, pc, peachpuff, peru, pink, play, plum, plusplus, pop, 
+    popupMenu, position, powderblue, pre, predef, preferenceGroups, 
+    preferences, print, progress, prompt, prototype, pt, purple, push, px, 
+    q, quit, quotes, random, range, raw, reach, readFile, readUrl, reason, 
+    red, regexp, reloadWidget, removeEventListener, replace, report, 
+    reserved, resizeBy, resizeTo, resolvePath, resumeUpdates, rhino, right, 
+    rosybrown, royalblue, rp, rt, ruby, runCommand, runCommandInBg, 
+    saddlebrown, safe, salmon, samp, sandybrown, saveAs, savePreferences, 
+    screen, script, scroll, scrollBy, scrollTo, seagreen, seal, search, 
+    seashell, section, select, serialize, setInterval, setTimeout, shift, 
+    showWidgetPreferences, sienna, silver, skyblue, slateblue, slategray, 
+    sleep, slice, small, snow, sort, source, span, spawn, speak, split, 
+    springgreen, src, stack, status, steelblue, strict, strong, style, 
+    styleproperty, sub, substr, sup, supplant, suppressUpdates, sync, 
+    system, table, "table-layout", tan, tbody, td, teal, tellWidget, test, 
+    "text-align", "text-decoration", "text-indent", "text-shadow", 
+    "text-transform", textarea, tfoot, th, thead, thistle, time, title, 
+    toLowerCase, toString, toUpperCase, toint32, token, tomato, top, tr, tt, 
+    turquoise, type, u, ul, undef, unescape, "unicode-bidi", unused, 
+    unwatch, updateNow, urls, value, valueOf, var, version, 
+    "vertical-align", video, violet, visibility, watch, wheat, white, 
+    "white-space", whitesmoke, widget, width, windows, "word-spacing", 
+    "word-wrap", yahooCheckLogin, yahooLogin, yahooLogout, yellow, 
+    yellowgreen, "z-index"
 */
-
 
 // We build the application inside a function so that we produce only a single
 // global variable. The function will be invoked, its return value is the JSLINT
@@ -329,7 +329,7 @@ var JSLINT = (function () {
             rhino      : true, // if the Rhino environment globals should be predefined
             undef      : true, // if variables should be declared before used
             safe       : true, // if use of some browser features should be restricted
-            sidebar    : true, // if the System object should be predefined
+            windows    : true, // if MS Windows-specigic globals should be predefined
             strict     : true, // require the "use strict"; pragma
             sub        : true, // if all forms of subscript notation are tolerated
             white      : true, // if strict whitespace rules apply
@@ -732,8 +732,14 @@ var JSLINT = (function () {
 
         scope,      // The current scope
 
-        sidebar = {
-            System      : false
+        windows = {
+            ActiveXObject: false,
+            CScript      : false,
+            Debug        : false,
+            Enumerator   : false,
+            System       : false,
+            VBArray      : false,
+            WScript      : false
         },
 
         src,
@@ -1005,11 +1011,11 @@ var JSLINT = (function () {
             if (option.devel) {
                 combine(predefined, devel);
             }
-            if (option.browser || option.sidebar) {
+            if (option.browser) {
                 combine(predefined, browser);
             }
-            if (option.sidebar) {
-                combine(predefined, sidebar);
+            if (option.windows) {
+                combine(predefined, windows);
             }
             if (option.widget) {
                 combine(predefined, widget);
@@ -5207,7 +5213,7 @@ loop:   for (;;) {
                 o.on      = false;
                 o.rhino   = false;
                 o.safe    = true;
-                o.sidebar = false;
+                o.windows = false;
                 o.strict  = true;
                 o.sub     = false;
                 o.undef   = true;
@@ -5556,7 +5562,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2010-03-12';
+    itself.edition = '2010-03-23';
 
     return itself;
 
