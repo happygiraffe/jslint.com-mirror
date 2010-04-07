@@ -1,5 +1,5 @@
 // jslint.js
-// 2010-03-23
+// 2010-04-06
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -187,7 +187,7 @@ SOFTWARE.
     details, devel, dfn, dialog, dimension, dimgray, dir, direction, 
     display, div, dl, document, dodgerblue, dt, edition, else, em, embed, 
     empty, "empty-cells", encodeURI, encodeURIComponent, entityify, eqeqeq, 
-    errors, escape, eval, event, evidence, evil, ex, exception, exec, exps, 
+    errors, es5, escape, eval, event, evidence, evil, ex, exception, exec, exps, 
     fieldset, figure, filesystem, firebrick, first, float, floor, 
     floralwhite, focus, focusWidget, font, "font-face", "font-family", 
     "font-size", "font-size-adjust", "font-stretch", "font-style", 
@@ -314,6 +314,7 @@ var JSLINT = (function () {
             debug      : true, // if debugger statements should be allowed
             devel      : true, // if logging should be allowed (console, alert, etc.)
             eqeqeq     : true, // if === should be required
+            es5        : true, // if ES5 syntax should be allowed
             evil       : true, // if eval should be allowed
             forin      : true, // if for in statements must filter
             fragment   : true, // if HTML fragments should be allowed
@@ -2437,12 +2438,14 @@ loop:   for (;;) {
 
 
     function optionalidentifier() {
-        if (nexttoken.reserved) {
-            warning("Expected an identifier and instead saw '{a}' (a reserved word).",
-                    nexttoken, nexttoken.id);
-        }
         if (nexttoken.identifier) {
             advance();
+            if (option.safe && banned[token.value]) {
+                warning("ADsafe violation: '{a}'.", token, token.value);
+            } else if (token.reserved && !option.es5) {
+                warning("Expected an identifier and instead saw '{a}' (a reserved word).",
+                        token, token.id);
+            } 
             return token.value;
         }
     }
@@ -4498,7 +4501,7 @@ loop:   for (;;) {
             this.first.push(parse(10));
             if (nexttoken.id === ',') {
                 comma();
-                if (nexttoken.id === ']') {
+                if (nexttoken.id === ']' && !option.es5) {
                     warning("Extra comma.", token);
                     break;
                 }
@@ -4513,10 +4516,77 @@ loop:   for (;;) {
         advance(']', this);
         return this;
     }, 160);
+    
+    
+    function property_name() {
+        var i = optionalidentifier(true);
+        if (!i) {
+            if (nexttoken.id === '(string)') {
+                i = nexttoken.value;
+                advance();
+            } else if (nexttoken.id === '(number)') {
+                i = nexttoken.value.toString();
+                advance();
+            }
+        }
+        return i;
+    }
+    
 
+    function functionparams() {
+        var i, t = nexttoken, p = [];
+        advance('(');
+        nospace();
+        if (nexttoken.id === ')') {
+            advance(')');
+            nospace(prevtoken, token);
+            return;
+        }
+        for (;;) {
+            i = identifier();
+            p.push(i);
+            addlabel(i, 'parameter');
+            if (nexttoken.id === ',') {
+                comma();
+            } else {
+                advance(')', t);
+                nospace(prevtoken, token);
+                return p;
+            }
+        }
+    }
+    
+
+    function doFunction(i) {
+        var f, s = scope;
+        scope = Object.create(s);
+        funct = {
+            '(name)'    : i || '"' + anonname + '"',
+            '(line)'    : nexttoken.line,
+            '(context)' : funct,
+            '(breakage)': 0,
+            '(loopage)' : 0,
+            '(scope)'   : scope
+        };
+        f = funct;
+        token.funct = funct;
+        functions.push(funct);
+        if (i) {
+            addlabel(i, 'function');
+        }
+        funct['(params)'] = functionparams();
+
+        block(false);
+        scope = s;
+        funct['(last)'] = token.line;
+        funct = funct['(context)'];
+        return f;
+    }
+
+    
     (function (x) {
         x.nud = function () {
-            var b, i, s, seen = {};
+            var b, f, i, j, p, seen = {}, t;
             b = token.line !== nexttoken.line;
             if (b) {
                 indent += option.indent;
@@ -4531,33 +4601,59 @@ loop:   for (;;) {
                 if (b) {
                     indentation();
                 }
-                i = optionalidentifier(true);
-                if (!i) {
-                    if (nexttoken.id === '(string)') {
-                        i = nexttoken.value;
-                        if (ix.test(i)) {
-                            s = syntax[i];
-                        }
-                        advance();
-                    } else if (nexttoken.id === '(number)') {
-                        i = nexttoken.value.toString();
-                        advance();
-                    } else {
-                        error("Expected '{a}' and instead saw '{b}'.",
-                                nexttoken, '}', nexttoken.value);
+                if (nexttoken.value === 'get' && peek().id !== ':') {
+                    advance('get');
+                    if (!option.es5) {
+                        error("get/set are ES5 features.");
                     }
+                    i = property_name();
+                    if (!i) {
+                        error("Missing property name.");
+                    }
+                    t = nexttoken;
+                    adjacent(token, nexttoken); 
+                    f = doFunction(i);
+                    if (funct['(loopage)']) {
+                        warning("Don't make functions within a loop.", t);
+                    }
+                    p = f['(params)'];
+                    if (p) {
+                        warning("Unexpected parameter '{a}' in get {b} function.", t, p[0], i);
+                    }
+                    adjacent(token, nexttoken); 
+                    advance(',');
+                    indentation();
+                    advance('set');
+                    j = property_name();
+                    if (i !== j) {
+                        error("Expected {a} and instead saw {b}.", token, i, j);
+                    }
+                    t = nexttoken;
+                    adjacent(token, nexttoken); 
+                    f = doFunction(i);
+                    p = f['(params)'];
+                    if (!p || p.length !== 1 || p[0] !== 'value') {
+                        warning("Expected (value) in set {a} function.", t, i);
+                    }
+                } else {
+                    i = property_name();
+                    if (typeof i !== 'string') {
+                        break;
+                    }
+                    advance(':');
+                    nonadjacent(token, nexttoken);
+                    parse(10);
                 }
                 if (seen[i] === true) {
                     warning("Duplicate member '{a}'.", nexttoken, i);
                 }
                 seen[i] = true;
                 countMember(i);
-                advance(':');
-                nonadjacent(token, nexttoken);
-                parse(10);
                 if (nexttoken.id === ',') {
                     comma();
-                    if (nexttoken.id === ',' || nexttoken.id === '}') {
+                    if (nexttoken.id === ',') {
+                        warning("Extra comma.", token);
+                    } else if (nexttoken.id === '}' && !option.es5) {
                         warning("Extra comma.", token);
                     }
                 } else {
@@ -4626,54 +4722,6 @@ loop:   for (;;) {
 
 
     stmt('var', varstatement).exps = true;
-
-
-    function functionparams() {
-        var i, t = nexttoken, p = [];
-        advance('(');
-        nospace();
-        if (nexttoken.id === ')') {
-            advance(')');
-            nospace(prevtoken, token);
-            return;
-        }
-        for (;;) {
-            i = identifier();
-            p.push(i);
-            addlabel(i, 'parameter');
-            if (nexttoken.id === ',') {
-                comma();
-            } else {
-                advance(')', t);
-                nospace(prevtoken, token);
-                return p;
-            }
-        }
-    }
-
-    function doFunction(i) {
-        var s = scope;
-        scope = Object.create(s);
-        funct = {
-            '(name)'    : i || '"' + anonname + '"',
-            '(line)'    : nexttoken.line,
-            '(context)' : funct,
-            '(breakage)': 0,
-            '(loopage)' : 0,
-            '(scope)'   : scope
-        };
-        token.funct = funct;
-        functions.push(funct);
-        if (i) {
-            addlabel(i, 'function');
-        }
-        funct['(params)'] = functionparams();
-
-        block(false);
-        scope = s;
-        funct['(last)'] = token.line;
-        funct = funct['(context)'];
-    }
 
 
     blockstmt('function', function () {
@@ -5562,7 +5610,7 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2010-03-23';
+    itself.edition = '2010-04-06';
 
     return itself;
 
